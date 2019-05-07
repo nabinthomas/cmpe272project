@@ -4,11 +4,13 @@
 service mongodb start
 ut_dir=/root/test/unittests
 
-#Run unit test
-## ./unittest.py
+#REST API Unit tests
+echo "Running REST API tests.."
+PYTHONPATH=/root/app/ python3 /root/test/unittests/ut_rest.py -v
 if [ "$?" -ne 0 ]
 then
     exit -1
 fi 
+
 
 echo "All Unit tests passed"

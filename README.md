@@ -46,17 +46,17 @@ GitHub Repository Created
 1. Interactive mode
 ```bash
     cd <gitroot>/ 
-    docker run -it --rm -p 80:80/tcp -v `pwd`/../database:/data/db amazeteam/cmpe272project bash
+    docker run -it --rm -p 80:80/tcp -p 8080:8080/tcp -v `pwd`/../database:/data/db amazeteam/cmpe272project bash
 ```
 2. Run the server with local files.
 ```bash
         cd <gitroot>/ 
-        docker run --rm -p 80:80/tcp -v `pwd`/server:/root/app/server -v `pwd`/../database:/data/db -v `pwd`/setup:/root/setup -v `pwd`/test:/root/test   amazeteam/cmpe272project
+        docker run --rm -p 80:80/tcp -p 8080:8080/tcp -v `pwd`/server:/root/app/server -v `pwd`/../database:/data/db -v `pwd`/setup:/root/setup -v `pwd`/test:/root/test   amazeteam/cmpe272project
 ```
 3. Run the server with prepackaged application files. 
 ```bash
         cd <gitroot>/ 
-        docker run --rm -p 80:80/tcp -v `pwd`/../database:/data/db amazeteam/cmpe272project
+        docker run --rm -p 80:80/tcp -p 8080:8080/tcp -v `pwd`/../database:/data/db amazeteam/cmpe272project
 ```
 4. Run the unit tests
 ```bash
@@ -75,12 +75,12 @@ docker push amazeteam/cmpe272project
 ### To run the latest version from dockerhub
 ```bash
 sudo service docker start
-nohup sudo docker run --rm -p 80:80/tcp amazeteam/cmpe272project
+nohup sudo docker run --rm -p 80:80/tcp -p 8080:8080/tcp amazeteam/cmpe272project
 ```
 ### To run a specific version from dockerhub
 ```bash
 sudo service docker start
-nohup sudo docker run --rm -p 80:80/tcp amazeteam/cmpe272project:version
+nohup sudo docker run --rm -p 80:80/tcp -p 8080:8080/tcp amazeteam/cmpe272project:version
 ```
 **Note**: _Replace **version** with the right tag to run._
 # Git Cheatsheat
