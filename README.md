@@ -1,6 +1,5 @@
 # CMPE272 Assignment - aMAZE Group
 
-
 Team members: 
 1. Binu Jose
 2. Ginto George
@@ -13,7 +12,6 @@ Team members:
 
 ### Implementation Status
 GitHub Repository Created
-
 
 ## Build instructions
 1. Install git and Sync code to your local machine. (to ```<gitroot>```)
