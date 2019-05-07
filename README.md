@@ -8,7 +8,8 @@ Team members:
 4. Sandeep Panakkal
 
 ## Status
-
+### Travis-CI Status
+[![Build Status](https://travis-ci.org/nabinthomas/cmpe272project.svg?branch=master)](https://travis-ci.org/nabinthomas/cmpe272project)
 ### Implementation Status
 GitHub Repository Created
 ### CI/CD Status
