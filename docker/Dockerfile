@@ -22,16 +22,17 @@ RUN apt-get install -y python3-pip
 RUN apt-get install -y mongodb mongodb-server mongo-tools
 RUN pip3 install flask
 RUN pip3 install pytz
+RUN pip3 install python-jose
+RUN pip3 install six
 # pymongo  for connecting to mongodb
 RUN pip3 install pymongo
 # For unit tests. TODO: Keep this only for unit tests
 RUN pip3 install mongomock
+RUN pip3 install pyopenssl
 
 #Expose ports for Web UI
 EXPOSE 80/tcp
-
-#Expose port for REST API server
-EXPOSE 8080/tcp
+EXPOSE 443/tcp
 
 #COPY The app folders. 
 COPY server /root/app/server
