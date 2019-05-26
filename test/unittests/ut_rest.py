@@ -24,7 +24,6 @@ class RESTTests(unittest.TestCase):
         self.mongo_client  = pymongo.MongoClient(mongodb_uri)
         self.db = self.mongo_client.get_database()
    
-
         self.app = aMAZE.app.test_client()
         aMAZE.db = self.db
         aMAZE.mongo_client = self.mongo_client

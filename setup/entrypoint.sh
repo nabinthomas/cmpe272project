@@ -24,7 +24,7 @@ if [ "$#" -ne 0 ]; then
             /bin/bash setup/startservers.sh
         ;;
         *)
-            echo "Unknown option Exiting"
+            echo "Unknown option [$command] Exiting"
             exit -1
         ;;
     esac
