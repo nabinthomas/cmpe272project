@@ -4,7 +4,7 @@ import os
 import pymongo
 import json
 from flask import jsonify
-from server import restapi
+from server import aMAZE
 
 
 class RESTTests(unittest.TestCase):
@@ -25,9 +25,9 @@ class RESTTests(unittest.TestCase):
         self.db = self.mongo_client.get_database()
    
 
-        self.app = restapi.app.test_client()
-        restapi.db = self.db
-        restapi.mongo_client = self.mongo_client
+        self.app = aMAZE.app.test_client()
+        aMAZE.db = self.db
+        aMAZE.mongo_client = self.mongo_client
         print ("SETUP END")
         
     def tearDown(self):
@@ -39,11 +39,12 @@ class RESTTests(unittest.TestCase):
         """
         resp = self.app.get('/api')
         reply_from_server = json.loads(resp.data)
-        print (reply_from_server)
-        self.assertEqual(reply_from_server['status'], restapi.ReturnCodes.SUCCESS)
+        print ("Reply from Server was :\n", reply_from_server)
+        print ("api help message was :\n", aMAZE.api_help_message)
+        self.assertEqual(reply_from_server['status'], aMAZE.ReturnCodes.SUCCESS)
         self.assertEqual(reply_from_server, {
-            "response": {"message": "\n    API Usage:\n        - GET    /api\n"},
-            "status": restapi.ReturnCodes.SUCCESS
+            "response": aMAZE.api_help_message,
+            "status": aMAZE.ReturnCodes.SUCCESS
         })
 
 if __name__ == "__main__":

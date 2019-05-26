@@ -7,6 +7,7 @@ service mongodb start
 
 #Start the web server
 #This should be started at the end
-PYTHONPATH=/root/app/ python3 app/server/restapi.py  mongodb://localhost/test &
-PYTHONPATH=/root/app/ python3 app/server/webui.py &
+export FLASK_ENV=development
+export SERVER_CONFIG=/root/app/server/config/settings.cfg
+PYTHONPATH=/root/app/ python3 app/server/aMAZE.py  mongodb://localhost/airbnb &
 bash 

@@ -13,9 +13,6 @@ app = Flask(__name__)
 db = None;
 mongo_client = None;
 
-
-
-
 ########################################################################
 # REST API Implementation
 ########################################################################
@@ -53,13 +50,29 @@ def help():
 
 
 ########################################################################
+# WEB UI
+########################################################################
+@app.route('/')
+def homePage():
+    """ Handle request for default page. 
+    """
+    now = datetime.datetime.now(pytz.timezone('US/Pacific'));
+
+    return render_template('default.html', 
+			serverTime=now, 
+			pageWelcomeMessage="Welcome to Team aMAZE!", 
+			pageTitle="aMAZE.com Online Book Store",
+            teamMembers=["Binu Jose", "Ginto George", "Nabin Thomas", "Sandeep Panakkal"]);
+
+
+########################################################################
 # MAIN
 ########################################################################
 if __name__ == '__main__':
     ## Setup environment 
     argv = sys.argv
     if len(argv) < 2:
-        print("Usage: python restapi.py mongodb_uri")
+        print("Usage: python " + sys.argv[0] + " mongodb_uri")
         exit(-1)
 
     mongodb_uri = argv[1]
@@ -67,4 +80,4 @@ if __name__ == '__main__':
     db = mongo_client.get_database()
     
     ## Start the http server
-    app.run(host='0.0.0.0', port=8080);
+    app.run(host='0.0.0.0', port=80);
