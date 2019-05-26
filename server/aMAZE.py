@@ -1,12 +1,18 @@
 """ @package Main entry point for Web server.
 """
   
+import json
 import datetime
 import pytz
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect
 import pymongo  
 from pymongo import MongoClient
 import sys
+import http.client
+from jose import jwt
+from functools import wraps
+from six.moves.urllib.request import urlopen
+from server.dbscripts.customer import *
 
 ## Create the App
 app = Flask(__name__)
@@ -56,6 +62,135 @@ def help():
     eg:  curl -XGET http://localhost/api
     """
     return encodeJsonResponse(api_help_message, ReturnCodes.SUCCESS);
+
+@app.route('/logout', methods=['GET'])
+def page_logout():
+    accessToken = request.cookies.get('auth_token')
+    if (accessToken is not None):
+        customer = find_customer_with_token(db, accessToken)
+        if (customer is not None):
+            update_customer_session_data(db, customer['email'], customer['name'], '', '')
+
+    rendered_page = render_template('logout.html', 
+                LogoutMessage="You have been Logged out sucessfully",
+                ExtraDetails=''
+			);
+    response = app.make_response(rendered_page )  
+    response = clear_all_cookies(response)
+
+    return response
+
+@app.route('/loginfailed/<string:errorCode>', methods=['GET'])
+def page_loginFailed(errorCode):
+    rendered_page = render_template('logout.html', 
+            LogoutMessage="Login Failed !!!",
+            ExtraDetails=errorCode
+        );
+    response = app.make_response(rendered_page)  
+    response = clear_all_cookies(response)
+    return response
+
+@app.route('/api/loginsuccess', methods=['GET'])
+def loginSuccess():
+    """
+    API To pass successful user auth from auth0. 
+    This gets the response "code" from the auth0 server and issue a redirect to locahost/api/loginsuccess
+
+    open in browser: https://nthomas.auth0.com/authorize?response_type=code&client_id=QN3TAKTeDu4U4i6tfVI2JCs7hXSxdePG&redirect_uri=https://localhost/api/loginsuccess&scope=openid%20profile%20email&state=xyzABC123
+    then login. and then this will be called with code and state as params. 
+    """
+    
+    print ("Enter /api/loginsuccess");
+    app.logger.info("Enter /api/loginsuccess")
+    customerEmail = ''
+    customerName = ''
+    accessToken = ''
+    
+    loginStatus = ReturnCodes.ERROR_AUTHENTICATE;
+    payload = request.args;
+    print ("Client login request: [", payload, "]")
+
+    try:
+        code = request.args['code']
+        state = request.args['state']
+        print ("Client Code received:", code)
+        print ("Client State received:", state)
+
+        conn = http.client.HTTPSConnection("nthomas.auth0.com")
+
+        #payload = "{\"code\":str(code),\"client_id\":\"QN3TAKTeDu4U4i6tfVI2JCs7hXSxdePG\",\"client_secret\":\"aDoe0md20-pFTGP6_XmoazFiUZdYN1Ze5CwxX21qDl1U_MaYbasmuJ4fjb7fDNlZ\",\"audience\":\"https://localhost/login\",\"grant_type\":\"client_credentials\"}"
+        #payload = "grant_type=authorization_code&client_id=%24%7Baccount.clientId%7D&client_secret=YOUR_CLIENT_SECRET&code=YOUR_AUTHORIZATION_CODE&redirect_ui=https%3A%2F%2F%24%7Baccount.callback%7D"
+    
+        host_base_url = request.base_url
+        print ("Host Base URL Was : " + host_base_url);
+    
+        payload = 'grant_type=authorization_code&client_id=' + CLIENT_ID + \
+                    '&client_secret=' + CLIENT_SECRET + \
+                    '&code=' + code + \
+                    '&redirect_uri=' + host_base_url 
+
+        fullurl = "https://" + AUTH0_DOMAIN + "/oauth/token" + payload
+        print (fullurl)
+
+        headers = { 'content-type': 'application/x-www-form-urlencoded' }
+
+        conn.request("POST", "/oauth/token", payload, headers)
+
+        res = conn.getresponse()
+        datareceived = res.read()
+        print("Data is = " , datareceived.decode("utf-8"))
+        data = json.loads(datareceived.decode("utf-8"))
+        print("Data was = " , datareceived.decode("utf-8"))
+        try:
+            id_token_payload = get_id_token_payload(data["id_token"]) 
+            print("id_token_payload got  ")
+            print("id_token_payload got" + json.dumps(id_token_payload) )
+            customerEmail = id_token_payload ['email']
+            customerName = id_token_payload['name']
+            customerPicture = id_token_payload['picture']
+            accessToken = data["access_token"]
+            print("calling update_customer_session_data")
+            update_customer_session_data(db, customerEmail, customerName, customerPicture, accessToken)
+            print("calling Done update_customer_session_data")
+            extraData = {
+                "Received" : {
+                    "code" : code,
+                    "state" : state
+                },
+                "access_token" : data["access_token"]
+            }
+            loginStatus = ReturnCodes.SUCCESS;
+        except Exception as e:
+            print ('get_id_token_payload Failed : '+ str(e))
+            loginStatus = ReturnCodes.ERROR_AUTHENTICATE;
+        loginStatus = ReturnCodes.SUCCESS;
+    except Exception as e:
+        print ('Failed : '+ str(e))
+        loginStatus = ReturnCodes.ERROR_AUTHENTICATE;
+
+    if (loginStatus == ReturnCodes.SUCCESS):
+        customer = find_customer_with_token(db, accessToken)
+        if customer is None: 
+            loginStatus = ReturnCodes.ERROR_AUTHENTICATE
+
+    if (loginStatus == ReturnCodes.SUCCESS):
+        redirect_to_index = redirect('/')
+        response = app.make_response(redirect_to_index)  
+        restrictTo = request.host
+        if (restrictTo == "localhost"):
+            restrictTo= None
+        
+        response.set_cookie('auth_token',value=accessToken, domain=restrictTo)
+        response.set_cookie('userFullName',value=customer['name'], domain=restrictTo)
+        response.set_cookie('customerId',value=str(customer['customerId']), domain=restrictTo)
+        response.set_cookie('userEmailId',value=str(customer['email']), domain=restrictTo)
+        response.set_cookie('userPicture',value=customer['picture'], domain=restrictTo)
+        return response
+    else:
+        redirect_url = '/loginfailed/' + loginStatus
+        redirect_to_index = redirect(redirect_url)
+        response = app.make_response(redirect_to_index)  
+        return response
 
 ########################################################################
 # WEB UI hacks for disabling caching
@@ -240,7 +375,7 @@ def clear_all_cookies(response):
 ########################################################################
 @app.route('/')
 def homePage():
-    """ Handle request for default page. 
+    """ Handle request for home page. 
     """
     now = datetime.datetime.now(pytz.timezone('US/Pacific'));
     
@@ -252,7 +387,7 @@ def homePage():
     if (request.cookies.get('auth_token') is not None):
         loggedinUser = request.cookies.get('userFullName')
 
-    rendered_page = render_template('default.html', 
+    rendered_page = render_template('home.html', 
 			            serverTime=now, 
 			            pageWelcomeMessage="Welcome to aMAZE.com AirBNB Browser", 
                         userFullName=loggedinUser,

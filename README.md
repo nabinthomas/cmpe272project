@@ -1,4 +1,5 @@
-# CMPE272 Assignment - aMAZE Group
+# CMPE272 Project - aMAZE Group
+
 
 Team members: 
 1. Binu Jose
@@ -7,11 +8,12 @@ Team members:
 4. Sandeep Panakkal
 
 ## Status
-### Travis-CI Status
+
+### CI/CD Status (Travis-CI)
 [![Build Status](https://travis-ci.org/nabinthomas/cmpe272project.svg?branch=master)](https://travis-ci.org/nabinthomas/cmpe272project)
 
 ### Implementation Status
-GitHub Repository Created
+In progress. 
 
 ## Build instructions
 1. Install git and Sync code to your local machine. (to ```<gitroot>```)
@@ -19,7 +21,11 @@ GitHub Repository Created
 3. Build docker image
 ```bash
     cd <gitroot>/ 
-    docker build -t amazeteam/cmpe272project -f docker/Dockerfile .
+    mkdir -p server/config
+    echo "CLIENT_SECRET=''" > server/config/settings.cfg ;
+    docker kill `docker ps |grep amaze |cut -f 1 -d ' '`;
+    docker build -t amazeteam/cmpe272project -f docker/Dockerfile . ;
+    rm -rf server/config/settings.cfg ;
 ```
 ## Modifying files with Git branches
 1. Create clone of the repository.	
@@ -45,41 +51,70 @@ GitHub Repository Created
 1. Interactive mode
 ```bash
     cd <gitroot>/ 
-    docker run -it --rm -p 80:80/tcp -p 8080:8080/tcp -v `pwd`/../database:/data/db amazeteam/cmpe272project bash
+	export AUTHO_CLIENT_SECRET="'YOURCLIENTSECRETKEY'"; #Replace YOURCLIENTSECRETKEY with the client secret from auth0
+	mkdir -p server/config
+		echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg ;
+    docker run -it --rm -p 80:80/tcp -p 443:443/tcp  -v `pwd`/server/config:/root/app/server/config  -v `pwd`/../database:/data/db amazeteam/cmpe272project bash
 ```
 2. Run the server with local files.
 ```bash
         cd <gitroot>/ 
-        docker run --rm -p 80:80/tcp -p 8080:8080/tcp -v `pwd`/server:/root/app/server -v `pwd`/../database:/data/db -v `pwd`/setup:/root/setup -v `pwd`/test:/root/test   amazeteam/cmpe272project
+		export AUTHO_CLIENT_SECRET="'YOURCLIENTSECRETKEY'"; #Replace YOURCLIENTSECRETKEY with the client secret from auth0
+		mkdir -p server/config
+		echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg ;
+        docker run -it  --rm -p 80:80/tcp -p 443:443/tcp -v `pwd`/server:/root/app/server -v `pwd`/server/config:/root/app/server/config -v `pwd`/../database:/data/db -v `pwd`/setup:/root/setup -v `pwd`/test:/root/test   amazeteam/cmpe272project
 ```
 3. Run the server with prepackaged application files. 
 ```bash
         cd <gitroot>/ 
-        docker run --rm -p 80:80/tcp -p 8080:8080/tcp -v `pwd`/../database:/data/db amazeteam/cmpe272project
+		export AUTHO_CLIENT_SECRET="'YOURCLIENTSECRETKEY'"; #Replace YOURCLIENTSECRETKEY with the client secret from auth0
+		mkdir -p server/config
+		echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg ;
+        docker run -it --rm -p 80:80/tcp -p 443:443/tcp -v `pwd`/server/config:/root/app/server/config -v `pwd`/../database:/data/db amazeteam/cmpe272project
 ```
 4. Run the unit tests
 ```bash
         cd <gitroot>/ 
-        docker run --rm amazeteam/cmpe272project unittest
+		export AUTHO_CLIENT_SECRET="'YOURCLIENTSECRETKEY'"; #Replace YOURCLIENTSECRETKEY with the client secret from auth0
+		mkdir -p server/config
+		echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg 
+        docker run  --rm  -v `pwd`/server/config:/root/app/server/config  amazeteam/cmpe272projectunittest
 ```
+5. Kill the current server and rebuild/restart. 
+```bash
+    cd <gitroot>/
+    export AUTHO_CLIENT_SECRET="'YOURCLIENTSECRETKEY'"; #Replace YOURCLIENTSECRETKEY with the client secret from auth0
+	mkdir -p server/config
+	echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg ;
+	docker kill `docker ps |grep amaze |cut -f 1 -d ' '`;
+	docker build -t amazeteam/cmpe272project -f docker/Dockerfile . ;
+	docker run --rm -p 80:80/tcp -p 443:443/tcp -v `pwd`/server:/root/app/server -v `pwd`/server/config:/root/app/server/config -v `pwd`/../database:/data/db -v `pwd`/setup:/root/setup -v `pwd`/test:/root/test   -it amazeteam/cmpe272project
+	rm server/config/settings.cfg
+ ```
 **Note**: _The database dir is kept outside the docker image to make sure the data is persistent across docker runs. For testing, a different database directory may be used to avoid corrupting real data._ 
 ## To push the docker image to docker hub
 ```bash
 docker login
 docker push amazeteam/cmpe272project
 ```
-**Note**: _ Docker image is automatically pushed to Dockerhub with "latest" tag only for commits to the master branch. All other branches will have the branchname as the tag_ 
+**Note**: _ Docker image is automatically pushed to Dockerhub with "latest" tag only for commits to the master branch. All other branches will have the branchname as the tag _ 
 
 ## To deploy docker on aws ec2 instance (linux 2 ami)
 ### To run the latest version from dockerhub
 ```bash
 sudo service docker start
-nohup sudo docker run --rm -p 80:80/tcp -p 8080:8080/tcp amazeteam/cmpe272project
+export AUTHO_CLIENT_SECRET="'YOURCLIENTSECRETKEY'"; #Replace YOURCLIENTSECRETKEY with the client secret from auth0
+mkdir -p server/config
+echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg ;
+nohup sudo docker run --rm -p 80:80/tcp -p 443:443/tcp -v `pwd`/server/config:/root/app/server/config  amazeteam/cmpe272project
 ```
 ### To run a specific version from dockerhub
 ```bash
 sudo service docker start
-nohup sudo docker run --rm -p 80:80/tcp -p 8080:8080/tcp amazeteam/cmpe272project:version
+export AUTHO_CLIENT_SECRET="'YOURCLIENTSECRETKEY'"; #Replace YOURCLIENTSECRETKEY with the client secret from auth0
+mkdir -p server/config
+echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg ;
+nohup sudo docker run --rm -p 80:80/tcp -p 443:443/tcp -v `pwd`/server/config:/root/app/server/config  amazeteam/cmpe272project:version
 ```
 **Note**: _Replace **version** with the right tag to run._
 # Git Cheatsheat
