@@ -73,7 +73,8 @@ class ListingsData extends React.Component {
             var bathsId = `baths-${i}`;
             var priceId = `price-${i}`;
             var ratingId = `rating-${i}`;
-            cells.push(element('td', { key: listingId }, this.state.listings[i].listingID));
+            var listingLink = element('a', {key: i, href:"/listings/" + this.state.listings[i].listingID}, this.state.listings[i].listingID);
+            cells.push(element('td', { key: listingId }, listingLink));
             cells.push(element('td', { key: nameId }, this.state.listings[i].name));
             cells.push(element('td', { key: streetId }, this.state.listings[i].street));
             cells.push(element('td', { key: cityAndStateId }, this.state.listings[i].city + ", " + this.state.listings[i].state));
@@ -92,8 +93,8 @@ class ListingsData extends React.Component {
                 { key: `listing-${i}` },
                 cells
             );
-            console.log(cells);
-            console.log(thisRow);
+            // console.log(cells);
+            // console.log(thisRow);
             rows.push(thisRow);
         }
         // console.log(rows);
