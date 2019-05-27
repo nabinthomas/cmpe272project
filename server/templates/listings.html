@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en-US">
+
+<head profile="http://www.w3.org/2005/10/profile">
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+
+    <title>aMAZE.com > Listings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        .page_layout_style {
+            max-width: 100%;
+            min-width: 100%;
+            padding-top: 10px;
+            padding-left: 10px;
+            border-style: solid;
+        }
+
+        .search_criteria_column_style {
+            max-width: 70px;
+            width: 20%;
+            min-width: 60px;
+            padding-top: 2px;
+            padding-left: 2px;
+            
+        }
+
+        .listings_table_style {
+            width: 100%;
+            padding-top: 2px;
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-bottom: 2px;
+            border: 1px;
+            border-color: gainsboro;
+            border-style: double;
+        }
+
+        .listings_table_header_style {
+            width: 100%;
+            padding-top: 2px;
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-bottom: 2px;
+            border: 1px;
+            border-color: gainsboro;
+            border-style: double;
+            background-color: lightgrey;
+        }
+
+        .listings_table_body_style {
+            width: 100%;
+            padding-top: 2px;
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-bottom: 2px;
+            border: 1px;
+            border-color: gainsboro;
+            border-style: double;
+        }
+    </style>
+</head>
+
+<body>
+    <table id=page_layout class=page_layout_style>
+        <!-- Top row for icons, Page title and Logout button -->
+        <tr id=top_row_for_title_bars>
+            <td align="left" class=search_criteria_column_style>
+                <img style="float: left; margin: 0px 0px 0px 0px;" src="/static/favicon.png" width="30" height="30" />
+            </td>
+            <td>
+                <a href="/">aMAZE.com</a> &gt; Listings
+            </td>
+            <td align="right" width=33%>
+                <table>
+                    <tr>
+                        <td id="logout_button"></td>
+                        <td id="profilePic"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!-- 2nd row holds 2 columns, The search criteria on the left side, listings on right. 
+            2nd colums spans 2 columns (the page_layout table is 3 column table -->
+
+        <tr>
+            <!--search criteria -->
+            <td class=search_criteria_column_style>
+                <table id=search_filter_table>
+
+                </table>
+            </td>
+            <!--Listing Table  -->
+            <td colspan=2>
+                <table id=listings_table class="listings_table_style">
+                        <thead class=listings_table_header_style id=listings_table_heading>
+                                <th align="center">
+                                        Loading Listings...
+                                </th>
+                        </thead>
+                        <tbody class=listings_table_body_style id=listings_table_body>
+                                <td>
+                                    <div align=center>Please Wait</div>
+                                </td>
+                        </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!-- BEGIN REACT IMPORTS -->
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js" crossorigin></script>
+
+    <script type="module" src="/static/scripts/ListingTable.js"></script>
+    <script type="module" src="/static/scripts/logout.js"></script>
+    <script type="module" src="/static/scripts/autohomepage.js"></script>
+    <!-- END REACT IMPORTS -->
+</body>
+
+</html>

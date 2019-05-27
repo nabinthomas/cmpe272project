@@ -397,7 +397,11 @@ def homePage():
     response.set_cookie('base_url', request.host_url);
     return response;
 
-
+@app.route('/listings')
+def page_books():
+    """ Handle request for /books page. 
+    """
+    return render_template('listings.html');
 
 ########################################################################
 # MAIN
