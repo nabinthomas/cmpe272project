@@ -39,6 +39,7 @@ class ListingsHeadingRow extends React.Component {
     }
 }
 
+// TODO : Change this to some bigger value, may be 20 or so, and make sure it is in sync with the REST API
 var listingsPerPage = 2;
 
 var fullDummylistData = [ 
@@ -122,6 +123,8 @@ class ListingsData extends React.Component {
         console.log("Search & Sort Criteria = " + JSON.stringify(restAPIFetchParamsJson));
         // TODO: Call Rest API to get the data, and format it to the way in the example 
         // in fullDummylistData, and then call setState with that
+        // Once the REST API is ready replace this following block with a similar one to fill in data from 
+        // the REST API
         {
             // This block is simulating the REST API now. 
             // Make sure Rest API returns data with these fields
@@ -189,7 +192,9 @@ class ListingsData extends React.Component {
         }
         // console.log(rows);
         this.state.renderAgain = false;
-        
+        if (rows.length == 0) {
+            return element('div', {} , 'Your Query Returned no results');
+        }
         return rows;
     }
 }
