@@ -85,12 +85,129 @@
         <tr>
             <!--search criteria -->
             <td class=search_criteria_column_style>
-                <table id=search_filter_table>
+                <form method="GET" action='/listings' onsubmit="return validateSearchCriteria()" id=search_criteria_form>
+                    <table id=search_filter_table>
+                        <thead>
+                            <th>
+                                Filter By:
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type=submit name=updateResults id=updateResultsButton value="Update">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    City
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name=city id=cityInput>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    State
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name=state id=stateInput>
+                                </td>
+                            </tr>
 
-                </table>
+                            <tr>
+                                <td>
+                                    Bedrooms(Min)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name=bedmin id=bedminInput>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Bedrooms(Max)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <input type="text" name=bedmax id=bedmaxInput>
+                                </td>
+                            </tr> 
+                            
+                            <tr>
+                                <td>
+                                    Bathrooms(Min)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name=bathmin id=bathminInput>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Bathrooms(Max)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <input type="text" name=bathmax id=bathmaxInput>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    Price(Min)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name=pricemin id=priceminInput>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Price(Max)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <input type="text" name=pricemax id=pricemaxInput>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Rating(Min)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name=ratingmin id=ratingminInput>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Rating(Max)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <input type="text" name=ratingmax id=ratingmaxInput>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
             </td>
             <!--Listing Table  -->
-            <td colspan=2>
+            <td colspan=2 valign=top>
                 <table id=listings_table class="listings_table_style">
                         <thead class=listings_table_header_style id=listings_table_heading>
                                 <th align="center">
@@ -103,6 +220,15 @@
                                 </td>
                         </tbody>
                 </table>
+                <table class="listings_table_style">
+                    <thead class=listings_table_header_style id=listings_page_browser>
+                            <th align="left" id=listings_prev_page_link>
+                                    <<
+                            </th>
+                            <th align="right" id=listings_next_page_link>
+                                    >>
+                            </th>
+                    </table>
             </td>
         </tr>
     </table>
@@ -115,6 +241,90 @@
     <script type="module" src="/static/scripts/ListingTable.js"></script>
     <script type="module" src="/static/scripts/logout.js"></script>
     <script type="module" src="/static/scripts/autohomepage.js"></script>
+    <script type="module" src="/static/scripts/SearchBar.js"></script>
+    <script>
+        var searchCriteria = {
+            fields: [
+                // { inputname : name, inputid : id, datatype : <string/number/float> }
+                { inputname: "city", id: "cityInput", datatype: "string", text : "City"},
+                { inputname: "state", id: "stateInput", datatype: "string", text : "State" },
+                { inputname: "bedmin", id: "bedminInput", datatype: "number", text : "Bedrooms(Min)" },
+                { inputname: "bedmax", id: "bedmaxInput", datatype: "number", text : "Bedrooms(Max)"  },
+                { inputname: "bathmin", id: "bathminInput", datatype: "number", text : "Bathrooms(Min)"  },
+                { inputname: "bathmax", id: "bathmaxInput", datatype: "number", text : "Bathrooms(Max)" },
+                { inputname: "pricemin", id: "priceminInput", datatype: "float", text : "Price(Min)" },
+                { inputname: "pricemax", id: "pricemaxInput", datatype: "float", text : "Price(Max)" },
+                { inputname: "ratingmin", id: "ratingminInput", datatype: "number", text : "Rating(Min)" },
+                { inputname: "ratingmax", id: "ratingmaxInput", datatype: "number", text : "Rating(Max)" }
+            ]
+        }
+
+        function validateSearchCriteria() {
+
+            var fields = searchCriteria.fields;
+            var index;
+            for (index = 0 ; index < fields.length; index++) {
+                // console.log(fields[index].inputname + fields[index].id + fields[index].datatype);
+                var name = fields[index].inputname;
+                var id = fields[index].id;
+                var datatype = fields[index].datatype;
+                var text = fields[index].text;
+                var value=document.getElementById(id).value;
+                
+                console.log("value = " + value)
+                if (value != "" && value != null){
+                    switch (datatype){
+                    case "string":
+                        // permit everything in there
+                        break;
+                    case "number":
+                        var numericValue = Number(value).toFixed(0);
+                        if (numericValue.toString() != value){
+                            console.log("Fail Value = " + value + " Numeric Value = " + numericValue);
+                            alert("Invalid value for " + text)
+                            return false;
+                        }
+                        // permit only numbers in there
+                        break;
+                    case "float":
+                        var numericValue = parseFloat(value); 
+                        if (numericValue.toString() != value){
+                            console.log("Fail Value = " + value + " Numeric Value = " + numericValue);
+                            alert("Invalid value for " + text)
+                            return false;
+                        }
+                        // permit only numbers in there
+                        break;
+                    }
+                }
+                
+            }
+            console.log("Validating Search Criteria")
+            return true;
+        }
+
+        function findElementByName(name){
+            var fields = searchCriteria.fields;
+            for (index = 0 ; index < fields.length; index++) {
+                if (name == fields[index].inputname) {
+                    return document.getElementById(fields[index].id);
+                }
+            }
+            return null;
+        }
+        // Now refill the Query Form with the URL Parameters to keep them in sync
+        var urlParams = new URLSearchParams(window.location.search);
+        var entries = urlParams.entries();
+        var pair;
+        
+        for(pair of entries) { 
+            console.log ("Name =  " + [pair[0]] + " Value = " + pair[1]); 
+            var element = findElementByName(pair[0]);
+            if (element != null) {
+                element.value = pair[1];
+            }
+        }
+    </script>
     <!-- END REACT IMPORTS -->
 </body>
 
