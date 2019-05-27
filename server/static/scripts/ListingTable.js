@@ -209,11 +209,10 @@ class PrevPageLink extends React.Component {
         if (currentPage == null) {
             currentPage = 1; // Default to Page 1
         }
-        else  {
-            currentPage = Number(currentPage);
-            currentPage = (currentPage == 1) ? 1 : (currentPage  - 1);
-        }
-        queryParamsJson['page'] = currentPage;
+        currentPage = Number(currentPage);
+        var prevPage = (currentPage == 1) ? 1 : (currentPage  - 1);
+        
+        queryParamsJson['page'] = prevPage;
 
         var newQueryString = "";
 
@@ -245,13 +244,11 @@ class NextPageLink extends React.Component {
         if (currentPage == null) {
             currentPage = 1; // Default to Page 1
         }
-        else  {
-            // Note: Not doing max page check here. 
-            // Web server when processing request for maxPage+1 can instead redirect to maxPage
-            currentPage = Number(currentPage);
-            currentPage = (currentPage + 1);
-        }
-        queryParamsJson['page'] = currentPage;
+        // Note: Not doing max page check here. 
+        // Web server when processing request for maxPage+1 can instead redirect to maxPage
+        var nextPage = Number(currentPage) + 1;
+        queryParamsJson['page'] = nextPage;
+
         var newQueryString = "";
 
         var key; 
