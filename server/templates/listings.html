@@ -85,12 +85,129 @@
         <tr>
             <!--search criteria -->
             <td class=search_criteria_column_style>
-                <table id=search_filter_table>
+                <form method="GET" action='/listings' id=search_criteria_form>
+                    <table id=search_filter_table>
+                        <thead>
+                            <th>
+                                Filter By:
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type=submit name=updateResults id=updateResultsButton value="Update">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    City
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name=city id=cityInput>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    State
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name=state id=stateInput>
+                                </td>
+                            </tr>
 
-                </table>
+                            <tr>
+                                <td>
+                                    Bedrooms(Min)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name=bedmin id=bedminInput>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Bedrooms(Max)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <input type="text" name=bedmax id=bedmaxInput>
+                                </td>
+                            </tr> 
+                            
+                            <tr>
+                                <td>
+                                    Bathrooms(Min)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name=bathmin id=bathminInput>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Bathrooms(Max)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <input type="text" name=bathmax id=bathmaxInput>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    Price(Min)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name=pricemin id=priceminInput>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Price(Max)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <input type="text" name=pricemax id=pricemaxInput>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Rating(Min)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name=ratingmin id=ratingminInput>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Rating(Max)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <input type="text" name=ratingmax id=ratingmaxInput>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
             </td>
             <!--Listing Table  -->
-            <td colspan=2>
+            <td colspan=2 valign=top>
                 <table id=listings_table class="listings_table_style">
                         <thead class=listings_table_header_style id=listings_table_heading>
                                 <th align="center">

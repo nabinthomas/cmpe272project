@@ -11,7 +11,8 @@ class ListingsHeadingRow extends React.Component {
                 "Listing ID",
                 "Name",
                 "Street",
-                "City, State",
+                "City",
+                "State",
                 "Property Type",
                 "Room Type",
                 "Bedrooms",
@@ -114,7 +115,7 @@ class ListingsData extends React.Component {
             restAPIFetchParamsJson[pair[0]] = pair[1]; 
         }
         var currentPage = urlParams.get('page');
-        if (currentPage == null) {
+        if (currentPage == null || Number(currentPage) == 0) {
             currentPage = 1; // Default to Page 1
         }
         
@@ -156,7 +157,8 @@ class ListingsData extends React.Component {
             var listingId = `listingId-${i}`;
             var nameId = `name-${i}`;
             var streetId = `streetId-${i}`;
-            var cityAndStateId = `cityAndState-${i}`;
+            var cityId = `city-${i}`;
+            var stateId = `state-${i}`;
             var propertyTypeId = `propertyType-${i}`;
             var roomTypeId = `roomType-${i}`;
             var bedroomsId = `bedrooms-${i}`;
@@ -167,7 +169,8 @@ class ListingsData extends React.Component {
             cells.push(element('td', { key: listingId }, listingLink));
             cells.push(element('td', { key: nameId }, this.state.listings[i].name));
             cells.push(element('td', { key: streetId }, this.state.listings[i].street));
-            cells.push(element('td', { key: cityAndStateId }, this.state.listings[i].city + ", " + this.state.listings[i].state));
+            cells.push(element('td', { key: cityId }, this.state.listings[i].city ));
+            cells.push(element('td', { key: stateId }, this.state.listings[i].state));
             cells.push(element('td', { key: propertyTypeId }, this.state.listings[i].propertyType));
             cells.push(element('td', { key: roomTypeId }, this.state.listings[i].roomType));
             cells.push(element('td', { key: bedroomsId }, this.state.listings[i].bedrooms));
@@ -206,7 +209,7 @@ class PrevPageLink extends React.Component {
             queryParamsJson[pair[0]] = pair[1]; 
         }
         var currentPage = urlParams.get('page');
-        if (currentPage == null) {
+        if (currentPage == null || Number(currentPage) == 0) {
             currentPage = 1; // Default to Page 1
         }
         currentPage = Number(currentPage);
@@ -241,7 +244,7 @@ class NextPageLink extends React.Component {
             queryParamsJson[pair[0]] = pair[1]; 
         }
         var currentPage = urlParams.get('page');
-        if (currentPage == null) {
+        if (currentPage == null || Number(currentPage) == 0) {
             currentPage = 1; // Default to Page 1
         }
         // Note: Not doing max page check here. 
