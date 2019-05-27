@@ -31,7 +31,6 @@ RUN pip3 install mongomock
 RUN pip3 install pyopenssl
 
 #Expose ports for Web UI
-EXPOSE 80/tcp
 EXPOSE 443/tcp
 
 #COPY The app folders. 

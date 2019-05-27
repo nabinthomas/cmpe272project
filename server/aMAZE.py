@@ -414,4 +414,4 @@ if __name__ == '__main__':
     db = mongo_client.get_database()
 
     ## Start the http server
-    app.run(host='0.0.0.0', port=80);
+    app.run(host='0.0.0.0', port=443, ssl_context='adhoc');
