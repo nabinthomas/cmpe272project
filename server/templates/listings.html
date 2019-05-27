@@ -302,6 +302,28 @@
             console.log("Validating Search Criteria")
             return true;
         }
+
+        function findElementByName(name){
+            var fields = searchCriteria.fields;
+            for (index = 0 ; index < fields.length; index++) {
+                if (name == fields[index].inputname) {
+                    return document.getElementById(fields[index].id);
+                }
+            }
+            return null;
+        }
+        // Now refill the Query Form with the URL Parameters to keep them in sync
+        var urlParams = new URLSearchParams(window.location.search);
+        var entries = urlParams.entries();
+        var pair;
+        
+        for(pair of entries) { 
+            console.log ("Name =  " + [pair[0]] + " Value = " + pair[1]); 
+            var element = findElementByName(pair[0]);
+            if (element != null) {
+                element.value = pair[1];
+            }
+        }
     </script>
     <!-- END REACT IMPORTS -->
 </body>
