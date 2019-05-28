@@ -70,7 +70,7 @@ if(len(sys.argv) == 4):
         for row in reader:
             i = i + 1 
             if ((i%8000) == 0):
-                print( int(i/738840 * 100) , "% Complete", flush=True)
+                print( int(i/486920 * 100) , "% Complete", flush=True)
             data = {}
             for x in row:     
                 data[x] = row[x]
