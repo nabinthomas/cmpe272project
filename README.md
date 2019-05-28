@@ -54,7 +54,7 @@ In progress.
 	export AUTHO_CLIENT_SECRET="'YOURCLIENTSECRETKEY'"; #Replace YOURCLIENTSECRETKEY with the client secret from auth0
 	mkdir -p server/config
 		echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg ;
-    docker run -it --rm -p 443:443/tcp  -v `pwd`/server/config:/root/app/server/config  -v `pwd`/../database:/data/db amazeteam/cmpe272project bash
+    docker run -it --rm -p 443:443/tcp  -v `pwd`/server/config:/root/app/server/config  -v `pwd`/../database:/var/lib/mongodb amazeteam/cmpe272project bash
 ```
 2. Run the server with local files.
 ```bash
@@ -62,7 +62,7 @@ In progress.
 		export AUTHO_CLIENT_SECRET="'YOURCLIENTSECRETKEY'"; #Replace YOURCLIENTSECRETKEY with the client secret from auth0
 		mkdir -p server/config
 		echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg ;
-        docker run -it  --rm -p 443:443/tcp -v `pwd`/server:/root/app/server -v `pwd`/server/config:/root/app/server/config -v `pwd`/../database:/data/db -v `pwd`/setup:/root/setup -v `pwd`/test:/root/test   amazeteam/cmpe272project
+        docker run -it  --rm -p 443:443/tcp -v `pwd`/server:/root/app/server -v `pwd`/server/config:/root/app/server/config -v `pwd`/../database:/var/lib/mongodb -v `pwd`/setup:/root/setup -v `pwd`/test:/root/test   amazeteam/cmpe272project
 ```
 3. Run the server with prepackaged application files.
 ```bash
@@ -70,7 +70,7 @@ In progress.
 		export AUTHO_CLIENT_SECRET="'YOURCLIENTSECRETKEY'"; #Replace YOURCLIENTSECRETKEY with the client secret from auth0
 		mkdir -p server/config
 		echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg ;
-        docker run -it --rm -p 443:443/tcp -v `pwd`/server/config:/root/app/server/config -v `pwd`/../database:/data/db amazeteam/cmpe272project
+        docker run -it --rm -p 443:443/tcp -v `pwd`/server/config:/root/app/server/config -v `pwd`/../database:/var/lib/mongodb amazeteam/cmpe272project
 ```
 4. Run the unit tests
 ```bash
@@ -88,7 +88,7 @@ In progress.
 	echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg ;
 	docker kill `docker ps |grep amaze |cut -f 1 -d ' '`;
 	docker build -t amazeteam/cmpe272project -f docker/Dockerfile . ;
-	#docker run --rm -p 443:443/tcp -v `pwd`/server:/root/app/server -v `pwd`/server/config:/root/app/server/config -v `pwd`/../database:/data/db -v `pwd`/setup:/root/setup -v `pwd`/test:/root/test -v `pwd`/../data:/root/app/server/dbsetup/data  -it amazeteam/cmpe272project
+	#docker run --rm -p 443:443/tcp -v `pwd`/server:/root/app/server -v `pwd`/server/config:/root/app/server/config -v `pwd`/../database:/var/lib/mongodb -v `pwd`/setup:/root/setup -v `pwd`/test:/root/test -v `pwd`/../data:/root/app/server/dbsetup/data  -it amazeteam/cmpe272project
 	#below command runs with a clean db everytime. Use above one if you want to reuse db from prev instance, but you may need to skip imports in that case.
 	docker run --rm -p 443:443/tcp -v `pwd`/server:/root/app/server -v `pwd`/server/config:/root/app/server/config -v `pwd`/setup:/root/setup -v `pwd`/test:/root/test -v `pwd`/../data:/root/app/server/dbsetup/data  -it amazeteam/cmpe272project
 	rm server/config/settings.cfg
