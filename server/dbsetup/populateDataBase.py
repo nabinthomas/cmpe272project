@@ -27,6 +27,8 @@ if(len(sys.argv) == 4):
         reader = csv.DictReader(csvfile)
         for row in reader:
             i = i + 1 
+            if ((i%500) == 0):
+                print(int(i/22895 * 100) , "% Complete", flush=True)
             data = {}
             entry = {}
             for key, value in row.items():
@@ -67,6 +69,8 @@ if(len(sys.argv) == 4):
         reader = csv.DictReader(csvfile)
         for row in reader:
             i = i + 1 
+            if ((i%8000) == 0):
+                print( int(i/486920 * 100) , "% Complete", flush=True)
             data = {}
             for x in row:     
                 data[x] = row[x]

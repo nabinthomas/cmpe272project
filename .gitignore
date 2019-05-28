@@ -3,3 +3,4 @@
 .vscode/*
 server/__pycache__/*.pyc
 server/config/settings.cfg
+server/dbscripts/__pycache__/*.pyc

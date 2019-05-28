@@ -40,7 +40,7 @@ COPY setup setup
 
 COPY test test
 
-RUN unzip -o app/server/dbsetup/data/data.zip -d app/server/dbsetup/data
+#RUN unzip -o app/server/dbsetup/data/data.zip -d app/server/dbsetup/data
 # Main entry point for the docker image
 ENTRYPOINT [ "/bin/bash", "setup/entrypoint.sh" ]
 
