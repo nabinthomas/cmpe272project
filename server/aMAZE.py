@@ -382,6 +382,7 @@ def get_listings():
     
     Input:
         page_index = request.json['page_index']
+        filter = request.json['filter']
    
     Output:
         {
@@ -411,7 +412,11 @@ def get_listings():
     response = {}
     list_per_index =10;
     total_list_count = db.listings.count();
-    listing = db.listings.find();
+    if (filter is None) :
+        listing = db.listings.find();
+    else :
+        #TODO Listing based on filter
+        listing = db.listings.find();
     total_pages = total_list_count / list_per_index
     if (total_list_count % list_per_index) is not 0:
             total_pages = total_pages  + 1
