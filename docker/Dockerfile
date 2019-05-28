@@ -20,7 +20,7 @@ RUN apt-get install -y python3
 RUN apt-get install -y vim
 RUN apt-get install -y python3-pip
 RUN apt-get install -y mongodb mongodb-server mongo-tools
-RUN apt-get install unzip
+RUN apt-get install -y unzip
 RUN pip3 install flask
 RUN pip3 install pytz
 RUN pip3 install python-jose
@@ -37,7 +37,7 @@ EXPOSE 443/tcp
 #COPY The app folders. 
 COPY server /root/app/server
 COPY setup setup
-COPY data data
+
 COPY test test
 
 RUN unzip app/server/dbsetup/data/data.zip -d app/server/dbsetup/data
