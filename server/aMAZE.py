@@ -380,9 +380,21 @@ def get_listings():
     """ 
     Function to fetch listings 
     
-    Input:
-        page_index = request.json['page_index']
-        filter = request.json['filter']
+    Input Ex:
+        {
+            "page_index" : 2,
+            "filter" : { 
+                "property_type"  : "House",
+			    "beds":2,
+			    "min" : {  
+                    "price" : 50.0, 
+                    "accommodates":2 
+                },
+			    "max" : {   
+                    "price" : 150.0
+                }
+            }
+        }
    
     Output:
         {
@@ -408,23 +420,65 @@ def get_listings():
         1)proper comment 
         2) validation , error case 
     """
-    
     response = {}
     list_per_index =10;
-    total_list_count = db.listings.count();
-    if (filter is None) :
-        listing = db.listings.find();
-    else :
-        #TODO Listing based on filter
-        listing = db.listings.find();
+
+    try :
+        print ( "Request =   ", request.json)
+        page_index_str = request.json['page_index']
+        filter = request.json['filter']
+        print ("page_index_str:",page_index_str)
+        page_index = int(page_index_str)
+
+        if (filter is None) :
+            listing = db.listings.find();
+            total_list_count = listing.count();
+        else :
+            print ( "Filter is not none")
+            query = {}
+  
+            if ('min' in filter ):
+                minItems =  filter['min']
+                print ( "min is not none" , minItems )  
+                for k1,v1 in minItems.items():
+                    print ( "min is k,v " , k1, v1 )
+                    lv = {}
+                    lv["$gte"] = v1
+                    query [k1] = lv            
+                del filter['min']
+    
+            if ( 'max' in filter ):
+                maxItems =  filter['max']
+                print ( "max is not none ",maxItems)
+                for k2,v2 in maxItems.items():
+                    print ( "min is k2,v2 " , k2, v2 )
+                    if (k2 in query) :
+                        gv = query[k2]
+                    else:
+                        gv = {}
+                    gv["$lte"] = v2
+                    query [k2] = gv 
+                del filter['max']
+
+            for k,v in filter.items():
+                query [k] = v
+
+            print ( "Query:" , query)
+            listing = db.listings.find(query);
+            print ( "Query success ")
+            total_list_count = listing.count();
+            
+    except  :
+        print ("Unexpected error:", sys.exc_info()[0])
+        response = {}
+        returnCode = ReturnCodes.ERROR_INVALID_PARAM 
+        return encodeJsonResponse(response, returnCode);
+
     total_pages = total_list_count / list_per_index
     if (total_list_count % list_per_index) is not 0:
             total_pages = total_pages  + 1
-    print ("request:", request.json)
+ 
     try :
-        page_index_str = request.json['page_index']
-        print ("page_index_str:",page_index_str)
-        page_index = int(page_index_str)
         print ("page_index:",page_index)
         if page_index < 0 : 
             response = {"listings":[], "total_list_count": total_list_count, "total_pages":total_pages}
