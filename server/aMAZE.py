@@ -370,37 +370,110 @@ def clear_all_cookies(response):
     response.set_cookie('userPicture', value='', expires=0, domain=restrictTo)
     return response
 
-
-
 ########################################################################
 # REST API 
 ########################################################################
-#https://0.0.0.0/listings/9835
-@app.route('/api/listings/<string:listings_id>', methods=['GET'])
-def get_listing(listings_id):
-    """ Handle request for /api/listing rest-api. 
-    output format 
-    {
-        "response": {
-            "listing": {
-                "access": "Kitchen, backyard", 
-                ...
-            },
-            "reviews": [
-                { "comments": "Very hospitable, much appreciated.\n", 
-                    ...
-                }, 
-                { "comments": "Lalala hospitable, much appreciated.\n", 
-                    ...
-                }
-            ]
-        },
-        "status": "Success"
-    } 
+
+# eg: curl -XPOST -H 'Content-Type: application/json' https://localhost/api/listings -d '{"page_index" : 2 }'
+@app.route('/api/listings', methods=['POST'])
+def get_listings(page_index):
+    """ 
+    Function to fetch listings 
+    
+    Input:
+        page_index = request.json['page_index']
+   
+    Output:
+        {
+            "response": {
+                "listings": [
+                    { "name": "Beautiful Room & House.\n", 
+                        ...
+                    }, 
+                    { "name": "Lalala Beautiful Room & House.\n", 
+                        ...
+                    }
+                ],
+                "total_list_count" : 1000, 
+                "total_pages" :100
+            }
+            "status": "Success"
+        } 
+    
+    Description :
+        if page_index = -1 , then return the total count  and lists per pages.
+        
     TODO: 
-    1)proper comment 
-    2) validation , error case 
+        1)proper comment 
+        2) validation , error case 
     """
+    
+    response = {}
+    list_per_index =10;
+    total_list_count = db.listings.count();
+    listing = db.listings.find();
+    total_pages = total_list_count / list_per_index
+    if (total_list_count % list_per_index) is not 0:
+            total_pages = total_pages  + 1
+    try :
+        page_index_str = request.json['page_index']
+        page_index = int(page_index_str)
+        if page_index < 0 : 
+            response = {"listings":[], "total_list_count": total_list_count, "total_pages":total_pages}
+            returnCode = ReturnCodes.SUCCESS
+        elif page_index > total_pages:
+            print("Fewer pages available")
+            response = {"listings":[], "total_list_count": total_list_count, "total_pages":total_pages}
+            returnCode = ReturnCodes.ERROR_OBJECT_NOT_FOUND
+        else :
+            start = (page_index -1) * list_per_index
+            end = page_index * list_per_index
+            if end > total_list_count:
+                    end = total_list_count
+            ret_list = []
+            for i in range(start-1,end-1):
+                del listing[i]['_id']
+                ret_list.append(listing[i])
+            response = {"listings":ret_list, "total_list_count": total_list_count, "total_pages":total_pages}
+            returnCode = ReturnCodes.SUCCESS
+    except :
+        response = {}
+        returnCode = ReturnCodes.ERROR_INVALID_PARAM
+    return encodeJsonResponse(response, returnCode);
+
+
+# curl -XGET https://localhost/api/listings/9835
+@app.route('/api/listings/<string:listings_id>', methods=['GET'])
+def get_one_listing(listings_id):
+    """  
+    Function to fetch a particular listing and its reviews
+    
+    Input:
+        listings_id =  The id of the listing 
+   
+    Output:
+           {
+            "response": {
+                "listing": {
+                    "access": "Kitchen, backyard", 
+                    ...
+                },
+                "reviews": [
+                    { "comments": "Very hospitable, much appreciated.\n", 
+                        ...
+                    }, 
+                    { "comments": "Lalala hospitable, much appreciated.\n", 
+                        ...
+                    }
+                ]
+            },
+            "status": "Success"
+        } 
+    TODO: 
+        1)proper comment 
+        2) validation of int(listings_id), error case 
+    """
+
     listing = {}
     reviews = {}
     try :

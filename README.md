@@ -88,7 +88,7 @@ In progress.
 	echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg ;
 	docker kill `docker ps |grep amaze |cut -f 1 -d ' '`;
 	docker build -t amazeteam/cmpe272project -f docker/Dockerfile . ;
-	docker run --rm -p 443:443/tcp -v `pwd`/server:/root/app/server -v `pwd`/server/config:/root/app/server/config -v `pwd`/../database:/data/db -v `pwd`/setup:/root/setup -v `pwd`/test:/root/test `pwd`/../data:/root/app/server/dbsetup/data  -it amazeteam/cmpe272project
+	docker run --rm -p 443:443/tcp -v `pwd`/server:/root/app/server -v `pwd`/server/config:/root/app/server/config  -v `pwd`/../database:/data/db  -v `pwd`/setup:/root/setup  -v `pwd`/test:/root/test -v  `pwd`/../data:/root/server/dbsetup/data  -it amazeteam/cmpe272project
 	rm server/config/settings.cfg
  ```
 **Note**: _The database dir is kept outside the docker image to make sure the data is persistent across docker runs. For testing, a different database directory may be used to avoid corrupting real data._ 

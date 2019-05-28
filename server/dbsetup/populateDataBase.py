@@ -49,13 +49,12 @@ if(len(sys.argv) == 4):
                         key = ""
                     if value == None:
                         value = ""
-                    print("Parse error [",i,"] ",  key.encode('utf-8') , value.encode('utf-8')  , " this wont be added to DB");
-
+                    #Ignore the missing entries
+                    #print("Missing key or value for entry=[",i,"] ",  key.encode('utf-8') , value.encode('utf-8')  , " this wont be added to DB");
             col.insert_one(entry)
-
     print( str(i) , " Lines imported from " , filename, " to ",cname, " collection")
 
-
+    #import thr reviews. Reviews are all dumped as strings. No serching on them
     filename = os.path.basename(sys.argv[2])
     cname = filename.replace(".csv","")
     col = db[cname]
@@ -73,7 +72,6 @@ if(len(sys.argv) == 4):
             col.insert_one(data) 
             #print(  "col = " , data )
     print( str(i) , "Lines imported from " , filename, " to ",cname, " collection")
-
 
 else :
     print ('Usage: ' + sys.argv[0] + ' listings.csv  reviews.csv  listing_schema.csv' );
