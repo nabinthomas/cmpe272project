@@ -14,7 +14,7 @@ if(len(sys.argv) == 4):
         schema = json.load(schemafile)
         #print (schema)
 
-    db = pymongo.MongoClient()['test']
+    db = pymongo.MongoClient()['airbnb']
 
     filename = os.path.basename(sys.argv[1])
     cname = filename.replace(".csv","")

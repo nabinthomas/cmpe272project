@@ -376,22 +376,49 @@ def clear_all_cookies(response):
 # REST API 
 ########################################################################
 #https://0.0.0.0/listings/9835
-@app.route('/listings/<string:listings_id>', methods=['GET'])
+@app.route('/api/listings/<string:listings_id>', methods=['GET'])
 def get_listing(listings_id):
-    """ Handle request for /listing page. 
+    """ Handle request for /api/listing rest-api. 
+    output format 
+    {
+        "response": {
+            "listing": {
+                "access": "Kitchen, backyard", 
+                ...
+            },
+            "reviews": [
+                { "comments": "Very hospitable, much appreciated.\n", 
+                    ...
+                }, 
+                { "comments": "Lalala hospitable, much appreciated.\n", 
+                    ...
+                }
+            ]
+        },
+        "status": "Success"
+    } 
     TODO: 
     1)proper comment 
     2) validation , error case 
     """
     listing = {}
     reviews = {}
-
-    listing = db.listings.find_one({ "id" : { "$eq": int(listings_id) }  })
-    print (listing)
-    reviews = db.reviews.find({"listings_id":listings_id})
-    response = {"listing": listing, "reviews":reviews}
-    #response = {"listing": "listing, "reviews":}
-    returnCode = ReturnCodes.SUCCESS
+    try :
+        listing = db.listings.find_one({ "id" : { "$eq": int(listings_id) }  })
+        del listing['_id']
+        print (listing)
+        reviews = db.reviews.find({"listing_id":listings_id})
+        
+        resp_reviews =[]
+        for rev_entry in reviews:
+            del rev_entry ['_id']
+            resp_reviews.append(rev_entry)
+            
+        response = {"listing": listing, "reviews":resp_reviews}
+        returnCode = ReturnCodes.SUCCESS
+    except :
+        response = {}
+        returnCode = ReturnCodes.ERROR_OBJECT_NOT_FOUND
     return encodeJsonResponse(response, returnCode);
 
 ########################################################################
