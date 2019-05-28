@@ -426,19 +426,19 @@ def get_listings():
         print ( "Request =   ", request.json)
         page_index_str = request.json['page_index']
         filter = request.json['filter']
-        print ("page_index_str:",page_index_str)
+        #print ("page_index_str:",page_index_str)
         page_index = int(page_index_str)
 
         if (filter is None) :
             listing = db.listings.find();
             total_list_count = listing.count();
         else :
-            print ( "Filter is not none")
+            #print ( "Filter is not none")
             query = {}
   
             if ('min' in filter ):
                 minItems =  filter['min']
-                print ( "min is not none" , minItems )  
+                #print ( "min is not none" , minItems )  
                 for k1,v1 in minItems.items():
                     print ( "min is k,v " , k1, v1 )
                     lv = {}
@@ -448,7 +448,7 @@ def get_listings():
     
             if ( 'max' in filter ):
                 maxItems =  filter['max']
-                print ( "max is not none ",maxItems)
+                #print ( "max is not none ",maxItems)
                 for k2,v2 in maxItems.items():
                     print ( "min is k2,v2 " , k2, v2 )
                     if (k2 in query) :
