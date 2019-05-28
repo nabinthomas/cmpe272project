@@ -379,7 +379,6 @@ def clear_all_cookies(response):
 def get_listings():
     """ 
     Function to fetch listings 
-    
     Input Ex:
         {
             "page_index" : 2,
