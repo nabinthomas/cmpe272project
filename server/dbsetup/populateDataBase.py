@@ -21,6 +21,7 @@ if(len(sys.argv) == 4):
     col = db[cname]
     col.drop() #Drop the listings db
 
+    print("Importing listings ...")
     i = 0 #count the number of entries
     with open(sys.argv[1], 'r',encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -54,7 +55,8 @@ if(len(sys.argv) == 4):
             col.insert_one(entry)
     print( str(i) , " Lines imported from " , filename, " to ",cname, " collection")
 
-    #import thr reviews. Reviews are all dumped as strings. No serching on them
+    #import the reviews. Reviews are all dumped as strings. No serching on them
+    print("Importing listireviews ...")
     filename = os.path.basename(sys.argv[2])
     cname = filename.replace(".csv","")
     col = db[cname]
