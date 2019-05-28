@@ -1,11 +1,11 @@
 """ @package Main entry point for Web server.
 """
-  
+
 import json
 import datetime
 import pytz
 from flask import Flask, render_template, jsonify, request, redirect
-import pymongo  
+import pymongo
 from pymongo import MongoClient
 import sys
 import http.client
@@ -48,10 +48,10 @@ class ReturnCodes:
 
 def encodeJsonResponse(reply, statuscode):
     """
-    Encodes a json response to send back to the client. 
+    Encodes a json response to send back to the client.
 
-    @param reply  -> this is a message or json object that is the result of the operation performed. 
-    @param statuscode -> one of the values from ReturnCodes, for the status of the operation. 
+    @param reply  -> this is a message or json object that is the result of the operation performed.
+    @param statuscode -> one of the values from ReturnCodes, for the status of the operation.
     """
     return jsonify({ "status" : statuscode, "response" : reply});
 
@@ -71,41 +71,41 @@ def page_logout():
         if (customer is not None):
             update_customer_session_data(db, customer['email'], customer['name'], '', '')
 
-    rendered_page = render_template('logout.html', 
+    rendered_page = render_template('logout.html',
                 LogoutMessage="You have been Logged out sucessfully",
                 ExtraDetails=''
 			);
-    response = app.make_response(rendered_page )  
+    response = app.make_response(rendered_page )
     response = clear_all_cookies(response)
 
     return response
 
 @app.route('/loginfailed/<string:errorCode>', methods=['GET'])
 def page_loginFailed(errorCode):
-    rendered_page = render_template('logout.html', 
+    rendered_page = render_template('logout.html',
             LogoutMessage="Login Failed !!!",
             ExtraDetails=errorCode
         );
-    response = app.make_response(rendered_page)  
+    response = app.make_response(rendered_page)
     response = clear_all_cookies(response)
     return response
 
 @app.route('/api/loginsuccess', methods=['GET'])
 def loginSuccess():
     """
-    API To pass successful user auth from auth0. 
+    API To pass successful user auth from auth0.
     This gets the response "code" from the auth0 server and issue a redirect to locahost/api/loginsuccess
 
     open in browser: https://nthomas.auth0.com/authorize?response_type=code&client_id=QN3TAKTeDu4U4i6tfVI2JCs7hXSxdePG&redirect_uri=https://localhost/api/loginsuccess&scope=openid%20profile%20email&state=xyzABC123
-    then login. and then this will be called with code and state as params. 
+    then login. and then this will be called with code and state as params.
     """
-    
+
     print ("Enter /api/loginsuccess");
     app.logger.info("Enter /api/loginsuccess")
     customerEmail = ''
     customerName = ''
     accessToken = ''
-    
+
     loginStatus = ReturnCodes.ERROR_AUTHENTICATE;
     payload = request.args;
     print ("Client login request: [", payload, "]")
@@ -120,14 +120,14 @@ def loginSuccess():
 
         #payload = "{\"code\":str(code),\"client_id\":\"QN3TAKTeDu4U4i6tfVI2JCs7hXSxdePG\",\"client_secret\":\"aDoe0md20-pFTGP6_XmoazFiUZdYN1Ze5CwxX21qDl1U_MaYbasmuJ4fjb7fDNlZ\",\"audience\":\"https://localhost/login\",\"grant_type\":\"client_credentials\"}"
         #payload = "grant_type=authorization_code&client_id=%24%7Baccount.clientId%7D&client_secret=YOUR_CLIENT_SECRET&code=YOUR_AUTHORIZATION_CODE&redirect_ui=https%3A%2F%2F%24%7Baccount.callback%7D"
-    
+
         host_base_url = request.base_url
         print ("Host Base URL Was : " + host_base_url);
-    
+
         payload = 'grant_type=authorization_code&client_id=' + CLIENT_ID + \
                     '&client_secret=' + CLIENT_SECRET + \
                     '&code=' + code + \
-                    '&redirect_uri=' + host_base_url 
+                    '&redirect_uri=' + host_base_url
 
         fullurl = "https://" + AUTH0_DOMAIN + "/oauth/token" + payload
         print (fullurl)
@@ -142,7 +142,7 @@ def loginSuccess():
         data = json.loads(datareceived.decode("utf-8"))
         print("Data was = " , datareceived.decode("utf-8"))
         try:
-            id_token_payload = get_id_token_payload(data["id_token"]) 
+            id_token_payload = get_id_token_payload(data["id_token"])
             print("id_token_payload got  ")
             print("id_token_payload got" + json.dumps(id_token_payload) )
             customerEmail = id_token_payload ['email']
@@ -170,16 +170,16 @@ def loginSuccess():
 
     if (loginStatus == ReturnCodes.SUCCESS):
         customer = find_customer_with_token(db, accessToken)
-        if customer is None: 
+        if customer is None:
             loginStatus = ReturnCodes.ERROR_AUTHENTICATE
 
     if (loginStatus == ReturnCodes.SUCCESS):
         redirect_to_index = redirect('/')
-        response = app.make_response(redirect_to_index)  
+        response = app.make_response(redirect_to_index)
         restrictTo = request.host
         if (restrictTo == "localhost"):
             restrictTo= None
-        
+
         response.set_cookie('auth_token',value=accessToken, domain=restrictTo)
         response.set_cookie('userFullName',value=customer['name'], domain=restrictTo)
         response.set_cookie('customerId',value=str(customer['customerId']), domain=restrictTo)
@@ -189,7 +189,7 @@ def loginSuccess():
     else:
         redirect_url = '/loginfailed/' + loginStatus
         redirect_to_index = redirect(redirect_url)
-        response = app.make_response(redirect_to_index)  
+        response = app.make_response(redirect_to_index)
         return response
 
 ########################################################################
@@ -228,7 +228,7 @@ def dated_url_for(endpoint, **values):
 
 
 ########################################################################
-# Auth0 Authentication Support 
+# Auth0 Authentication Support
 ########################################################################
 def get_token_auth_header():
     """Obtains the access token from the Authorization Header
@@ -278,24 +278,24 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         print ("Enter requires_auth  ")
-        #validate email-id and access_token 
-        token = get_token_auth_header() #get access token 
+        #validate email-id and access_token
+        token = get_token_auth_header() #get access token
         print ("Token recieved : " + token)
         customerEmail = find_customer_email(db, token)
         if(customerEmail is None) :
             print ("Exit requires_auth : Error : customer email not found")
             raise AuthError({"code": "invalid_header",
                         "description": "Invalid header. "
-                        "Incorrect Access Token"}, 401) 
+                        "Incorrect Access Token"}, 401)
         return f(*args, **kwargs)
     return decorated
 
 def get_id_token_payload(token):
     """Determines if the access token is valid
     """
-     
+
     print ("Enter get_id_token_payload")
- 
+
     print ("requires_auth token = " + token )
     jsonurl = urlopen("https://"+AUTH0_DOMAIN+"/.well-known/jwks.json")
     jwks = json.loads(jsonurl.read().decode("utf8"))
@@ -332,12 +332,12 @@ def get_id_token_payload(token):
                 algorithms=ALGORITHMS,
                 audience="QN3TAKTeDu4U4i6tfVI2JCs7hXSxdePG",
                 issuer="https://"+AUTH0_DOMAIN+"/"
-                
+
             )
 
             print( "payload :" , json.dumps(payload, indent=2))
             #return json.dumps(payload, indent=2)
-            return  payload 
+            return  payload
         except jwt.ExpiredSignatureError:
             raise AuthError({"code": "token_expired",
                             "description": "token is expired"}, 401)
@@ -356,13 +356,13 @@ def get_id_token_payload(token):
 
 def clear_all_cookies(response):
     """
-    Helper function to clear Cookies set by this application. 
+    Helper function to clear Cookies set by this application.
     Add Any additional cookies if set anywhere else to the end of the list
     """
     restrictTo = request.host
     if (restrictTo == "localhost"):
         restrictTo= None
-        
+
     response.set_cookie('auth_token', value='', expires=0, domain=restrictTo)
     response.set_cookie('userFullName', value='', expires=0, domain=restrictTo)
     response.set_cookie('userEmailId', value='', expires=0, domain=restrictTo)
@@ -371,59 +371,117 @@ def clear_all_cookies(response):
     return response
 
 ########################################################################
-# REST API 
+# REST API
 ########################################################################
 
 # eg: curl -XPOST -H 'Content-Type: application/json' https://0.0.0.0/api/listings -d '{"page_index" : 2 }'
 @app.route('/api/listings', methods=['POST'])
 def get_listings():
-    """ 
-    Function to fetch listings 
-    
-    Input:
-        page_index = request.json['page_index']
-   
+    """
+    Function to fetch listings
+    Input Ex:
+        {
+            "page_index" : 2,
+            "filter" : {
+                "property_type"  : "House",
+			    "beds":2,
+			    "min" : {
+                    "price" : 50.0,
+                    "accommodates":2
+                },
+			    "max" : {
+                    "price" : 150.0
+                }
+            }
+        }
+
     Output:
         {
             "response": {
                 "listings": [
-                    { "name": "Beautiful Room & House.\n", 
+                    { "name": "Beautiful Room & House.\n",
                         ...
-                    }, 
-                    { "name": "Lalala Beautiful Room & House.\n", 
+                    },
+                    { "name": "Lalala Beautiful Room & House.\n",
                         ...
                     }
                 ],
-                "total_list_count" : 1000, 
+                "total_list_count" : 1000,
                 "total_pages" :100
             }
             "status": "Success"
-        } 
-    
+        }
+
     Description :
         if page_index = -1 , then return the total count  and lists per pages.
-        
-    TODO: 
-        1)proper comment 
-        2) validation , error case 
+
+    TODO:
+        1)proper comment
+        2) validation , error case
     """
-    
     response = {}
     list_per_index =10;
-    total_list_count = db.listings.count();
-    listing = db.listings.find();
+
+    try :
+        print ( "Request =   ", request.json)
+        page_index_str = request.json['page_index']
+        filter = request.json['filter']
+        #print ("page_index_str:",page_index_str)
+        page_index = int(page_index_str)
+
+        if (filter is None) :
+            listing = db.listings.find();
+            total_list_count = listing.count();
+        else :
+            #print ( "Filter is not none")
+            query = {}
+
+            if ('min' in filter ):
+                minItems =  filter['min']
+                #print ( "min is not none" , minItems )
+                for k1,v1 in minItems.items():
+                    print ( "min is k,v " , k1, v1 )
+                    lv = {}
+                    lv["$gte"] = v1
+                    query [k1] = lv
+                del filter['min']
+
+            if ( 'max' in filter ):
+                maxItems =  filter['max']
+                #print ( "max is not none ",maxItems)
+                for k2,v2 in maxItems.items():
+                    print ( "min is k2,v2 " , k2, v2 )
+                    if (k2 in query) :
+                        gv = query[k2]
+                    else:
+                        gv = {}
+                    gv["$lte"] = v2
+                    query [k2] = gv
+                del filter['max']
+
+            for k,v in filter.items():
+                query [k] = v
+
+            print ( "Query:" , query)
+            listing = db.listings.find(query);
+            print ( "Query success ")
+            total_list_count = listing.count();
+
+    except  :
+        print ("Unexpected error:", sys.exc_info()[0])
+        response = {}
+        returnCode = ReturnCodes.ERROR_INVALID_PARAM
+        return encodeJsonResponse(response, returnCode);
+
     total_pages = total_list_count / list_per_index
-    print ("total pages = " , total_pages , "," , total_list_count ,  "," , list_per_index)    
+    print ("total pages = " , total_pages , "," , total_list_count ,  "," , list_per_index)
     if (total_list_count % list_per_index) is not 0:
             total_pages = total_pages  + 1
-    print ("total pages = ", total_pages)    
+    print ("total pages = ", total_pages)
     print ("request:", request.json)
     try :
-        page_index_str = request.json['page_index']
-        print ("page_index_str:",page_index_str)
-        page_index = int(page_index_str)
         print ("page_index:",page_index)
-        if page_index < 0 : 
+        if page_index < 0 :
             response = {"listings":[], "total_list_count": total_list_count, "total_pages":total_pages}
             returnCode = ReturnCodes.SUCCESS
         elif page_index > total_pages:
@@ -451,33 +509,33 @@ def get_listings():
 # curl -XGET https://localhost/api/listings/9835
 @app.route('/api/listings/<string:listings_id>', methods=['GET'])
 def get_one_listing(listings_id):
-    """  
+    """
     Function to fetch a particular listing and its reviews
-    
+
     Input:
-        listings_id =  The id of the listing 
-   
+        listings_id =  The id of the listing
+
     Output:
            {
             "response": {
                 "listing": {
-                    "access": "Kitchen, backyard", 
+                    "access": "Kitchen, backyard",
                     ...
                 },
                 "reviews": [
-                    { "comments": "Very hospitable, much appreciated.\n", 
+                    { "comments": "Very hospitable, much appreciated.\n",
                         ...
-                    }, 
-                    { "comments": "Lalala hospitable, much appreciated.\n", 
+                    },
+                    { "comments": "Lalala hospitable, much appreciated.\n",
                         ...
                     }
                 ]
             },
             "status": "Success"
-        } 
-    TODO: 
-        1)proper comment 
-        2) validation of int(listings_id), error case 
+        }
+    TODO:
+        1)proper comment
+        2) validation of int(listings_id), error case
     """
 
     listing = {}
@@ -487,12 +545,12 @@ def get_one_listing(listings_id):
         del listing['_id']
         print (listing)
         reviews = db.reviews.find({"listing_id":listings_id})
-        
+
         resp_reviews =[]
         for rev_entry in reviews:
             del rev_entry ['_id']
             resp_reviews.append(rev_entry)
-            
+
         response = {"listing": listing, "reviews":resp_reviews}
         returnCode = ReturnCodes.SUCCESS
     except :
@@ -505,21 +563,21 @@ def get_one_listing(listings_id):
 ########################################################################
 @app.route('/')
 def homePage():
-    """ Handle request for home page. 
+    """ Handle request for home page.
     """
     now = datetime.datetime.now(pytz.timezone('US/Pacific'));
-    
+
     loggedinUser='Guest'
 
     print ("Base url with port",request.host_url)
 
-    # TODO: Validate the auth_token and Get the Users full name from the session information. 
+    # TODO: Validate the auth_token and Get the Users full name from the session information.
     if (request.cookies.get('auth_token') is not None):
         loggedinUser = request.cookies.get('userFullName')
 
-    rendered_page = render_template('home.html', 
-			            serverTime=now, 
-			            pageWelcomeMessage="Welcome to aMAZE.com AirBNB Browser", 
+    rendered_page = render_template('home.html',
+			            serverTime=now,
+			            pageWelcomeMessage="Welcome to aMAZE.com AirBNB Browser",
                         userFullName=loggedinUser,
 			            pageTitle="aMAZE.com AirBNB Browser",
                         teamMembers=["Binu Jose", "Ginto George", "Nabin Thomas", "Sandeep Panakkal"]);
@@ -529,7 +587,7 @@ def homePage():
 
 @app.route('/listings')
 def page_books():
-    """ Handle request for /books page. 
+    """ Handle request for /books page.
     """
     return render_template('listings.html');
 
@@ -540,7 +598,7 @@ def page_books():
 # MAIN
 ########################################################################
 if __name__ == '__main__':
-    ## Setup environment 
+    ## Setup environment
     argv = sys.argv
     if len(argv) < 2:
         print("Usage: python " + sys.argv[0] + " mongodb_uri")
