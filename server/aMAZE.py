@@ -413,8 +413,10 @@ def get_listings():
     total_list_count = db.listings.count();
     listing = db.listings.find();
     total_pages = total_list_count / list_per_index
+    print ("total pages = " , total_pages , "," , total_list_count ,  "," , list_per_index)    
     if (total_list_count % list_per_index) is not 0:
             total_pages = total_pages  + 1
+    print ("total pages = ", total_pages)    
     print ("request:", request.json)
     try :
         page_index_str = request.json['page_index']
@@ -434,7 +436,7 @@ def get_listings():
             if end > total_list_count:
                     end = total_list_count
             ret_list = []
-            for i in range(start-1,end-1):
+            for i in range(start, end-1):
                 listx = listing[i]
                 del listx ['_id']
                 ret_list.append(listx)
