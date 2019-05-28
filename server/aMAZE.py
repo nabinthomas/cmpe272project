@@ -374,7 +374,7 @@ def clear_all_cookies(response):
 # REST API 
 ########################################################################
 
-# eg: curl -XPOST -H 'Content-Type: application/json' https://localhost/api/listings -d '{"page_index" : 2 }'
+# eg: curl -XPOST -H 'Content-Type: application/json' https://0.0.0.0/api/listings -d '{"page_index" : 2 }'
 @app.route('/api/listings', methods=['POST'])
 def get_listings():
     """ 
@@ -415,9 +415,12 @@ def get_listings():
     total_pages = total_list_count / list_per_index
     if (total_list_count % list_per_index) is not 0:
             total_pages = total_pages  + 1
+    print ("request:", request.json)
     try :
         page_index_str = request.json['page_index']
+        print ("page_index_str:",page_index_str)
         page_index = int(page_index_str)
+        print ("page_index:",page_index)
         if page_index < 0 : 
             response = {"listings":[], "total_list_count": total_list_count, "total_pages":total_pages}
             returnCode = ReturnCodes.SUCCESS
@@ -432,8 +435,9 @@ def get_listings():
                     end = total_list_count
             ret_list = []
             for i in range(start-1,end-1):
-                del listing[i]['_id']
-                ret_list.append(listing[i])
+                listx = listing[i]
+                del listx ['_id']
+                ret_list.append(listx)
             response = {"listings":ret_list, "total_list_count": total_list_count, "total_pages":total_pages}
             returnCode = ReturnCodes.SUCCESS
     except :

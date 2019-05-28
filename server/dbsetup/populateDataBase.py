@@ -56,7 +56,7 @@ if(len(sys.argv) == 4):
     print( str(i) , " Lines imported from " , filename, " to ",cname, " collection")
 
     #import the reviews. Reviews are all dumped as strings. No serching on them
-    print("Importing listireviews ...")
+    print("Importing reviews ...")
     filename = os.path.basename(sys.argv[2])
     cname = filename.replace(".csv","")
     col = db[cname]
