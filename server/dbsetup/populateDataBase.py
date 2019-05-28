@@ -21,6 +21,7 @@ if(len(sys.argv) == 4):
     col = db[cname]
     col.drop() #Drop the listings db
 
+    print("Importing listings ...")
     i = 0 #count the number of entries
     with open(sys.argv[1], 'r',encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -49,13 +50,13 @@ if(len(sys.argv) == 4):
                         key = ""
                     if value == None:
                         value = ""
-                    print("Parse error [",i,"] ",  key.encode('utf-8') , value.encode('utf-8')  , " this wont be added to DB");
-
+                    #Ignore the missing entries
+                    #print("Missing key or value for entry=[",i,"] ",  key.encode('utf-8') , value.encode('utf-8')  , " this wont be added to DB");
             col.insert_one(entry)
-
     print( str(i) , " Lines imported from " , filename, " to ",cname, " collection")
 
-
+    #import the reviews. Reviews are all dumped as strings. No serching on them
+    print("Importing reviews ...")
     filename = os.path.basename(sys.argv[2])
     cname = filename.replace(".csv","")
     col = db[cname]
@@ -73,7 +74,6 @@ if(len(sys.argv) == 4):
             col.insert_one(data) 
             #print(  "col = " , data )
     print( str(i) , "Lines imported from " , filename, " to ",cname, " collection")
-
 
 else :
     print ('Usage: ' + sys.argv[0] + ' listings.csv  reviews.csv  listing_schema.csv' );
