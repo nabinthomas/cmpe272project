@@ -5,16 +5,64 @@ import csv
 import json
 import pymongo 
 import os 
-if(len(sys.argv) == 3):
+#import datetime
+from datetime import datetime
+if(len(sys.argv) == 4):
+    #collectionname = sys.argv[3]
+    #
+    with open(sys.argv[3], 'r') as schemafile:
+        schema = json.load(schemafile)
+        #print (schema)
+
     db = pymongo.MongoClient()['test']
-    db.listings.drop() #DROP the current db if present 
+
     filename = os.path.basename(sys.argv[1])
     cname = filename.replace(".csv","")
-    col = db[cname] 
-    print("filename=",filename,"  cname",cname)
-    i = 0
-  
+    col = db[cname]
+    col.drop() #Drop the listings db
+
+    i = 0 #count the number of entries
     with open(sys.argv[1], 'r',encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            i = i + 1 
+            data = {}
+            entry = {}
+            for key, value in row.items():
+                #print(key, value);
+                #print (schema[key])
+                try :
+                    if (schema[key] == "string"):
+                        entry[key] = str(value);
+                    elif (schema[key] == "number"):
+                        entry[key] = int(value);
+                    elif (schema[key] == "float"):
+                        entry[key] = float(value);
+                    elif (schema[key] == "date"):
+                        entry[key] = datetime.strptime(value, '%Y-%m-%d');
+                        #datetime.strptime(war_start, '%Y-%m-%d');
+                        #datetime.date(value) # date(value);
+                    elif (schema[key] == "dollar"):
+                        entry[key] = float  (value.replace("$",""));
+                except :
+                    if key== None :
+                        key = ""
+                    if value == None:
+                        value = ""
+                    print("Parse error [",i,"] ",  key.encode('utf-8') , value.encode('utf-8')  , " this wont be added to DB");
+
+            col.insert_one(entry)
+
+    print( str(i) , " Lines imported from " , filename, " to ",cname, " collection")
+
+
+    filename = os.path.basename(sys.argv[2])
+    cname = filename.replace(".csv","")
+    col = db[cname]
+    col.drop() #Drop the review db 
+
+    i = 0
+    with open(sys.argv[2], 'r',encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             i = i + 1 
@@ -24,46 +72,8 @@ if(len(sys.argv) == 3):
             data["reviews"] = []
             col.insert_one(data) 
             #print(  "col = " , data )
-    print( str(i) , "Lines imported from " , filename )
-  
-    
-    filename = os.path.basename(sys.argv[2])
-    cname = filename.replace(".csv","")
-    print("filename=",filename,"  cname",cname)
-    i = 0
-    with open(sys.argv[2], 'r',encoding='utf-8') as csvfile:
-        reviews_dic = csv.DictReader(csvfile)
-        for row1 in reviews_dic:
-            #print ("reviews a row = " , row1 )
-            i = i + 1 
-            data = {} 
-            for x1 in row1:     
-                data[x1] = row1[x1]
-            #print ("data = " , str(data ))
-            listing_id = {}
-            listing_id = row1["listing_id"]
-            #print ("data listing_id = " , data["listing_id"])
-            #print ("data id = " , data["id"])
-            #print ("data date = " , data["date"])
-            #print ("data reviewer_name = " , data["reviewer_name"])
+    print( str(i) , "Lines imported from " , filename, " to ",cname, " collection")
 
-            review ={}
-            listing1 = col.find_one({'id':row1["listing_id"]})
-            #print ("listing1 = " , listing1)
-            #print ("data listing_id = " , data["listing_id"])
-            #print ("data id = " , data["id"])
-            #print ("data date = " , data["date"])
-            #print ("data reviewer_name = " , data["reviewer_name"])
-            reviewold=listing1["reviews"]
-            #{print ("1reviewold = " , reviewold)
-            reviewold.append(data)
-            #print ("2reviewold = " , reviewold)
-            
-            new_review = reviewold
-            #print ("Newreview = " , str(new_review,encoding='utf-8'))
-            col.find_one_and_update({'id':row1["listing_id"]}, {"$set": {'reviews': new_review}}, {'upsert': 'true'})
-
-    print( str(i) , "Lines imported from " , filename )
 
 else :
-    print ('Usage: ' + sys.argv[0] + ' input.csv ' );
+    print ('Usage: ' + sys.argv[0] + ' listings.csv  reviews.csv  listing_schema.csv' );

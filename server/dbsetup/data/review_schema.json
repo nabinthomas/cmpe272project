@@ -1,0 +1,8 @@
+{
+"listing_id”: "string",
+"id": "string",
+"date": "string",
+"reviewer_id": "string",
+"reviewer_name": "string",
+"comments": "string"
+}

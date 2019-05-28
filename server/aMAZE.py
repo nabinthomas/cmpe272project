@@ -369,7 +369,31 @@ def clear_all_cookies(response):
     response.set_cookie('customerId', value='', expires=0, domain=restrictTo)
     response.set_cookie('userPicture', value='', expires=0, domain=restrictTo)
     return response
-    
+
+
+
+########################################################################
+# REST API 
+########################################################################
+#https://0.0.0.0/listings/9835
+@app.route('/listings/<string:listings_id>', methods=['GET'])
+def get_listing(listings_id):
+    """ Handle request for /listing page. 
+    TODO: 
+    1)proper comment 
+    2) validation , error case 
+    """
+    listing = {}
+    reviews = {}
+
+    listing = db.listings.find_one({ "id" : { "$eq": int(listings_id) }  })
+    print (listing)
+    reviews = db.reviews.find({"listings_id":listings_id})
+    response = {"listing": listing, "reviews":reviews}
+    #response = {"listing": "listing, "reviews":}
+    returnCode = ReturnCodes.SUCCESS
+    return encodeJsonResponse(response, returnCode);
+
 ########################################################################
 # WEB UI
 ########################################################################
@@ -402,6 +426,9 @@ def page_books():
     """ Handle request for /books page. 
     """
     return render_template('listings.html');
+
+
+
 
 ########################################################################
 # MAIN
