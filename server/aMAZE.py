@@ -474,7 +474,11 @@ def get_listings():
                 del filter['max']
 
             for k,v in filter.items():
-                query [k] = v
+                if isinstance(v, str):
+                    value = {'$regex' : v}
+                else:
+                    value = v
+                query [k] = value
 
             print ( "Query:" , query)
             listing = db.listings.find(query);
