@@ -129,10 +129,10 @@ class ListingsData extends React.Component {
                     search_filter[pair[0]] = pair[1];
                 break;
                 case "bedmin": 
-                    search_filter_min["beds"] = Number(pair[1]);
+                    search_filter_min["bedrooms"] = Number(pair[1]);
                 break;
                 case "bedmax":
-                    search_filter_max["beds"] = Number(pair[1]);
+                    search_filter_max["bedrooms"] = Number(pair[1]);
                 break;
                 case "bathmin": 
                     search_filter_min["bathrooms"] = Number(pair[1]);
