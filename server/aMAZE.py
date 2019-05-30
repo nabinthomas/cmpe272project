@@ -13,6 +13,7 @@ from jose import jwt
 from functools import wraps
 from six.moves.urllib.request import urlopen
 from server.dbscripts.customer import *
+import re
 
 ## Create the App
 app = Flask(__name__)
@@ -481,7 +482,7 @@ def get_listings():
 
             for k,v in filter.items():
                 if isinstance(v, str):
-                    value = {'$regex' : v}
+                    value = {'$regex' : re.escape(v)}
                 else:
                     value = v
                 query [k] = value
