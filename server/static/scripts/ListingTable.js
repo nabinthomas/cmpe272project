@@ -40,7 +40,7 @@ class ListingsHeadingRow extends React.Component {
 }
 
 // TODO : Change this to some bigger value, may be 20 or so, and make sure it is in sync with the REST API
-var listingsPerPage = 2;
+var listingsPerPage = 10;
 
 var fullDummylistData = [ 
     {
@@ -125,7 +125,77 @@ class ListingsData extends React.Component {
         // in fullDummylistData, and then call setState with that
         // Once the REST API is ready replace this following block with a similar one to fill in data from 
         // the REST API
-        {
+        //Input Ex:
+        // {
+        //    "page_index" : 2,
+        //    "filter" : {
+        //        "property_type"  : "House",
+		//	    "beds":2,
+		//	    "min" : {
+        //            "price" : 50.0,
+        //            "accommodates":2
+        //        },
+		//	    "max" : {
+        //            "price" : 150.0
+        //        }
+        //    }
+        //}
+
+        var req_filter = {
+            page_index : 1,
+            filter : {}
+        };
+
+        fetch(restAPIFetchURLBase, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(req_filter)
+        })
+        .then(res => res.json())
+        .then(response => {
+            console.log("The response from server was : ");
+            console.log("******************************\n");
+            console.log('Success:', JSON.stringify(response));
+            console.log("The response.listings from server was : ");
+            console.log("******************************\n");
+            console.log(response['response']['listings']);
+            console.log("******************************\n");
+            this.state.messagefromserver = "";
+            var rentlist = []
+            for (var listIndex in response['response']['listings']){
+            /* listingID: "9835",
+            name: "Beautiful Room & House",
+            street: "Bulleen, VIC, Australia",
+            city: "Bulleen",
+            state: "VIC",
+            propertyType: "House",
+            roomType: "Private Room",
+            bedrooms: 1,
+            baths: 1,
+            price: 60,
+            rating: 90 */
+        
+                var formatted_listing_data = {
+                    listingID : response['response']['listings'][listIndex]['id'],
+                    name : response['response']['listings'][listIndex]['name'],
+                    street : response['response']['listings'][listIndex]['street'],
+                    city : response['response']['listings'][listIndex]['city'],
+                    state : response['response']['listings'][listIndex]['state'],
+                    propertyType : response['response']['listings'][listIndex]['property_type'],
+                    roomType : response['response']['listings'][listIndex]['room_type'],
+                    bedrooms : response['response']['listings'][listIndex]['bedrooms'],
+                    baths : response['response']['listings'][listIndex]['bathrooms'],
+                    price : response['response']['listings'][listIndex]['price'],
+                    rating : response['response']['listings'][listIndex]['review_scores_value']
+                };
+                rentlist.push(
+                    formatted_listing_data  
+                ) ;
+            }
+        
             // This block is simulating the REST API now. 
             // Make sure Rest API returns data with these fields
             var fetchedListingData = {
@@ -135,7 +205,7 @@ class ListingsData extends React.Component {
             }
 
             // Fill the data to listings, only 1 page of data. 
-            var fullListSize = fullDummylistData.length;
+            var fullListSize = rentlist.length;
             var startingIndex = (currentPage - 1) * listingsPerPage
             var endingIndex = startingIndex + listingsPerPage
             if (endingIndex > fullListSize) {
@@ -143,14 +213,16 @@ class ListingsData extends React.Component {
             }
             var i; 
             for (i = startingIndex; i < endingIndex; i++) {
-                fetchedListingData.listings.push(fullDummylistData[i]);
+                fetchedListingData.listings.push(rentlist[i]);
             }
-        }
-        
+                
         this.setState({listings: fetchedListingData.listings});
         
         console.log(urlParams.toString());
-        console.log(urlParams.get('page')); 
+        console.log(urlParams.get('page'));
+        })
+        .catch(error => console.error('Error:', error));
+       
     }
     // render this component
     render() {
