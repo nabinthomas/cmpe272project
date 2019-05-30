@@ -112,9 +112,53 @@ class ListingsData extends React.Component {
         var urlParams = new URLSearchParams(window.location.search);
         var entries = urlParams.entries();
         var pair;
+
+        var search_filter = {}
+        var search_filter_min = {}
+        var search_filter_max = {}
         for(pair of entries) { 
-            restAPIFetchParamsJson[pair[0]] = pair[1]; 
+            if(pair[1] == "") {
+                continue;
+            }
+            switch (pair[0]) {
+                
+                case "city":
+                case "state":
+                    search_filter[pair[0]] = pair[1];
+                break;
+                case "bedmin": 
+                    search_filter_min["beds"] = pair[1];
+                break;
+                case "bedmax":
+                    search_filter_max["beds"] = pair[1];
+                break;
+                case "bathmin": 
+                    search_filter_min["bathrooms"] = pair[1];
+                break;
+                case "bathmax": 
+                    search_filter_max["bathrooms"] = pair[1];
+                break;
+                case "pricemin": 
+                    search_filter_min["price"] = pair[1];
+                break;
+                case "pricemax": 
+                    search_filter_max["price"] = pair[1];
+                break;
+                case "ratingmin": 
+                    search_filter_min["review_scores_rating"] = pair[1];
+                break;
+                case "ratingmax": 
+                    search_filter_max["review_scores_rating"] = pair[1];
+                break;  
+            }
+             
         }
+        search_filter["min"] = search_filter_min;
+        search_filter["max"] = search_filter_max;
+        console.log(" BINU Search & Sort Criteria = " + JSON.stringify(search_filter));
+
+
+
         var currentPage = urlParams.get('page');
         if (currentPage == null || Number(currentPage) == 0) {
             currentPage = 1; // Default to Page 1
@@ -143,8 +187,9 @@ class ListingsData extends React.Component {
 
         var req_filter = {
             page_index : currentPage,
-            filter : {}
+            filter : search_filter
         };
+        console.log(" BINU END " + JSON.stringify(req_filter));      
 
         var auth_token = cookies.getCookie('auth_token');
 
