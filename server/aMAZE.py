@@ -380,7 +380,7 @@ def clear_all_cookies(response):
 
 # eg: curl -XPOST -H 'Content-Type: application/json' https://0.0.0.0/api/listings -d '{"page_index" : 2 }'
 @app.route('/api/listings', methods=['POST'])
-#@requires_auth
+@requires_auth
 def get_listings():
     """ 
     Function to fetch listings 
