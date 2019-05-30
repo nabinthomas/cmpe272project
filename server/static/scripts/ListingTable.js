@@ -271,7 +271,7 @@ class ListingsData extends React.Component {
             cells.push(element('td', { key: roomTypeId }, this.state.listings[i].roomType));
             cells.push(element('td', { key: bedroomsId }, this.state.listings[i].bedrooms));
             cells.push(element('td', { key: bathsId }, this.state.listings[i].baths));
-            cells.push(element('td', { key: priceId }, "$" + this.state.listings[i].price.toFixed(2)));
+            cells.push(element('td', { key: priceId }, "$" + this.state.listings[i].price)); //TODO :this has some issue give bedrooms as 10 you get undefined
             cells.push(element('td', { key: ratingId }, this.state.listings[i].rating));
     
             var thisRow = element(
