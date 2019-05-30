@@ -431,12 +431,19 @@ def get_listings():
 
     try :
         print ( "Request =   ", request.json)
-        page_index_str = request.json['page_index']
-        filter = request.json['filter']
-        #print ("page_index_str:",page_index_str)
-        page_index = int(page_index_str)
+        
+        if ('page_index' in request.json):
+            page_index_str = request.json['page_index']
+            page_index = int(page_index_str)
+        else :
+            page_index = 1; #return the first page 
 
-        if (filter is None) :
+        if ('filter' in request.json):
+            filter = request.json['filter']
+        else :
+            filter = None
+
+        if (filter is None) : #All records
             listing = db.listings.find();
             total_list_count = listing.count();
         else :
