@@ -473,7 +473,7 @@ def get_listings():
         returnCode = ReturnCodes.ERROR_INVALID_PARAM
         return encodeJsonResponse(response, returnCode);
 
-    total_pages = total_list_count / list_per_index
+    total_pages = int (total_list_count / list_per_index)
     print ("total pages = " , total_pages , "," , total_list_count ,  "," , list_per_index)
     if (total_list_count % list_per_index) is not 0:
             total_pages = total_pages  + 1
