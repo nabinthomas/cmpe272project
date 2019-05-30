@@ -142,7 +142,7 @@ class ListingsData extends React.Component {
         //}
 
         var req_filter = {
-            page_index : 1,
+            page_index : currentPage,
             filter : {}
         };
 
