@@ -474,7 +474,11 @@ def get_listings():
                 del filter['max']
 
             for k,v in filter.items():
-                query [k] = v
+                if isinstance(v, str):
+                    value = {'$regex' : v}
+                else:
+                    value = v
+                query [k] = value
 
             print ( "Query:" , query)
             listing = db.listings.find(query);
@@ -623,4 +627,5 @@ if __name__ == '__main__':
     db = mongo_client.get_database()
 
     ## Start the http server
-    app.run(host='0.0.0.0', port=443, ssl_context='adhoc', debug=False);
+    app.run(host='0.0.0.0', port=443, ssl_context='adhoc');
+
