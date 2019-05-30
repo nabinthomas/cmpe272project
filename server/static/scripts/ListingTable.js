@@ -112,9 +112,12 @@ class ListingsData extends React.Component {
         var entries = urlParams.entries();
         var pair;
 
-        var search_filter = {}
-        var search_filter_min = {}
-        var search_filter_max = {}
+        var search_filter = {};
+        var search_filter_min = {};
+        var search_filter_max = {};
+        var sortorder_filter = 1; 
+        var sortby_filter = "id";
+
         for(pair of entries) { 
             if(pair[1] == "") {
                 continue;
@@ -148,7 +151,18 @@ class ListingsData extends React.Component {
                 break;
                 case "ratingmax": 
                     search_filter_max["review_scores_rating"] = Number(pair[1]);
-                break;  
+                break; 
+                case "orderby": 
+                    sortby_filter = pair[1];
+                break;
+                case "sortOrder":  
+                    if ( pair[1] == "ascending" ) {
+                        sortorder_filter = 1;
+                    }
+                    else {
+                        sortorder_filter = -1;
+                    }
+            break;
             }
              
         }
@@ -161,11 +175,12 @@ class ListingsData extends React.Component {
             currentPage = 1; // Default to Page 1
         }
 
+        //create the filter 
         var req_filter = {
             page_index : currentPage,
             filter : search_filter,
-            sortorder : 1,
-            sortby : "id"
+            sortorder : sortorder_filter,
+            sortby : sortby_filter
         };
         console.log(" BINU END " + JSON.stringify(req_filter));      
 
