@@ -379,7 +379,7 @@ def clear_all_cookies(response):
 
 # eg: curl -XPOST -H 'Content-Type: application/json' https://0.0.0.0/api/listings -d '{"page_index" : 2 }'
 @app.route('/api/listings', methods=['POST'])
-@requires_auth
+#@requires_auth
 def get_listings():
     """ 
     Function to fetch listings 
@@ -399,7 +399,9 @@ def get_listings():
                 {   
                     "price" : 150.0
                 }
-            }
+            },
+            "sortorder" : 1,
+            "sortby"    : "beds"
         }
    
     Output:
@@ -422,9 +424,6 @@ def get_listings():
     Description :
         if page_index = -1 , then return the total count  and lists per pages.
         
-    TODO: 
-        1)proper comment 
-        2) validation , error case 
     """
     response = {}
     list_per_index =10;
@@ -443,13 +442,20 @@ def get_listings():
         else :
             filter = None
 
-        if (filter is None) : #All records
-            listing = db.listings.find();
-            total_list_count = listing.count();
+        if ('sortby' in request.json):
+            sortby = request.json['sortby']
         else :
+            sortby =   "id" 
+        
+        if ('sortorder' in request.json):
+            sortorder = request.json['sortorder']
+        else :
+            sortorder =   1      
+
+        query = None
+        if (filter is not None) :
             #print ( "Filter is not none")
             query = {}
-  
             if ('min' in filter ):
                 minItems =  filter['min']
                 #print ( "min is not none" , minItems )  
@@ -479,16 +485,23 @@ def get_listings():
                 else:
                     value = v
                 query [k] = value
-
-            print ( "Query:" , query)
-            listing = db.listings.find(query);
-            print ( "Query success ")
-            total_list_count = listing.count();
-            
     except  :
         print ("Error in input validation  :", sys.exc_info()[0])
         response = {}
         returnCode = ReturnCodes.ERROR_INVALID_PARAM 
+        return encodeJsonResponse(response, returnCode);
+
+    try:
+        print ( "page_index:",page_index)
+        print ( "query:" , query)
+        print ( "sortby:" , sortby)
+        print ( "sortorder:" , sortorder)
+        listing = db.listings.find(query).sort( sortby, sortorder );
+        total_list_count = listing.count();
+        print ( "Query success!. count :" , total_list_count)
+    except  :
+        print ("Query Failed  :", sys.exc_info()[0])
+        returnCode = ReturnCodes.ERROR_GENERIC 
         return encodeJsonResponse(response, returnCode);
 
     total_pages =int (total_list_count / list_per_index )
@@ -496,7 +509,6 @@ def get_listings():
             total_pages = total_pages  + 1
  
     try :
-        print ("page_index:",page_index)
         if page_index <= 0 : 
             response = {"listings":[], "total_list_count": total_list_count, "total_pages":total_pages}
             returnCode = ReturnCodes.SUCCESS
