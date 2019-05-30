@@ -146,11 +146,14 @@ class ListingsData extends React.Component {
             filter : {}
         };
 
+        var auth_token = cookies.getCookie('auth_token');
+
         fetch(restAPIFetchURLBase, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + auth_token
             },
             body: JSON.stringify(req_filter)
         })
