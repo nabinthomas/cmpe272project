@@ -482,7 +482,7 @@ def get_listings():
 
             for k,v in filter.items():
                 if isinstance(v, str):
-                    value = {'$regex' : re.escape(v)}
+                    value = {'$regex' : re.compile(re.escape(v), re.IGNORECASE)}
                 else:
                     value = v
                 query [k] = value
