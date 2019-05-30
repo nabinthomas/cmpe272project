@@ -199,30 +199,10 @@ class ListingsData extends React.Component {
                 ) ;
             }
         
-            // This block is simulating the REST API now. 
-            // Make sure Rest API returns data with these fields
-            var fetchedListingData = {
-                status : "Success",
-                listings: [
-                ]
-            }
-
-            // Fill the data to listings, only 1 page of data. 
-            var fullListSize = rentlist.length;
-            var startingIndex = (currentPage - 1) * listingsPerPage
-            var endingIndex = startingIndex + listingsPerPage
-            if (endingIndex > fullListSize) {
-                endingIndex = fullListSize;
-            }
-            var i; 
-            for (i = startingIndex; i < endingIndex; i++) {
-                fetchedListingData.listings.push(rentlist[i]);
-            }
-                
-        this.setState({listings: fetchedListingData.listings});
+            this.setState({listings: rentlist});
         
-        console.log(urlParams.toString());
-        console.log(urlParams.get('page'));
+            console.log(urlParams.toString());
+            console.log(urlParams.get('page'));
         })
         .catch(error => console.error('Error:', error));
        
