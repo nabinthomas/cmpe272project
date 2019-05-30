@@ -494,7 +494,7 @@ def get_listings():
             if end > total_list_count:
                     end = total_list_count
             ret_list = []
-            for i in range(start, end-1):
+            for i in range(start, end):
                 listx = listing[i]
                 del listx ['_id']
                 ret_list.append(listx)
