@@ -83,7 +83,7 @@ In progress.
 5. Kill the current server and rebuild/restart.
 ```bash
     cd <gitroot>/
-    export AUTHO_CLIENT_SECRET="'TgdD7En34jdWNAxAXKJvfwoYqlVpCoTXMGaIPOK2_BjY_TzuOIDlpbPDaeBDnpaZ'"; #Replace YOURCLIENTSECRETKEY with the client secret from auth0
+    export AUTHO_CLIENT_SECRET="'YOURCLIENTSECRETKEY'"; #Replace YOURCLIENTSECRETKEY with the client secret from auth0
 	mkdir -p server/config
 	echo "CLIENT_SECRET=$AUTHO_CLIENT_SECRET" > server/config/settings.cfg ;
 	docker kill `docker ps |grep amaze |cut -f 1 -d ' '`;
