@@ -112,9 +112,12 @@ class ListingsData extends React.Component {
         var entries = urlParams.entries();
         var pair;
 
-        var search_filter = {}
-        var search_filter_min = {}
-        var search_filter_max = {}
+        var search_filter = {};
+        var search_filter_min = {};
+        var search_filter_max = {};
+        var sortorder_filter = 1; 
+        var sortby_filter = "id";
+
         for(pair of entries) { 
             if(pair[1] == "") {
                 continue;
@@ -126,10 +129,10 @@ class ListingsData extends React.Component {
                     search_filter[pair[0]] = pair[1];
                 break;
                 case "bedmin": 
-                    search_filter_min["beds"] = Number(pair[1]);
+                    search_filter_min["bedrooms"] = Number(pair[1]);
                 break;
                 case "bedmax":
-                    search_filter_max["beds"] = Number(pair[1]);
+                    search_filter_max["bedrooms"] = Number(pair[1]);
                 break;
                 case "bathmin": 
                     search_filter_min["bathrooms"] = Number(pair[1]);
@@ -148,7 +151,18 @@ class ListingsData extends React.Component {
                 break;
                 case "ratingmax": 
                     search_filter_max["review_scores_rating"] = Number(pair[1]);
-                break;  
+                break; 
+                case "orderby": 
+                    sortby_filter = pair[1];
+                break;
+                case "sortOrder":  
+                    if ( pair[1] == "ascending" ) {
+                        sortorder_filter = 1;
+                    }
+                    else {
+                        sortorder_filter = -1;
+                    }
+            break;
             }
              
         }
@@ -161,11 +175,12 @@ class ListingsData extends React.Component {
             currentPage = 1; // Default to Page 1
         }
 
+        //create the filter 
         var req_filter = {
             page_index : currentPage,
             filter : search_filter,
-            sortorder : 1,
-            sortby : "id"
+            sortorder : sortorder_filter,
+            sortby : sortby_filter
         };
         console.log(" BINU END " + JSON.stringify(req_filter));      
 
@@ -256,7 +271,7 @@ class ListingsData extends React.Component {
             cells.push(element('td', { key: roomTypeId }, this.state.listings[i].roomType));
             cells.push(element('td', { key: bedroomsId }, this.state.listings[i].bedrooms));
             cells.push(element('td', { key: bathsId }, this.state.listings[i].baths));
-            cells.push(element('td', { key: priceId }, "$" + this.state.listings[i].price.toFixed(2)));
+            cells.push(element('td', { key: priceId }, "$" + this.state.listings[i].price)); //TODO :this has some issue give bedrooms as 10 you get undefined
             cells.push(element('td', { key: ratingId }, this.state.listings[i].rating));
     
             var thisRow = element(
