@@ -161,14 +161,11 @@ class ListingsData extends React.Component {
             currentPage = 1; // Default to Page 1
         }
 
-        var sort_filter = {};
-        sort_filter["sortby"] ="id";
-        sort_filter["sortorder"] = 1;
-
         var req_filter = {
             page_index : currentPage,
             filter : search_filter,
-            sort : sort_filter
+            sortorder : 1,
+            sortby : "id"
         };
         console.log(" BINU END " + JSON.stringify(req_filter));      
 
