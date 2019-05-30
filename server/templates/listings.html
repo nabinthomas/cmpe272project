@@ -16,9 +16,9 @@
         }
 
         .search_criteria_column_style {
-            max-width: 70px;
-            width: 20%;
-            min-width: 60px;
+            max-width: 150px;
+            width: 150px;
+            min-width: 150px;
             padding-top: 2px;
             padding-left: 2px;
             
@@ -87,12 +87,43 @@
             <td class=search_criteria_column_style>
                 <form method="GET" action='/listings' onsubmit="return validateSearchCriteria()" id=search_criteria_form>
                     <table id=search_filter_table>
-                        <thead>
-                            <th>
-                                Filter By:
-                            </th>
-                        </thead>
                         <tbody>
+                            <tr>
+                                <td>
+                                    <b>Order By:</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <select name=orderby>
+                                        <option value=id>Listing ID</option>
+                                        <option value=name>Name</option>
+                                        <option value=street>Street</option>
+                                        <option value=city>City</option>
+                                        <option value=state>State</option>
+                                        <option value=propertyType>Property Type</option>
+                                        <option value=roomType>Room Type</option>
+                                        <option value=bedrooms>Bedrooms</option>
+                                        <option value=bathrooms>Bathrooms</option>
+                                        <option value=price>Price</option>
+                                        <option value=rating>Rating</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                    <td>
+                                        <select name=sortOrder>
+                                            <option value=ascending>Ascending</option>
+                                            <option value=descending>Descending</option>
+                                            
+                                        </select>
+                                    </td>
+                                </tr>
+                            <tr>
+                                <td>
+                                    <b>Filter By:</b>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>
                                     <input type=submit name=updateResults id=updateResultsButton value="Update">
