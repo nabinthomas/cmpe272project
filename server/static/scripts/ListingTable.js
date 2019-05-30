@@ -108,7 +108,6 @@ class ListingsData extends React.Component {
     }
     componentDidMount() {
         var restAPIFetchURLBase = "/api/listings";
-        var restAPIFetchParamsJson = {};
         var urlParams = new URLSearchParams(window.location.search);
         var entries = urlParams.entries();
         var pair;
@@ -157,37 +156,19 @@ class ListingsData extends React.Component {
         search_filter["max"] = search_filter_max;
         console.log(" BINU Search & Sort Criteria = " + JSON.stringify(search_filter));
 
-
-
         var currentPage = urlParams.get('page');
         if (currentPage == null || Number(currentPage) == 0) {
             currentPage = 1; // Default to Page 1
         }
-        
-        console.log("Search & Sort Criteria = " + JSON.stringify(restAPIFetchParamsJson));
-        // TODO: Call Rest API to get the data, and format it to the way in the example 
-        // in fullDummylistData, and then call setState with that
-        // Once the REST API is ready replace this following block with a similar one to fill in data from 
-        // the REST API
-        //Input Ex:
-        // {
-        //    "page_index" : 2,
-        //    "filter" : {
-        //        "property_type"  : "House",
-		//	    "beds":2,
-		//	    "min" : {
-        //            "price" : 50.0,
-        //            "accommodates":2
-        //        },
-		//	    "max" : {
-        //            "price" : 150.0
-        //        }
-        //    }
-        //}
+
+        var sort_filter = {};
+        sort_filter["sortby"] ="id";
+        sort_filter["sortorder"] = 1;
 
         var req_filter = {
             page_index : currentPage,
-            filter : search_filter
+            filter : search_filter,
+            sort : sort_filter
         };
         console.log(" BINU END " + JSON.stringify(req_filter));      
 
