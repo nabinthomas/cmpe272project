@@ -50,7 +50,7 @@ class ListingImageElement extends React.Component {
         console.log("ListingImageElement:  was " + this.state.value)
         if (this.state.value && this.state.value != '') {
             console.log("ListingImageElement:  was " + this.state.value)
-            return React.createElement('img', {src : this.state.value, alt: this.state.value, class: "listing_image"})
+            return React.createElement('img', {src : this.state.value, alt: this.state.value, className: "listing_image"})
         }
         else {
             console.log("ListingImageElement:  was null " + this.state.value)
@@ -88,7 +88,7 @@ class HostImageElement extends React.Component {
         console.log("HostImageElement:  was " + this.state.value)
         if (this.state.value && this.state.value.image && this.state.value.image != '') {
             console.log("HostImageElement:  was " + this.state.value.image)
-            var image = React.createElement('img', {src : this.state.value.image, class : "thumnail_image" })
+            var image = React.createElement('img', {src : this.state.value.image, className : "thumnail_image" })
             return React.createElement('a', {href : this.state.value.url}, image)
         }
         else {
@@ -197,7 +197,7 @@ class CompleteListingData extends React.Component {
 
         var reviews = this.state.reviews;
         for (var i = 0; i < reviews.length; i++) {
-            var thisRow = React.createElement('tr', { key: i, style : {width: "100px"} }, JSON.stringify( reviews[i] ) );
+            var thisRow = React.createElement('tr', { key: i, style : {width: "100px"} }, JSON.stringify(reviews[i]));
             rows.push(thisRow);
         }
         return null; // rows;  
