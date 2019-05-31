@@ -39,9 +39,6 @@ class ListingsHeadingRow extends React.Component {
     }
 }
 
-// TODO : Change this to some bigger value, may be 20 or so, and make sure it is in sync with the REST API
-var listingsPerPage = 10;
-
 class ListingsData extends React.Component {
     constructor(props) {
         super(props);
@@ -125,7 +122,7 @@ class ListingsData extends React.Component {
             sortorder : sortorder_filter,
             sortby : sortby_filter
         };
-        console.log("Request Filter " + JSON.stringify(req_filter));      
+        // console.log("Request Filter " + JSON.stringify(req_filter));      
 
         var auth_token = cookies.getCookie('auth_token');
 
@@ -140,27 +137,32 @@ class ListingsData extends React.Component {
         })
         .then(res => res.json())
         .then(response => {
-            console.log("The response from server was : ");
-            console.log("******************************\n");
-            console.log('Success:', JSON.stringify(response));
-            console.log("The response.listings from server was : ");
-            console.log("******************************\n");
-            console.log(response['response']['listings']);
-            console.log("******************************\n");
+            // console.log("The response from server was : ");
+            // console.log("******************************\n");
+            // console.log('Success:', JSON.stringify(response));
+            // console.log("The response.listings from server was : ");
+            // console.log("******************************\n");
+            // console.log(response['response']['listings']);
+            // console.log("******************************\n");
             this.state.messagefromserver = "";
             var rentlist = []
             for (var listIndex in response['response']['listings']){
-            /* listingID: "9835",
-            name: "Beautiful Room & House",
-            street: "Bulleen, VIC, Australia",
-            city: "Bulleen",
-            state: "VIC",
-            propertyType: "House",
-            roomType: "Private Room",
-            bedrooms: 1,
-            baths: 1,
-            price: 60,
-            rating: 90 */
+                /*  Example data needded to be in rentList. rentList 
+                is an array of json objects like below. 
+                [{
+                    listingID: "9835",
+                    name: "Beautiful Room & House",
+                    street: "Bulleen, VIC, Australia",
+                    city: "Bulleen",
+                    state: "VIC",
+                    propertyType: "House",
+                    roomType: "Private Room",
+                    bedrooms: 1,
+                    baths: 1,
+                    price: 60,
+                    rating: 90 
+                }]
+                */
         
                 var formatted_listing_data = {
                     listingID : response['response']['listings'][listIndex]['id'],
@@ -182,16 +184,16 @@ class ListingsData extends React.Component {
         
             this.setState({listings: rentlist});
         
-            console.log(urlParams.toString());
-            console.log(urlParams.get('page'));
+            // console.log(urlParams.toString());
+            // console.log(urlParams.get('page'));
         })
         .catch(error => console.error('Error:', error));
        
     }
     // render this component
     render() {
-        if (this.state.listings == null){ 
-            return element('td', {align : "center", colspan : 11}, element('div', {align : "center"} , 'Processing Data...'));
+        if (this.state.listings == null) { 
+            return element('td', {align : "center", colspan : 11}, element('div', {align : "center"} , 'Contacting Server and Fetching Data...'));
         }
         let rows = [];
         for (var i = 0; i < this.state.listings.length; i++) {
@@ -217,7 +219,7 @@ class ListingsData extends React.Component {
             cells.push(element('td', { key: roomTypeId }, this.state.listings[i].roomType));
             cells.push(element('td', { key: bedroomsId }, this.state.listings[i].bedrooms));
             cells.push(element('td', { key: bathsId }, this.state.listings[i].baths));
-            cells.push(element('td', { key: priceId }, "$" + this.state.listings[i].price)); //TODO :this has some issue give bedrooms as 10 you get undefined
+            cells.push(element('td', { key: priceId }, "$" + this.state.listings[i].price)); 
             cells.push(element('td', { key: ratingId }, this.state.listings[i].rating));
     
             var thisRow = element(
@@ -269,7 +271,7 @@ class PrevPageLink extends React.Component {
                 newQueryString = newQueryString + key + "=" + queryParamsJson[key] + "&";
             }
         }
-        console.log("New Query String = " + newQueryString);
+        // console.log("New Query String = " + newQueryString);
         return element('a', {href : '/listings?' + newQueryString}, '<<')
     }
 }
@@ -304,7 +306,7 @@ class NextPageLink extends React.Component {
                 newQueryString = newQueryString + key + "=" + queryParamsJson[key] + "&";
             }
         }
-        console.log("New Query String = " + newQueryString);
+        // console.log("New Query String = " + newQueryString);
         return element('a', {href : '/listings?' + newQueryString}, '>>')
     } 
 }
