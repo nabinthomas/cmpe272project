@@ -68,7 +68,7 @@
                 <img style="float: left; margin: 0px 0px 0px 0px;" src="/static/favicon.png" width="30" height="30" />
             </td>
             <td>
-                <a href="/">aMAZE.com</a> &gt; Listings
+                <a href="/">aMAZE.com</a> &gt; <a href=/listings>Listings </a> &gt; <div id=listingId></div>
             </td>
             <td align="right" width=33%>
                 <table>
@@ -79,20 +79,12 @@
                 </table>
             </td>
         </tr>
-        <!-- 2nd row holds 2 columns, The search criteria on the left side, listings on right. 
-            2nd colums spans 2 columns (the page_layout table is 3 column table -->
+        <!-- 2nd row holds 3 columns, The search criteria on the left side, listings on right. 
+            2nd colums spans 3 columns (the page_layout table is 3 column table -->
 
         <tr>
-            <!--search criteria -->
-            <td class=search_criteria_column_style>
-                <form method="GET" action='/listing' onsubmit="return validateSearchCriteria()" id=search_criteria_form>
-                    <table id=listing_table>
-                        
-                    </table>
-                </form>
-            </td>
             <!--Listing Table  -->
-            <td colspan=2 valign=top>
+            <td colspan=3 valign=top>
                 <table  id=listings_table class="listings_table_style">
                         <thead class=listings_table_header_style id=listings_table_heading>
                                 <th align="center">
