@@ -62,13 +62,13 @@
 
 <body>
     <table id=page_layout class=page_layout_style>
-        <!-- Top row for icons, Page title and Logout button -->
+        <!-- Top row for icons, Page title and Logout button Total 3 columns -->
         <tr id=top_row_for_title_bars>
             <td align="left" class=search_criteria_column_style>
                 <img style="float: left; margin: 0px 0px 0px 0px;" src="/static/favicon.png" width="30" height="30" />
             </td>
-            <td>
-                <a href="/">aMAZE.com</a> &gt; <a href=/listings>Listings </a> &gt; <div id=listingId></div>
+            <td align="left" width=70%>
+                <a href="/">aMAZE.com</a> &gt; <a href=/listings>Listings </a> &gt; <span id=listings_table_heading></span>
             </td>
             <td align="right" width=33%>
                 <table>
@@ -79,14 +79,12 @@
                 </table>
             </td>
         </tr>
-        <!-- 2nd row holds 3 columns, The search criteria on the left side, listings on right. 
-            2nd colums spans 3 columns (the page_layout table is 3 column table -->
         <tr>
-            <!--Listing Table  -->
+            <!--Listing Table 3 column layout by default, but can be adjusted with colspan -->
             <td colspan=3 valign=top>
                 <table  id=listings_table class="listings_table_style">
                         <thead class=listings_table_header_style>
-                                <th align="center"  id=listings_table_heading>
+                                <th align="center"  id=listing_name>
                                         Loading Details..
                                 </th>
                         </thead>
@@ -108,7 +106,6 @@
                             </tr>
                         </tbody>
                 </table>
-      
             </td>
         </tr>
     </table>

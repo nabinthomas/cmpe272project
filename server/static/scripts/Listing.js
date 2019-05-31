@@ -16,7 +16,7 @@ class ListingIDElement extends React.Component {
     }
     render() {
         console.log("ListingIDElement: HJeading was " + this.state.listingId)
-        return React.createElement('div', {align : "left"}, this.state.listingId)
+        return React.createElement('b', {align : "left"}, this.state.listingId)
     }
 }
 
