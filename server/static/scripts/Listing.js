@@ -287,8 +287,6 @@ class CompleteListingData extends React.Component {
     }
 } //end class CompleteListingData
 
-
-
 const complete_listing_data = document.querySelector('#complete_listing_data');
 ReactDOM.render(React.createElement(CompleteListingData, listingElements), complete_listing_data);
 
