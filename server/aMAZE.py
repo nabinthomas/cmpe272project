@@ -623,10 +623,10 @@ def page_listings():
     return render_template('listings.html');
 
 @app.route('/listing/<string:listings_id>', methods=['GET'])
-def single_listing():
+def single_listing(listings_id):
     """ Handle request for a single listing. 
     """
-    return render_template('listing.html');
+    return render_template('listing.html', listings_id= listings_id);
 
 
 ########################################################################
