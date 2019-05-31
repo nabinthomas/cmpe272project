@@ -1,7 +1,7 @@
 import * as cookies from '/static/scripts/cookies.js';
 'use strict';
 
-class ListingData extends React.Component {
+class CompleteListingData extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -39,7 +39,7 @@ class ListingData extends React.Component {
     }
     // render this component
     render() {
-        console.log(" ListingData Render\n");
+        console.log(" CompleteListingData Render\n");
         let rows = [];
         var thisRow = React.createElement('tr', { key: "t" }, JSON.stringify( this.state.listing) );
         rows.push(thisRow);
@@ -51,11 +51,11 @@ class ListingData extends React.Component {
         }
         return rows;  
     }
-} //end class ListingData
+} //end class CompleteListingData
 
 
-const listing_full_data = document.querySelector('#listing_full_data');
-ReactDOM.render(React.createElement(ListingData), listing_full_data);
+const complete_listing_data = document.querySelector('#complete_listing_data');
+ReactDOM.render(React.createElement(CompleteListingData), complete_listing_data);
 
 
  
