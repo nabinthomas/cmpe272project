@@ -213,7 +213,13 @@ class CompleteListingData extends React.Component {
 
         var reviews = this.state.reviews; 
         for (var i = 0; i < reviews.length; i++) {
-            var thisRow = React.createElement('tr', { key: i, style : {width: "100px"} }, JSON.stringify(reviews[i]));
+            let cells = [];
+            cells.push(React.createElement('td', { key: "rev_id" } , reviews[i].id )); 
+            cells.push(React.createElement('td', { key: "rev_reviewer_name" } , reviews[i].reviewer_name )); 
+            cells.push(React.createElement('td', { key: "rev_date" } , reviews[i].date )); 
+            cells.push(React.createElement('td', { key: "rev_comments" } , reviews[i].comments )); 
+
+            var thisRow = React.createElement('tr', { key: "review_row"} ,  cells );
             rows.push(thisRow);
         }
         return rows;  
