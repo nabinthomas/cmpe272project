@@ -29,6 +29,10 @@ var listingElements = {
     heading : listingTableHeadingElement
 };
 
+// Add the remaining Elements under this section. 
+
+// Add the remaining UI elements above this section
+
 class CompleteListingData extends React.Component {
     constructor(props) {
         super(props);
