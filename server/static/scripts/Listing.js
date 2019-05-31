@@ -59,6 +59,21 @@ class ListingImageElement extends React.Component {
     }
 }
 
+// Host Name 
+class HostNameElement extends React.Component {
+    constructor(props) {
+        console.log("HostNameElement Props was " + JSON.stringify(props))
+        super(props);
+        this.state = {
+            value : props['name']
+        };
+        
+    }
+    render() {
+        console.log("HostNameElement:  was " + this.state.value)
+        return React.createElement('i', {align : "left"}, this.state.value)
+    }
+}
 // Host Image 
 class HostImageElement extends React.Component {
     constructor(props) {
@@ -95,6 +110,9 @@ var listingNameElement = ReactDOM.render(React.createElement(ListingNameElement,
 const listingImageField = document.querySelector("#listing_image")
 var listingImageElement = ReactDOM.render(React.createElement(ListingImageElement, {picture_url : ''}), listingImageField);
 
+const hostNameField = document.querySelector("#host_name")
+var hostNameElement = ReactDOM.render(React.createElement(HostNameElement, {name : ''}), hostNameField);
+
 const hostImageField = document.querySelector("#host_thumbnail")
 var hostImageElement = ReactDOM.render(React.createElement(HostImageElement, {host : {image : '', url : ''} }), hostImageField);
 
@@ -105,6 +123,7 @@ var listingElements = {
     heading : listingTableHeadingElement,
     name : listingNameElement,
     listingImage : listingImageElement,
+    hostName : hostNameElement,
     hostThumbnail : hostImageElement
 };
 
@@ -168,6 +187,10 @@ class CompleteListingData extends React.Component {
             this.state.elements.listingImage.setState({value: this.state.listing.picture_url})
         }
 
+        if (this.state.elements.hostName) {
+            this.state.elements.hostName.setState({value: this.state.listing.host_name})
+        }
+        
         if (this.state.elements.hostThumbnail) {
             this.state.elements.hostThumbnail.setState({value: { image: this.state.listing.host_picture_url, url: this.state.listing.host_url}});
         }
