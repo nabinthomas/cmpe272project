@@ -10,13 +10,13 @@ class ListingIDElement extends React.Component {
         // console.log("ListingIDElement Props was " + JSON.stringify(props))
         super(props);
         this.state = {
-            listingId : props['id']
+            value : props['id']
         };
         
     }
     render() {
         // console.log("ListingIDElement: Heading was " + this.state.listingId)
-        return React.createElement('b', {align : "left"}, this.state.listingId)
+        return React.createElement('b', {align : "left"}, this.state.value)
     }
 }
 // Add the remaining UI elements' React classes below this section
@@ -174,7 +174,6 @@ class CompleteListingData extends React.Component {
         
         let cells = []; 
 
-        cells.push(React.createElement('td', {  key: "id_id" } , listing.id ));
         cells.push(React.createElement('td', { key: "id_bedrooms" } , listing.bedrooms ));
         cells.push(React.createElement('td', { key: "id_state" } , listing.state ));
         cells.push(React.createElement('td', { key: "id_description" } , listing.description ));
@@ -206,7 +205,7 @@ class CompleteListingData extends React.Component {
         if (this.state.elements.hostThumbnail) {
             this.state.elements.hostThumbnail.setState({value: { image: this.state.listing.host_picture_url, url: this.state.listing.host_url}});
         }
-        
+
         //Review starts here 
         var thisRow = React.createElement('tr', { className:"listings_table_header_style",key: "listingblank_row",align:"center" } , " REVIEWS " );
         rows.push(thisRow);
