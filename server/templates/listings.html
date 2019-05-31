@@ -95,7 +95,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <select name=orderby>
+                                    <select name=orderby id=orderbyInput>
                                         <option value=id>Listing ID</option>
                                         <option value=name>Name</option>
                                         <option value=street>Street</option>
@@ -112,7 +112,7 @@
                             </tr>
                             <tr>
                                     <td>
-                                        <select name=sortOrder>
+                                        <select name=sortOrder id=sortOrderInput>
                                             <option value=ascending>Ascending</option>
                                             <option value=descending>Descending</option>
                                             
@@ -286,7 +286,9 @@
                 { inputname: "pricemin", id: "priceminInput", datatype: "float", text : "Price(Min)" },
                 { inputname: "pricemax", id: "pricemaxInput", datatype: "float", text : "Price(Max)" },
                 { inputname: "ratingmin", id: "ratingminInput", datatype: "number", text : "Rating(Min)" },
-                { inputname: "ratingmax", id: "ratingmaxInput", datatype: "number", text : "Rating(Max)" }
+                { inputname: "ratingmax", id: "ratingmaxInput", datatype: "number", text : "Rating(Max)" },
+                { inputname: "sortOrder", id: "sortOrderInput", datatype: "option", text : "" },
+                { inputname: "orderby", id: "orderbyInput", datatype: "option", text : "" },
             ]
         }
 
@@ -349,8 +351,9 @@
         var pair;
         
         for(pair of entries) { 
-            console.log ("Name =  " + [pair[0]] + " Value = " + pair[1]); 
+            // console.log ("Name =  " + [pair[0]] + " Value = " + pair[1]); 
             var element = findElementByName(pair[0]);
+            // console.log (element);
             if (element != null) {
                 element.value = pair[1];
             }
