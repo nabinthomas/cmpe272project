@@ -1,8 +1,6 @@
 import * as cookies from '/static/scripts/cookies.js';
 'use strict';
 
-const element = React.createElement;
- 
 class ListingData extends React.Component {
     constructor(props) {
         super(props);
@@ -41,29 +39,23 @@ class ListingData extends React.Component {
     }
     // render this component
     render() {
-
-        console.log(" BINU ********  Why am I comming 2 times **********************\n");
-    
- 
+        console.log(" ListingData Render\n");
         let rows = [];
-        var thisRow = element('tr', { key: "t" }, JSON.stringify( this.state.listing) );
+        var thisRow = React.createElement('tr', { key: "t" }, JSON.stringify( this.state.listing) );
         rows.push(thisRow);
 
         var reviews = this.state.reviews;
         for (var i = 0; i < reviews.length; i++) {
-            //cells.push(element('td', { key: listingId }, listingLink));
-            
-            var thisRow = element('tr', { key: i }, JSON.stringify( reviews[i] ) );
+            var thisRow = React.createElement('tr', { key: i }, JSON.stringify( reviews[i] ) );
             rows.push(thisRow);
-
         }
-        return rows;
-       
+        return rows;  
     }
-}
+} //end class ListingData
+
 
 const listings_table_body = document.querySelector('#listing_table_data');
-ReactDOM.render(element(ListingData), listing_table_data);
+ReactDOM.render(React.createElement(ListingData), listing_table_data);
 
 
  
