@@ -57,6 +57,36 @@
             border-color: gainsboro;
             border-style: double;
         }
+
+        .thumnail_image {
+            padding: 1px;
+            background-color: black;
+            transition: transform 1s;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+        }
+
+        .thumnail_image:hover {
+            -ms-transform: scale(5); /*  IE 9 */
+            -webkit-transform: scale(5); /* Safari 3-8  */
+            transform: scale(5); 
+        } 
+
+        .listing_image {
+            padding: 1px;
+            background-color: black;
+            transition: transform 1s;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+
+        .listing_image:hover {
+            -ms-transform: scale(2); /*  IE 9 */
+            -webkit-transform: scale(2); /* Safari 3-8  */
+            transform: scale(2); 
+        } 
     </style>
 </head>
 
@@ -98,12 +128,36 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    Hosted By:
+                                                </td>
+                                                <td id=host_name>
+                                                    <!-- TODO REMOVE DUMMY DATA BEGIN -->
+                                                    Host Name
+                                                    <!-- TODO REMOVE DUMMY DATA END -->                                            
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td id=host_thumbnail >                                                    
+                                                </td>
+                                                <td id=host_score >                                                    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
                                 <!-- 
                                     This is to be removed. keeping this here as a debug tool until we have the final layout ready. 
                                     This row will have all the data that is available for the listing information which can be used to 
                                     design layout
                                 --> 
-                                <td span=2 id=complete_listing_data>
+                                <td id=complete_listing_data>
                                        
                                 </td>
                             </tr>
@@ -125,15 +179,15 @@
    
     <!-- END REACT IMPORTS -->
 
-    <!-- BEGIN Custom scripts -->
-    <script>
-    // Now refill the Query Form with the URL Parameters to keep them in sync
-    getUrl = window.location;
-    console.log (" URL " + getUrl);
-    var listingID = getUrl.pathname.split('/')[2]
-    
-    console.log ("BINU " + getUrl.pathname.split('/')[2]); 
-         
+     <!-- BEGIN Custom scripts -->
+     <script>
+        // Now refill the Query Form with the URL Parameters to keep them in sync
+        getUrl = window.location;
+        console.log (" URL " + getUrl);
+        var listingID = getUrl.pathname.split('/')[2]
+        
+        console.log ("BINU " + getUrl.pathname.split('/')[2]); 
+                
     </script>
     <!-- END  Custom scripts -->
 </body>

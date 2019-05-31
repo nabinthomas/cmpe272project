@@ -50,10 +50,34 @@ class ListingImageElement extends React.Component {
         console.log("ListingImageElement:  was " + this.state.value)
         if (this.state.value && this.state.value != '') {
             console.log("ListingImageElement:  was " + this.state.value)
-            return React.createElement('img', {src : this.state.value, alt: this.state.value })
+            return React.createElement('img', {src : this.state.value, alt: this.state.value, class: "listing_image"})
         }
         else {
             console.log("ListingImageElement:  was null " + this.state.value)
+            return null;
+        }
+    }
+}
+
+// Host Image 
+class HostImageElement extends React.Component {
+    constructor(props) {
+        console.log("HostImageElement Props was " + JSON.stringify(props))
+        super(props);
+        this.state = {
+            value : props['host']
+        };
+        
+    }
+    render() {
+        console.log("HostImageElement:  was " + this.state.value)
+        if (this.state.value && this.state.value.image && this.state.value.image != '') {
+            console.log("HostImageElement:  was " + this.state.value.image)
+            var image = React.createElement('img', {src : this.state.value.image, class : "thumnail_image" })
+            return React.createElement('a', {href : this.state.value.url}, image)
+        }
+        else {
+            console.log("HostImageElement:  was null " + this.state.value.image)
             return null;
         }
     }
@@ -71,6 +95,8 @@ var listingNameElement = ReactDOM.render(React.createElement(ListingNameElement,
 const listingImageField = document.querySelector("#listing_image")
 var listingImageElement = ReactDOM.render(React.createElement(ListingImageElement, {picture_url : ''}), listingImageField);
 
+const hostImageField = document.querySelector("#host_thumbnail")
+var hostImageElement = ReactDOM.render(React.createElement(HostImageElement, {host : {image : '', url : ''} }), hostImageField);
 
 // Create and Render the remaining Elements above this. 
 
@@ -78,7 +104,8 @@ var listingImageElement = ReactDOM.render(React.createElement(ListingImageElemen
 var listingElements = {
     heading : listingTableHeadingElement,
     name : listingNameElement,
-    listingImage : listingImageElement
+    listingImage : listingImageElement,
+    hostThumbnail : hostImageElement
 };
 
 
@@ -141,17 +168,18 @@ class CompleteListingData extends React.Component {
             this.state.elements.listingImage.setState({value: this.state.listing.picture_url})
         }
 
-        
+        if (this.state.elements.hostThumbnail) {
+            this.state.elements.hostThumbnail.setState({value: { image: this.state.listing.host_picture_url, url: this.state.listing.host_url}});
+        }
 
         var reviews = this.state.reviews;
         for (var i = 0; i < reviews.length; i++) {
-            var thisRow = React.createElement('tr', { key: i, style : {width: "1000px"} }, JSON.stringify( reviews[i] ) );
+            var thisRow = React.createElement('tr', { key: i, style : {width: "100px"} }, JSON.stringify( reviews[i] ) );
             rows.push(thisRow);
         }
-        return rows;  
+        return null; // rows;  
     }
 } //end class CompleteListingData
-
 
 
 const complete_listing_data = document.querySelector('#complete_listing_data');
