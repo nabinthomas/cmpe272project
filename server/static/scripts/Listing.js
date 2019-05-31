@@ -134,6 +134,8 @@ var hostImageElement = ReactDOM.render(React.createElement(HostImageElement, {ho
 const bedRoomField = document.querySelector("#bedrooms")
 var bedRoomElement = ReactDOM.render(React.createElement(GenericTextData, {value : ''}), bedRoomField);
 
+const bathRoomField = document.querySelector("#bathrooms")
+var bathRoomElement = ReactDOM.render(React.createElement(GenericTextData, {value : ''}), bathRoomField);
 
 // Create and Render the remaining Elements above this. 
 
@@ -144,7 +146,8 @@ var listingElements = {
     listingImage : listingImageElement,
     hostName : hostNameElement,
     hostThumbnail : hostImageElement,
-    bedrooms : bedRoomElement
+    bedrooms : bedRoomElement,
+    bathrooms : bathRoomElement
 };
 
 class CompleteListingData extends React.Component {
@@ -228,6 +231,10 @@ class CompleteListingData extends React.Component {
 
         if (this.state.elements.bedrooms) {
             this.state.elements.bedrooms.setState({value: this.state.listing.bedrooms})
+        }
+
+        if (this.state.elements.bathrooms) {
+            this.state.elements.bathrooms.setState({value: this.state.listing.bathrooms})
         }
         //Review starts here 
         var thisRow = React.createElement('tr', { className:"listings_table_header_style",key: "listingblank_row",align:"center" } , " REVIEWS " );
