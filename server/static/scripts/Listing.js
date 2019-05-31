@@ -174,14 +174,14 @@ class CompleteListingData extends React.Component {
         
         let cells = []; 
 
-        cells.push(React.createElement('td', { key: "id_bedrooms" } , listing.bedrooms ));
+        /* cells.push(React.createElement('td', { key: "id_bedrooms" } , listing.bedrooms ));
         cells.push(React.createElement('td', { key: "id_state" } , listing.state ));
         cells.push(React.createElement('td', { key: "id_description" } , listing.description ));
  
         //cells.push(React.createElement('td', { key: "id_lastitem" } , JSON.stringify(listing) ));
 
         var thisRow = React.createElement('tr', { key: "listing_row"} ,  cells );
-        rows.push(thisRow);
+        rows.push(thisRow); */
    
         // console.log(" CompleteListingData listing here was  = " +  this.state.elements.heading.state.listingData);
     
