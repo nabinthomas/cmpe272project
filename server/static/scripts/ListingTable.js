@@ -42,68 +42,11 @@ class ListingsHeadingRow extends React.Component {
 // TODO : Change this to some bigger value, may be 20 or so, and make sure it is in sync with the REST API
 var listingsPerPage = 10;
 
-var fullDummylistData = [ 
-    {
-        listingID: "9835",
-        name: "Beautiful Room & House",
-        street: "Bulleen, VIC, Australia",
-        city: "Bulleen",
-        state: "VIC",
-        propertyType: "House",
-        roomType: "Private Room",
-        bedrooms: 1,
-        baths: 1,
-        price: 60,
-        rating: 90
-    },
-    {
-        listingID: "9836",
-        name: "Beautiful Room & House",
-        street: "Bulleen, VIC, Australia",
-        city: "Bulleen",
-        state: "VIC",
-        propertyType: "House",
-        roomType: "Full House",
-        bedrooms: 2,
-        baths: 2,
-        price: 60,
-        rating: 91
-    },
-    {
-        listingID: "9837",
-        name: "Beautiful Room & House",
-        street: "Bulleen, VIC, Australia",
-        city: "Bulleen",
-        state: "VIC",
-        propertyType: "House",
-        roomType: "Private Room",
-        bedrooms: 3,
-        baths: 1,
-        price: 60,
-        rating: 92
-    },
-    {
-        listingID: "9838",
-        name: "Beautiful Apartment & House",
-        street: "Sydney, VIC, Australia",
-        city: "Sydney",
-        state: "VIC",
-        propertyType: "Apartment",
-        roomType: "Private Room",
-        bedrooms: 4,
-        baths: 1,
-        price: 6000,
-        rating: 10
-    },
-
-];
-
 class ListingsData extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            listings: [ 
-            ]
+            listings: null
         };
     }
     componentDidMount() {
@@ -168,7 +111,7 @@ class ListingsData extends React.Component {
         }
         search_filter["min"] = search_filter_min;
         search_filter["max"] = search_filter_max;
-        console.log(" BINU Search & Sort Criteria = " + JSON.stringify(search_filter));
+        // console.log("Search & Sort Criteria = " + JSON.stringify(search_filter));
 
         var currentPage = urlParams.get('page');
         if (currentPage == null || Number(currentPage) == 0) {
@@ -182,7 +125,7 @@ class ListingsData extends React.Component {
             sortorder : sortorder_filter,
             sortby : sortby_filter
         };
-        console.log(" BINU END " + JSON.stringify(req_filter));      
+        console.log("Request Filter " + JSON.stringify(req_filter));      
 
         var auth_token = cookies.getCookie('auth_token');
 
@@ -247,6 +190,9 @@ class ListingsData extends React.Component {
     }
     // render this component
     render() {
+        if (this.state.listings == null){ 
+            return element('td', {align : "center", colspan : 11}, element('div', {align : "center"} , 'Processing Data...'));
+        }
         let rows = [];
         for (var i = 0; i < this.state.listings.length; i++) {
             let cells = [];
