@@ -31,8 +31,70 @@ class ListingNameElement extends React.Component {
         
     }
     render() {
-        console.log("ListingNameElement: Heading was " + this.state.listingName)
-        return React.createElement('b', {align : "left"}, this.state.listingName)
+        console.log("ListingNameElement:  was " + this.state.value)
+        return React.createElement('b', {align : "left"}, this.state.value)
+    }
+}
+
+// Listing Image 
+class ListingImageElement extends React.Component {
+    constructor(props) {
+        console.log("ListingImageElement Props was " + JSON.stringify(props))
+        super(props);
+        this.state = {
+            value : props['picture_url']
+        };
+        
+    }
+    render() {
+        console.log("ListingImageElement:  was " + this.state.value)
+        if (this.state.value && this.state.value != '') {
+            console.log("ListingImageElement:  was " + this.state.value)
+            return React.createElement('img', {src : this.state.value, alt: this.state.value, className: "listing_image"})
+        }
+        else {
+            console.log("ListingImageElement:  was null " + this.state.value)
+            return null;
+        }
+    }
+}
+
+// Host Name 
+class HostNameElement extends React.Component {
+    constructor(props) {
+        console.log("HostNameElement Props was " + JSON.stringify(props))
+        super(props);
+        this.state = {
+            value : props['name']
+        };
+        
+    }
+    render() {
+        console.log("HostNameElement:  was " + this.state.value)
+        return React.createElement('i', {align : "left"}, this.state.value)
+    }
+}
+// Host Image 
+class HostImageElement extends React.Component {
+    constructor(props) {
+        console.log("HostImageElement Props was " + JSON.stringify(props))
+        super(props);
+        this.state = {
+            value : props['host']
+        };
+        
+    }
+    render() {
+        console.log("HostImageElement:  was " + this.state.value)
+        if (this.state.value && this.state.value.image && this.state.value.image != '') {
+            console.log("HostImageElement:  was " + this.state.value.image)
+            var image = React.createElement('img', {src : this.state.value.image, className : "thumnail_image" })
+            return React.createElement('a', {href : this.state.value.url}, image)
+        }
+        else {
+            console.log("HostImageElement:  was null " + this.state.value.image)
+            return null;
+        }
     }
 }
 // Add the remaining UI elements' React classes above this section
@@ -47,13 +109,21 @@ var listingNameElement = ReactDOM.render(React.createElement(ListingNameElement,
 
 
 
+const hostNameField = document.querySelector("#host_name")
+var hostNameElement = ReactDOM.render(React.createElement(HostNameElement, {name : ''}), hostNameField);
+
+const hostImageField = document.querySelector("#host_thumbnail")
+var hostImageElement = ReactDOM.render(React.createElement(HostImageElement, {host : {image : '', url : ''} }), hostImageField);
 
 // Create and Render the remaining Elements above this. 
 
 // Step 3: Add the element which hold this data in HTML and find the ID here. 
 var listingElements = {
     heading : listingTableHeadingElement,
-    name : listingNameElement
+    name : listingNameElement,
+    listingImage : listingImageElement,
+    hostName : hostNameElement,
+    hostThumbnail : hostImageElement
 };
 
 
@@ -126,6 +196,13 @@ class CompleteListingData extends React.Component {
         }
         console.log("CompleteListingData Name from props = " + this.state.elements.name)
 
+        if (this.state.elements.hostName) {
+            this.state.elements.hostName.setState({value: this.state.listing.host_name})
+        }
+        
+        if (this.state.elements.hostThumbnail) {
+            this.state.elements.hostThumbnail.setState({value: { image: this.state.listing.host_picture_url, url: this.state.listing.host_url}});
+        }
 
         //Review starts here 
         var thisRow = React.createElement('tr', { class:"listings_table_header_style",key: "listingblank_row",align:"center" } , " REVIEWS " );
@@ -133,13 +210,7 @@ class CompleteListingData extends React.Component {
 
         var reviews = this.state.reviews; 
         for (var i = 0; i < reviews.length; i++) {
-            let cells = []; 
-            cells.push(React.createElement('td', { key: "id_id" } , reviews[i].id ));
-            cells.push(React.createElement('td', { key: "id_reviewer_name" } , reviews[i].reviewer_name ));
-            cells.push(React.createElement('td', { key: "id_date" } , reviews[i].date )); 
-            cells.push(React.createElement('td', { key: "id_comment" } , reviews[i].comments )); 
-
-            var thisRow = React.createElement('tr', { key: "comment_row"+i} ,  cells );
+            var thisRow = React.createElement('tr', { key: i, style : {width: "100px"} }, JSON.stringify(reviews[i]));
             rows.push(thisRow);
         }
         return rows;  
