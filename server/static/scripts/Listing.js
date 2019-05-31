@@ -10,13 +10,13 @@ class ListingIDElement extends React.Component {
         // console.log("ListingIDElement Props was " + JSON.stringify(props))
         super(props);
         this.state = {
-            listingId : props['id']
+            value : props['id']
         };
         
     }
     render() {
         // console.log("ListingIDElement: Heading was " + this.state.listingId)
-        return React.createElement('b', {align : "left"}, this.state.listingId)
+        return React.createElement('b', {align : "left"}, this.state.value)
     }
 }
 // Add the remaining UI elements' React classes below this section
@@ -26,24 +26,24 @@ class ListingNameElement extends React.Component {
         console.log("ListingNameElement Props was " + JSON.stringify(props))
         super(props);
         this.state = {
-            listingName : props['name']
+            value : props['name']
         };
         
     }
     render() {
-        console.log("ListingNameElement: Heading was " + this.state.listingName)
-        return React.createElement('b', {align : "left"}, this.state.listingName)
+        console.log("ListingNameElement: Heading was " + this.state.value)
+        return React.createElement('b', {align : "left"}, this.state.value)
     }
 }
 // Add the remaining UI elements' React classes above this section
 
 // Step 2: Create & Render the element which renders the part ( eg: ListingIDElement) . 
 const listingTableHeading = document.querySelector("#listings_table_heading")
-var listingTableHeadingElement = ReactDOM.render(React.createElement(ListingIDElement, {listingId : ''}), listingTableHeading);
+var listingTableHeadingElement = ReactDOM.render(React.createElement(ListingIDElement, {id : ''}), listingTableHeading);
 
 // Create and Render the remaining Elements under this. 
 const listingNameField = document.querySelector("#listing_name")
-var listingNameElement = ReactDOM.render(React.createElement(ListingNameElement, {listingName : ''}), listingNameField);
+var listingNameElement = ReactDOM.render(React.createElement(ListingNameElement, {name : ''}), listingNameField);
 
 
 
@@ -105,11 +105,11 @@ class CompleteListingData extends React.Component {
     
         // Step 4: Update the individual elements in the Web page
         if (this.state.elements.heading) {
-            this.state.elements.heading.setState({listingId: this.state.listing.id})
+            this.state.elements.heading.setState({value: this.state.listing.id})
         }
         
         if (this.state.elements.name) {
-            this.state.elements.name.setState({listingName: this.state.listing.name})
+            this.state.elements.name.setState({value: this.state.listing.name})
         }
         console.log("CompleteListingData Name from props = " + this.state.elements.name)
 
