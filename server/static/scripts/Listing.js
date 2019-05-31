@@ -31,8 +31,31 @@ class ListingNameElement extends React.Component {
         
     }
     render() {
-        console.log("ListingNameElement: Heading was " + this.state.value)
+        console.log("ListingNameElement:  was " + this.state.value)
         return React.createElement('b', {align : "left"}, this.state.value)
+    }
+}
+
+// Listing Image 
+class ListingImageElement extends React.Component {
+    constructor(props) {
+        console.log("ListingImageElement Props was " + JSON.stringify(props))
+        super(props);
+        this.state = {
+            value : props['picture_url']
+        };
+        
+    }
+    render() {
+        console.log("ListingImageElement:  was " + this.state.value)
+        if (this.state.value && this.state.value != '') {
+            console.log("ListingImageElement:  was " + this.state.value)
+            return React.createElement('img', {src : this.state.value, alt: this.state.value })
+        }
+        else {
+            console.log("ListingImageElement:  was null " + this.state.value)
+            return null;
+        }
     }
 }
 // Add the remaining UI elements' React classes above this section
@@ -45,7 +68,8 @@ var listingTableHeadingElement = ReactDOM.render(React.createElement(ListingIDEl
 const listingNameField = document.querySelector("#listing_name")
 var listingNameElement = ReactDOM.render(React.createElement(ListingNameElement, {name : ''}), listingNameField);
 
-
+const listingImageField = document.querySelector("#listing_image")
+var listingImageElement = ReactDOM.render(React.createElement(ListingImageElement, {picture_url : ''}), listingImageField);
 
 
 // Create and Render the remaining Elements above this. 
@@ -53,7 +77,8 @@ var listingNameElement = ReactDOM.render(React.createElement(ListingNameElement,
 // Step 3: Add the element which hold this data in HTML and find the ID here. 
 var listingElements = {
     heading : listingTableHeadingElement,
-    name : listingNameElement
+    name : listingNameElement,
+    listingImage : listingImageElement
 };
 
 
@@ -111,7 +136,12 @@ class CompleteListingData extends React.Component {
         if (this.state.elements.name) {
             this.state.elements.name.setState({value: this.state.listing.name})
         }
-        console.log("CompleteListingData Name from props = " + this.state.elements.name)
+        console.log("CompleteListingData Name from props = " + this.state.listing.picture_url)
+        if (this.state.elements.listingImage) {
+            this.state.elements.listingImage.setState({value: this.state.listing.picture_url})
+        }
+
+        
 
         var reviews = this.state.reviews;
         for (var i = 0; i < reviews.length; i++) {
