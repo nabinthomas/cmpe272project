@@ -121,6 +121,18 @@
     <script type="module" src="/static/scripts/SearchBar.js"></script>
    
     <!-- END REACT IMPORTS -->
+
+    <!-- BEGIN Custom scripts -->
+    <script>
+    // Now refill the Query Form with the URL Parameters to keep them in sync
+    getUrl = window.location;
+    console.log (" URL " + getUrl);
+    var listingID = getUrl.pathname.split('/')[2]
+    
+    console.log ("BINU " + getUrl.pathname.split('/')[2]); 
+         
+    </script>
+    <!-- END  Custom scripts -->
 </body>
 
 </html>

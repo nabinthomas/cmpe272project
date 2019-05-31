@@ -12,7 +12,7 @@ class ListingData extends React.Component {
         };
     }
     componentDidMount() {
-        var restAPIFetchURLBase = "/api/listings/16760";
+        var restAPIFetchURLBase = "/api/listings/" + listingID;
         var auth_token = cookies.getCookie('auth_token');
 
         fetch(restAPIFetchURLBase, {
@@ -43,6 +43,7 @@ class ListingData extends React.Component {
     render() {
 
         console.log(" BINU ********  Why am I comming 2 times **********************\n");
+    
  
         let rows = [];
         var thisRow = element('tr', { key: "t" }, JSON.stringify( this.state.listing) );
