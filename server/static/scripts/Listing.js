@@ -54,8 +54,8 @@ class ListingData extends React.Component {
 } //end class ListingData
 
 
-const listing_table_data = document.querySelector('#listing_table_data');
-ReactDOM.render(React.createElement(ListingData), listing_table_data);
+const listing_full_data = document.querySelector('#listing_full_data');
+ReactDOM.render(React.createElement(ListingData), listing_full_data);
 
 
  
