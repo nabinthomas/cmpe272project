@@ -26,7 +26,7 @@ class ListingNameElement extends React.Component {
         console.log("ListingNameElement Props was " + JSON.stringify(props))
         super(props);
         this.state = {
-            listingName : props['name']
+            value : props['name']
         };
         
     }
@@ -101,13 +101,14 @@ class HostImageElement extends React.Component {
 
 // Step 2: Create & Render the element which renders the part ( eg: ListingIDElement) . 
 const listingTableHeading = document.querySelector("#listings_table_heading")
-var listingTableHeadingElement = ReactDOM.render(React.createElement(ListingIDElement, {listingId : ''}), listingTableHeading);
+var listingTableHeadingElement = ReactDOM.render(React.createElement(ListingIDElement, {id : ''}), listingTableHeading);
 
 // Create and Render the remaining Elements under this. 
 const listingNameField = document.querySelector("#listing_name")
-var listingNameElement = ReactDOM.render(React.createElement(ListingNameElement, {listingName : ''}), listingNameField);
+var listingNameElement = ReactDOM.render(React.createElement(ListingNameElement, {name : ''}), listingNameField);
 
-
+const listingImageField = document.querySelector("#listing_image")
+var listingImageElement = ReactDOM.render(React.createElement(ListingImageElement, {picture_url : ''}), listingImageField);
 
 const hostNameField = document.querySelector("#host_name")
 var hostNameElement = ReactDOM.render(React.createElement(HostNameElement, {name : ''}), hostNameField);
@@ -125,7 +126,6 @@ var listingElements = {
     hostName : hostNameElement,
     hostThumbnail : hostImageElement
 };
-
 
 class CompleteListingData extends React.Component {
     constructor(props) {
@@ -188,13 +188,16 @@ class CompleteListingData extends React.Component {
     
         // Step 4: Update the individual elements in the Web page
         if (this.state.elements.heading) {
-            this.state.elements.heading.setState({listingId: this.state.listing.id})
+            this.state.elements.heading.setState({value: this.state.listing.id})
         }
         
         if (this.state.elements.name) {
-            this.state.elements.name.setState({listingName: this.state.listing.name})
+            this.state.elements.name.setState({value: this.state.listing.name})
         }
-        console.log("CompleteListingData Name from props = " + this.state.elements.name)
+        console.log("CompleteListingData Name from props = " + this.state.listing.picture_url)
+        if (this.state.elements.listingImage) {
+            this.state.elements.listingImage.setState({value: this.state.listing.picture_url})
+        }
 
         if (this.state.elements.hostName) {
             this.state.elements.hostName.setState({value: this.state.listing.host_name})
@@ -203,9 +206,9 @@ class CompleteListingData extends React.Component {
         if (this.state.elements.hostThumbnail) {
             this.state.elements.hostThumbnail.setState({value: { image: this.state.listing.host_picture_url, url: this.state.listing.host_url}});
         }
-
+        
         //Review starts here 
-        var thisRow = React.createElement('tr', { class:"listings_table_header_style",key: "listingblank_row",align:"center" } , " REVIEWS " );
+        var thisRow = React.createElement('tr', { className:"listings_table_header_style",key: "listingblank_row",align:"center" } , " REVIEWS " );
         rows.push(thisRow);
 
         var reviews = this.state.reviews; 
