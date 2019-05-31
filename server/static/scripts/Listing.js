@@ -279,8 +279,12 @@ class CompleteListingData extends React.Component {
             cells.push(React.createElement('td', { key: "rev_reviewer_name" } , reviews[i].reviewer_name )); 
             cells.push(React.createElement('td', { key: "rev_date" } , reviews[i].date )); 
             cells.push(React.createElement('td', { key: "rev_comments" } , reviews[i].comments )); 
-
-            var thisRow = React.createElement('tr', { key: "review_row"} ,  cells );
+            
+            var bk_color = "#FF0000";
+            if (i%2 == 0) {
+              bk_color ="#FF00FF";
+            } 
+            var thisRow = React.createElement('tr', { bgcolor:bk_color, key: "review_row"} ,  cells );
             rows.push(thisRow);
         }
         return rows;  
