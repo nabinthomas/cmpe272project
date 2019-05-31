@@ -261,7 +261,7 @@ class ListingsData extends React.Component {
             var bathsId = `baths-${i}`;
             var priceId = `price-${i}`;
             var ratingId = `rating-${i}`;
-            var listingLink = element('a', {key: i, href:"/listings/" + this.state.listings[i].listingID}, this.state.listings[i].listingID);
+            var listingLink = element('a', {key: i, href:"/listing/" + this.state.listings[i].listingID}, this.state.listings[i].listingID);
             cells.push(element('td', { key: listingId }, listingLink));
             cells.push(element('td', { key: nameId }, this.state.listings[i].name));
             cells.push(element('td', { key: streetId }, this.state.listings[i].street));

@@ -380,7 +380,7 @@ def clear_all_cookies(response):
 
 # eg: curl -XPOST -H 'Content-Type: application/json' https://0.0.0.0/api/listings -d '{"page_index" : 2 }'
 @app.route('/api/listings', methods=['POST'])
-@requires_auth
+#@requires_auth
 def get_listings():
     """ 
     Function to fetch listings 
@@ -538,7 +538,7 @@ def get_listings():
 
 # curl -XGET https://localhost/api/listings/9835
 @app.route('/api/listings/<string:listings_id>', methods=['GET'])
-@requires_auth
+#@requires_auth
 def get_one_listing(listings_id):
     """  
     Function to fetch a particular listing and its reviews
@@ -617,12 +617,16 @@ def homePage():
     return response;
 
 @app.route('/listings')
-def page_books():
-    """ Handle request for /books page. 
+def page_listings():
+    """ Handle request for listings page. 
     """
     return render_template('listings.html');
 
-
+@app.route('/listing/<string:listings_id>', methods=['GET'])
+def single_listing():
+    """ Handle request for a single listing. 
+    """
+    return render_template('listing.html');
 
 
 ########################################################################
