@@ -7,7 +7,8 @@ class ListingData extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            listing: {}
+            listing: {},
+            reviews :[]
         };
     }
     componentDidMount() {
@@ -32,18 +33,31 @@ class ListingData extends React.Component {
             console.log("******************************\n");
           
             this.setState({listing: response['response']['listing']});
-          
-            //var urlParams = new URLSearchParams(window.location.search);
-            //var entries = urlParams.entries();
-            //console.log(urlParams.toString());
-            //console.log(urlParams.get('listings_id'));
+            this.setState({reviews: response['response']['reviews']});
+
         })
         .catch(error => console.error('Error:', error));
        
     }
     // render this component
     render() {
-        return element('tr', {} , JSON.stringify(this.state.listing));  
+
+        console.log(" BINU ********  Why am I comming 2 times **********************\n");
+ 
+        let rows = [];
+        var thisRow = element('tr', { key: "t" }, JSON.stringify( this.state.listing) );
+        rows.push(thisRow);
+
+        var reviews = this.state.reviews;
+        for (var i = 0; i < reviews.length; i++) {
+            //cells.push(element('td', { key: listingId }, listingLink));
+            
+            var thisRow = element('tr', { key: i }, JSON.stringify( reviews[i] ) );
+            rows.push(thisRow);
+
+        }
+        return rows;
+       
     }
 }
 
