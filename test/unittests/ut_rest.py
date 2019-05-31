@@ -66,9 +66,54 @@ class RESTTests(unittest.TestCase):
         })
 
 
-    def test_api_get_listings(self):
+    def test_api_get_listings_obj(self):
         """
         Test REST API /api/listings
+        """
+
+        response = self.app.get('/api/listings/9835', headers={'Authorization': 'Bearer DUMMY_TEST_TOCKEN_GINTO'})
+        print ("Response status ", response)
+        resp_from_server = json.loads(response.data)
+        print ("Response data ", resp_from_server)
+
+        self.assertEqual(resp_from_server['status'],"Success")
+        self.assertEqual(resp_from_server, {
+            'response': { 
+                'listing': {
+                    'bathrooms': 1, 
+                    'bedrooms': 1, 
+                    'city': 'Bulleen', 
+                    'id': 9835, 
+                    'name': 'Beautiful Room & House', 
+                    'prices': 60, 
+                    'property_type': 'House', 
+                    'review_scores_rating': 9, 
+                    'room_type': 'Private room', 
+                    'state': 'VIC', 
+                    'street': 'Bulleen, VIC, Australia'
+                }, 
+                'reviews': []
+            }, 
+            'status': 'Success'
+        })
+ 
+    def test_api_get_listings_obj_non_existent(self):
+        """
+        Test REST API /api/listings/<Id> for a non-existent Id
+        """
+
+        response = self.app.get('/api/listings/9352011', headers={'Authorization': 'Bearer DUMMY_TEST_TOCKEN_GINTO'})
+        print ("Response status ", response)
+        resp_from_server = json.loads(response.data)
+        print ("Response data ", resp_from_server)
+
+        self.assertEqual(resp_from_server['status'],"ErrorObjectNotFound")
+        self.assertEqual(resp_from_server, {'response': {}, 'status': 'ErrorObjectNotFound'})
+
+
+    def test_api_get_listings_filtered(self):
+        """
+        Test REST API /api/listings applying filter
         """
         listings_filter = {"page_index":1,"filter":{"min":{"bedrooms":1},"max":{"bedrooms":1}},"sortorder":1,"sortby":"id"}
         response = self.app.post('/api/listings', data = json.dumps(listings_filter), content_type='application/json', headers={'Authorization': 'Bearer DUMMY_TEST_TOCKEN_GINTO'})
@@ -77,8 +122,6 @@ class RESTTests(unittest.TestCase):
         print ("Response data ", resp_from_server)
 
         self.assertEqual(resp_from_server['status'],"Success")
-        #del resp_from_server['response']['order_request']['OrderID']  #orderid is dynamically created, cannot compare with static info
-
         self.assertEqual(resp_from_server, {
             'response': {
                 'listings': [
@@ -96,6 +139,44 @@ class RESTTests(unittest.TestCase):
             }, 
             'status': 'Success'
         })
+
+
+    def test_api_get_listings_no_entry(self):
+        """
+        Test REST API /api/listings
+        """
+        listings_filter = {"page_index":1,"filter":{"min":{"bedrooms":10},"max":{"bedrooms":1}},"sortorder":1,"sortby":"id"}
+        response = self.app.post('/api/listings', data = json.dumps(listings_filter), content_type='application/json', headers={'Authorization': 'Bearer DUMMY_TEST_TOCKEN_GINTO'})
+        print ("Response status ", response)
+        resp_from_server = json.loads(response.data)
+        print ("Response data ", resp_from_server)
+
+        self.assertEqual(resp_from_server['status'],"ErrorObjectNotFound")
+        self.assertEqual(resp_from_server, {'response': {'listings': [], 'total_list_count': 0, 'total_pages': 0}, 'status': 'ErrorObjectNotFound'})
+
+
+    def test_api_get_listings_all_entry(self):
+        """
+        Test REST API /api/listings
+        """
+        listings_filter = {"page_index":1,"filter":{"min":{},"max":{}},"sortorder":1,"sortby":"id"}
+        response = self.app.post('/api/listings', data = json.dumps(listings_filter), content_type='application/json', headers={'Authorization': 'Bearer DUMMY_TEST_TOCKEN_GINTO'})
+        print ("Response status ", response)
+        resp_from_server = json.loads(response.data)
+        print ("Response data ", resp_from_server)
+
+        self.assertEqual(resp_from_server['status'],"Success")
+        self.assertEqual(resp_from_server, 
+                {'response': {
+                    'listings': [
+                        {'bathrooms': 1, 'bedrooms': 1, 'city': 'Bulleen', 'id': 9835, 'name': 'Beautiful Room & House', 'prices': 60, 'property_type': 'House', 'review_scores_rating': 9, 'room_type': 'Private room', 'state': 'VIC', 'street': 'Bulleen, VIC, Australia'}, {'bathrooms': 1, 'bedrooms': 1, 'city': 'Brunswick East', 'id': 10803, 'name': 'Beautiful Room & House', 'prices': 35, 'property_type': 'Apartment', 'review_scores_rating': 9, 'room_type': 'Private room', 'state': 'VIC', 'street': 'Bulleen, VIC, Australia'}, {'bathrooms': 1.5, 'bedrooms': 1, 'city': 'Thornbury', 'id': 15246, 'name': 'Large private room-close to city', 'prices': 50, 'property_type': 'House', 'review_scores_rating': 9, 'room_type': 'Private room', 'state': 'VIC', 'street': 'Thornbury, VIC, Australia'}, {'bathrooms': 1, 'bedrooms': 3, 'city': 'Berwick', 'id': 32271, 'name': 'Melbourne - Old Trafford Apartment', 'prices': 98, 'property_type': 'Apartment', 'review_scores_rating': 10, 'room_type': 'Entire home/apt', 'state': 'VIC', 'street': 'Berwick, VIC, Australia'}, {'bathrooms': 1, 'bedrooms': 3, 'city': 'Berwick', 'id': 38271, 'name': 'Melbourne - Old Trafford Apartment', 'prices': 98, 'property_type': 'Apartment', 'review_scores_rating': 10, 'room_type': 'Entire home/apt', 'state': 'VIC', 'street': 'Berwick, VIC, Australia'}, {'bathrooms': 1, 'bedrooms': 1, 'city': 'Australia East Melbourne', 'id': 43414, 'name': 'Home In The City', 'prices': 100, 'property_type': 'Apartment', 'review_scores_rating': 9, 'room_type': 'Private room', 'state': 'VIC', 'street': 'East Melbourne, VIC, Australia'}, {'bathrooms': 3, 'bedrooms': 3, 'city': 'Ivanhoe', 'id': 161404, 'name': 'Handy Location, 5Beds, 3bath, 10km to CBD, Austin', 'prices': 138, 'property_type': 'Townhouse', 'review_scores_rating': 10, 'room_type': 'Entire home/apt', 'state': 'Victoria', 'street': 'Ivanhoe, VIC, Australia'
+                    }], 
+                    'total_list_count': 7, 
+                    'total_pages': 1
+                    }, 
+                    'status': 'Success' 
+                })
+
 
 
 
