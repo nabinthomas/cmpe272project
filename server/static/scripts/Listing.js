@@ -269,7 +269,7 @@ class CompleteListingData extends React.Component {
         }
 
         //Review starts here 
-        var thisRow = React.createElement('tr', { className:"listings_table_header_style",key: "listingblank_row",align:"center" } , " REVIEWS " );
+        var thisRow = React.createElement('tr', { className:"listings_table_header_style",key: "listingblank_row",align:"center" } , React.createElement('td', {colspan : 4}, 'REVIEWS') );
         rows.push(thisRow);
 
         var reviews = this.state.reviews; 
@@ -280,7 +280,7 @@ class CompleteListingData extends React.Component {
             cells.push(React.createElement('td', { key: "rev_date" } , reviews[i].date )); 
             cells.push(React.createElement('td', { key: "rev_comments" } , reviews[i].comments )); 
 
-            var thisRow = React.createElement('tr', { key: "review_row"} ,  cells );
+            var thisRow = React.createElement('tr', { key: "review_row", className:"listings_table_body_style"} ,  cells );
             rows.push(thisRow);
         }
         return rows;  
