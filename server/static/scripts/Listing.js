@@ -97,6 +97,21 @@ class HostImageElement extends React.Component {
         }
     }
 }
+
+class GenericTextData extends React.Component {
+    constructor(props) {
+        console.log("GenericTextData Props was " + JSON.stringify(props))
+        super(props);
+        this.state = {
+            value : props['value']
+        };
+        
+    }
+    render() {
+        console.log("GenericTextData:  was " + this.state.value)
+        return React.createElement('div', {align : "left"}, this.state.value)
+    }
+}
 // Add the remaining UI elements' React classes above this section
 
 // Step 2: Create & Render the element which renders the part ( eg: ListingIDElement) . 
@@ -116,6 +131,10 @@ var hostNameElement = ReactDOM.render(React.createElement(HostNameElement, {name
 const hostImageField = document.querySelector("#host_thumbnail")
 var hostImageElement = ReactDOM.render(React.createElement(HostImageElement, {host : {image : '', url : ''} }), hostImageField);
 
+const bedRoomField = document.querySelector("#bedrooms")
+var bedRoomElement = ReactDOM.render(React.createElement(GenericTextData, {value : ''}), bedRoomField);
+
+
 // Create and Render the remaining Elements above this. 
 
 // Step 3: Add the element which hold this data in HTML and find the ID here. 
@@ -124,7 +143,8 @@ var listingElements = {
     name : listingNameElement,
     listingImage : listingImageElement,
     hostName : hostNameElement,
-    hostThumbnail : hostImageElement
+    hostThumbnail : hostImageElement,
+    bedrooms : bedRoomElement
 };
 
 class CompleteListingData extends React.Component {
@@ -206,6 +226,9 @@ class CompleteListingData extends React.Component {
             this.state.elements.hostThumbnail.setState({value: { image: this.state.listing.host_picture_url, url: this.state.listing.host_url}});
         }
 
+        if (this.state.elements.bedrooms) {
+            this.state.elements.bedrooms.setState({value: this.state.listing.bedrooms})
+        }
         //Review starts here 
         var thisRow = React.createElement('tr', { className:"listings_table_header_style",key: "listingblank_row",align:"center" } , " REVIEWS " );
         rows.push(thisRow);
