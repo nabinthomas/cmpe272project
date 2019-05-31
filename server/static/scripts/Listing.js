@@ -97,10 +97,23 @@ class CompleteListingData extends React.Component {
     // render this component
     render() {
         console.log(" CompleteListingData Render\n");
+        var listing = this.state.listing; 
         let rows = [];
-        var thisRow = React.createElement('tr', { key: "t" }, JSON.stringify(this.state.listing) );
-        rows.push(thisRow);
+        //var thisRow = React.createElement('tr', { key: "listing_row" }, JSON.stringify(listing) );
         
+        
+        let cells = []; 
+
+        cells.push(React.createElement('td', {  key: "id_id" } , listing.id ));
+        cells.push(React.createElement('td', { key: "id_bedrooms" } , listing.bedrooms ));
+        cells.push(React.createElement('td', { key: "id_state" } , listing.state ));
+        cells.push(React.createElement('td', { key: "id_description" } , listing.description ));
+ 
+        //cells.push(React.createElement('td', { key: "id_lastitem" } , JSON.stringify(listing) ));
+
+        var thisRow = React.createElement('tr', { key: "listing_row"} ,  cells );
+        rows.push(thisRow);
+   
         // console.log(" CompleteListingData listing here was  = " +  this.state.elements.heading.state.listingData);
     
         // Step 4: Update the individual elements in the Web page
@@ -113,9 +126,20 @@ class CompleteListingData extends React.Component {
         }
         console.log("CompleteListingData Name from props = " + this.state.elements.name)
 
-        var reviews = this.state.reviews;
+
+        //Review starts here 
+        var thisRow = React.createElement('tr', { class:"listings_table_header_style",key: "listingblank_row",align:"center" } , " REVIEWS " );
+        rows.push(thisRow);
+
+        var reviews = this.state.reviews; 
         for (var i = 0; i < reviews.length; i++) {
-            var thisRow = React.createElement('tr', { key: i, style : {width: "1000px"} }, JSON.stringify( reviews[i] ) );
+            let cells = []; 
+            cells.push(React.createElement('td', { key: "id_id" } , reviews[i].id ));
+            cells.push(React.createElement('td', { key: "id_reviewer_name" } , reviews[i].reviewer_name ));
+            cells.push(React.createElement('td', { key: "id_date" } , reviews[i].date )); 
+            cells.push(React.createElement('td', { key: "id_comment" } , reviews[i].comments )); 
+
+            var thisRow = React.createElement('tr', { key: "comment_row"+i} ,  cells );
             rows.push(thisRow);
         }
         return rows;  

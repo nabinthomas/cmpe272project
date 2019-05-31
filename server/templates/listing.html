@@ -22,6 +22,7 @@
             padding-top: 2px;
             padding-left: 2px;
             
+            
         }
 
         .listings_table_style {
@@ -113,27 +114,23 @@
         </tr>
     </table>
     <!-- BEGIN REACT IMPORTS -->
+        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js" crossorigin></script>
 
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js" crossorigin></script>
-
-    <script type="module" src="/static/scripts/Listing.js"></script>
-    <script type="module" src="/static/scripts/logout.js"></script>
-    <script type="module" src="/static/scripts/autohomepage.js"></script>
-    <script type="module" src="/static/scripts/SearchBar.js"></script>
-   
+        <script type="module" src="/static/scripts/Listing.js"></script>
+        <script type="module" src="/static/scripts/logout.js"></script>
+        <script type="module" src="/static/scripts/autohomepage.js"></script>
+        <script type="module" src="/static/scripts/SearchBar.js"></script>
     <!-- END REACT IMPORTS -->
 
     <!-- BEGIN Custom scripts -->
     <script>
-    // Now refill the Query Form with the URL Parameters to keep them in sync
-    getUrl = window.location;
-    console.log (" URL " + getUrl);
-    var listingID = getUrl.pathname.split('/')[2]
-    
-    console.log ("BINU " + getUrl.pathname.split('/')[2]); 
-         
+        // Now refill the Query Form with the URL Parameters to keep them in sync
+        getUrl = window.location;
+        console.log (" URL " + getUrl);
+        var listingID = getUrl.pathname.split('/')[2]
+        //console.log ("BINU " + getUrl.pathname.split('/')[2]); 
     </script>
     <!-- END  Custom scripts -->
 </body>
