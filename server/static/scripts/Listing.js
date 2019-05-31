@@ -24,14 +24,16 @@ class ListingIDElement extends React.Component {
 const listingTableHeading = document.querySelector("#listings_table_heading")
 var listingTableHeadingElement = ReactDOM.render(React.createElement(ListingIDElement, {listingId : ''}), listingTableHeading);
 
+
+// Add the remaining Elements under this section. 
+
+// Add the remaining UI elements above this section
+
 // Step 3: Add the element which hold this data in HTML and find the ID here. 
 var listingElements = {
     heading : listingTableHeadingElement
 };
 
-// Add the remaining Elements under this section. 
-
-// Add the remaining UI elements above this section
 
 class CompleteListingData extends React.Component {
     constructor(props) {
