@@ -137,6 +137,9 @@ var bedRoomElement = ReactDOM.render(React.createElement(GenericTextData, {value
 const bathRoomField = document.querySelector("#bathrooms")
 var bathRoomElement = ReactDOM.render(React.createElement(GenericTextData, {value : ''}), bathRoomField);
 
+const bedsField = document.querySelector("#beds")
+var bedsElement = ReactDOM.render(React.createElement(GenericTextData, {value : ''}), bedsField);
+
 // Create and Render the remaining Elements above this. 
 
 // Step 3: Add the element which hold this data in HTML and find the ID here. 
@@ -147,7 +150,8 @@ var listingElements = {
     hostName : hostNameElement,
     hostThumbnail : hostImageElement,
     bedrooms : bedRoomElement,
-    bathrooms : bathRoomElement
+    bathrooms : bathRoomElement,
+    beds: bedsElement
 };
 
 class CompleteListingData extends React.Component {
@@ -235,6 +239,10 @@ class CompleteListingData extends React.Component {
 
         if (this.state.elements.bathrooms) {
             this.state.elements.bathrooms.setState({value: this.state.listing.bathrooms})
+        }
+
+        if (this.state.elements.beds) {
+            this.state.elements.beds.setState({value: this.state.listing.beds})
         }
         //Review starts here 
         var thisRow = React.createElement('tr', { className:"listings_table_header_style",key: "listingblank_row",align:"center" } , " REVIEWS " );
