@@ -280,9 +280,9 @@ class CompleteListingData extends React.Component {
             cells.push(React.createElement('td', { key: "rev_date" } , reviews[i].date )); 
             cells.push(React.createElement('td', { key: "rev_comments" } , reviews[i].comments )); 
             
-            var bk_color = "#FF0000";
+            var bk_color = "bisque";
             if (i%2 == 0) {
-              bk_color ="#FF00FF";
+              bk_color ="lightcyan";
             } 
             var thisRow = React.createElement('tr', { bgcolor:bk_color, key: "review_row"} ,  cells );
             rows.push(thisRow);
