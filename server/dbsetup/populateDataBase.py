@@ -43,8 +43,7 @@ if(len(sys.argv) == 4):
                         entry[key] = float(value);
                     elif (schema[key] == "date"):
                         entry[key] = datetime.strptime(value, '%Y-%m-%d');
-                        #datetime.strptime(war_start, '%Y-%m-%d');
-                        #datetime.date(value) # date(value);
+
                     elif (schema[key] == "dollar"):
                         entry[key] = float  (value.replace("$",""));
                 except :
@@ -74,7 +73,6 @@ if(len(sys.argv) == 4):
             data = {}
             for x in row:     
                 data[x] = row[x]
-            data["reviews"] = []
             col.insert_one(data) 
             #print(  "col = " , data )
     print( str(i) , "Lines imported from " , filename, " to ",cname, " collection")
