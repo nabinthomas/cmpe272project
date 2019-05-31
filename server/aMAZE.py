@@ -446,19 +446,19 @@ def get_listings():
         if ('sortby' in request.json):
             sortby = request.json['sortby']
         else :
-            sortby =   "id" 
+            sortby = "id" 
         
         if ('sortorder' in request.json):
             sortorder = request.json['sortorder']
         else :
-            sortorder =   1      
+            sortorder = 1      
 
         query = None
         if (filter is not None) :
             #print ( "Filter is not none")
             query = {}
             if ('min' in filter ):
-                minItems =  filter['min']
+                minItems = filter['min']
                 #print ( "min is not none" , minItems )  
                 for k1,v1 in minItems.items():
                     print ( "min is k,v " , k1, v1 )
@@ -468,7 +468,7 @@ def get_listings():
                 del filter['min']
     
             if ( 'max' in filter ):
-                maxItems =  filter['max']
+                maxItems = filter['max']
                 #print ( "max is not none ",maxItems)
                 for k2,v2 in maxItems.items():
                     print ( "min is k2,v2 " , k2, v2 )
