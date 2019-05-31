@@ -140,6 +140,15 @@ var bathRoomElement = ReactDOM.render(React.createElement(GenericTextData, {valu
 const bedsField = document.querySelector("#beds")
 var bedsElement = ReactDOM.render(React.createElement(GenericTextData, {value : ''}), bedsField);
 
+const streetField = document.querySelector("#street")
+var streetElement = ReactDOM.render(React.createElement(GenericTextData, {value : ''}), streetField);
+
+const stateField = document.querySelector("#state")
+var stateElement = ReactDOM.render(React.createElement(GenericTextData, {value : ''}), stateField);
+
+const descriptionField = document.querySelector("#description")
+var descriptionElement = ReactDOM.render(React.createElement(GenericTextData, {value : ''}), descriptionField);
+
 // Create and Render the remaining Elements above this. 
 
 // Step 3: Add the element which hold this data in HTML and find the ID here. 
@@ -151,7 +160,10 @@ var listingElements = {
     hostThumbnail : hostImageElement,
     bedrooms : bedRoomElement,
     bathrooms : bathRoomElement,
-    beds: bedsElement
+    beds: bedsElement,
+    street: streetElement,
+    state: stateElement,
+    description: descriptionElement
 };
 
 class CompleteListingData extends React.Component {
@@ -244,6 +256,18 @@ class CompleteListingData extends React.Component {
         if (this.state.elements.beds) {
             this.state.elements.beds.setState({value: this.state.listing.beds})
         }
+
+        if (this.state.elements.street) {
+            this.state.elements.street.setState({value: this.state.listing.street})
+        }
+
+        if (this.state.elements.state) {
+            this.state.elements.state.setState({value: this.state.listing.state})
+        }
+        if (this.state.elements.description) {
+            this.state.elements.description.setState({value: this.state.listing.description})
+        }
+
         //Review starts here 
         var thisRow = React.createElement('tr', { className:"listings_table_header_style",key: "listingblank_row",align:"center" } , " REVIEWS " );
         rows.push(thisRow);
