@@ -427,7 +427,7 @@ def get_listings():
         
     """
     response = {}
-    list_per_index =10;
+    list_per_index =20;
 
     try :
         print ( "Request =   ", request.json)
