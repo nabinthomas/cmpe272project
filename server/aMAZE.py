@@ -575,8 +575,7 @@ def get_one_listing(listings_id):
         listing = db.listings.find_one({ "id" : { "$eq": int(listings_id) }  })
         del listing['_id']
         print ("sending back =",listing['id'])
-        reviews = db.reviews.find({"listing_id":listings_id})
-        
+        reviews = db.reviews.find({"listing_id":listings_id}).sort( "date",  -1 )
         resp_reviews =[]
         for rev_entry in reviews:
             del rev_entry ['_id']
