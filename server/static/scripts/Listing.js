@@ -256,13 +256,13 @@ class MiscellaneousData extends React.Component {
             requires_license:  "Requires License",
             license:  "License",
             jurisdiction_names:  "Jurisdiction Names",
-            instant_bookable:  "instant_bookable",
-            is_business_travel_ready:  "is_business_travel_ready",
-            cancellation_policy:  "cancellation_policy",
-            require_guest_profile_picture:  "require_guest_profile_picture",
-            require_guest_phone_verification:  "require_guest_phone_verification",
-            calculated_host_listings_count:  "calculated_host_listings_count",
-            reviews_per_month:  "reviews_per_month" 
+            instant_bookable:  "Instant Bookable",
+            is_business_travel_ready:  "Is Business Travel Ready",
+            cancellation_policy:  "Cancellation Policy",
+            require_guest_profile_picture:  "Require Guest Profile Picture",
+            require_guest_phone_verification:  "Require Guest Phone Verification",
+            calculated_host_listings_count:  "Calculated Host Listings Count",
+            reviews_per_month:  "Reviews Per month" 
         };
         let rows = [];
         let cells = [];
