@@ -457,15 +457,6 @@ class CompleteListingData extends React.Component {
             this.state.elements.description.setState({value: this.state.listing.description})
         }
         
-        /*
-        checkin : checkinElement, 
-        cleanliness: cleanlinessElement,
-        communication : communicationElement,
-        locationScore : locationScoreElement,
-        rating : ratingElement,
-        value : valueElement,
-        */
-
         if (this.state.elements.accuracy) {
             this.state.elements.accuracy.setState({value: Number(this.state.listing.review_scores_accuracy)*10})
         }
