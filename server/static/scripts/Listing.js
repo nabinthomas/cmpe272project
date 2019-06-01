@@ -69,7 +69,6 @@ class HostNameElement extends React.Component {
         this.state = {
             value : props['name']
         };
-        
     }
     render() {
         console.log("HostNameElement:  was " + this.state.value)
