@@ -264,12 +264,14 @@
                             <tr>
                                 <td>
                                     <!--  This holds all the miscellaneous data in Listing -->
-                                    <button class="collapsible">Click to See More Listing Details</button>
+                                    <button class="collapsible">Click to Toggle More Listing Details</button>
                                     <div class="miscellaneous_data_collapsible_section">
-                                            
-                                        
-                                        <table id=miscellaneous_data_table>
-                                        </table>
+                                            <div id="fixed_size_misc_section" style="height: 250px;position:relative;">
+                                                <div id="scrollable_misc_section" style="max-height:100%;overflow:auto;border:1px solid red;">
+                                                    <table id=miscellaneous_data_table>
+                                                    </table>
+                                                </div>
+                                            </div>
                                     </div>
                                 </td>
                             </tr>
@@ -280,12 +282,16 @@
                                     API server and trigger update of all the other sections.
                                 --> 
                                 <td>
-                                    <button class="collapsible">Click to See Reviews</button>
+                                    <button class="collapsible">Click to Toggle Reviews</button>
                                     <div class="miscellaneous_data_collapsible_section">
-                                    
-                                        <table id=complete_listing_data>
+                                        <div id="fixed_size_review_section" style="height: 250px;position:relative;">
+                                            <div id="scrollable_review_section" style="max-height:100%;overflow:auto;border:1px solid red;">
+                                               <table id=complete_listing_data>
 
-                                        </table>
+
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
