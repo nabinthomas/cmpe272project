@@ -123,8 +123,33 @@ class PercentageDisplay extends React.Component {
         
     }
     render() {
+        /* 
+        <div class="container">
+        <div class="progress" style="width:50px; background-color: rgba(255, 0, 0, 1); "> 
+            <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width:90%;background-color: rgba(0, 255, 0, 1)" >
+            <span style="color:black" >70%</span>
+            </div>
+        </div>
+        </div>
+        */
         console.log("PercentageDisplay:  was " + this.state.value)
-        return React.createElement('div', {align : "left"}, this.state.value)
+        var span = React.createElement('span', {
+            style :{ color : "black"}}, this.state.value + "%")
+        var progressbar = React.createElement('div', {
+                        className: "progressbar", 
+                        role: "progressbar", 
+                        "aria-valuenow" :this.state.value,
+                        "aria-valuemin" : "0",
+                        "aria-valuemax" : "100",
+                        style : { width: this.state.value + "%" , backgroundColor: "rgba(0, 255, 0, 1)" }
+                    }, span);
+        var progress = React.createElement('div', {
+                                    className: "progress", 
+                                    style : { width : "50px",  backgroundColor: "rgba(255, 0, 0, 1)"}
+                                },
+                                progressbar)
+        
+        return ('div', {className : "container"}, progress)
     }
 }
 
