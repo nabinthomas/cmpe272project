@@ -134,16 +134,20 @@ class PercentageDisplay extends React.Component {
         </div>
         </div>
         */
-        console.log("PercentageDisplay:  was " + this.state.value)
+       var displayValue = "N/A";
+       if (!isNaN(this.state.value)) {
+           displayValue = this.state.value + "%"
+       }
+        console.log("PercentageDisplay:  was " + displayValue)
         var span = React.createElement('span', {
-            style :{ color : "black"}}, this.state.value + "%")
+            style :{ color : "black"}}, displayValue)
         var progressbar = React.createElement('div', {
                         className: "progressbar", 
                         role: "progressbar", 
-                        "aria-valuenow" :this.state.value,
+                        "aria-valuenow" :displayValue,
                         "aria-valuemin" : "0",
                         "aria-valuemax" : "100",
-                        style : { width: this.state.value + "%" , backgroundColor: "rgba(0, 255, 0, 1)" }
+                        style : { width: displayValue , backgroundColor: "rgba(0, 255, 0, 1)" }
                     }, span);
         var progress = React.createElement('div', {
                                     className: "progress", 
