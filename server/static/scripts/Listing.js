@@ -113,6 +113,21 @@ class GenericTextData extends React.Component {
     }
 }
 
+class PercentageDisplay extends React.Component {
+    constructor(props) {
+        console.log("PercentageDisplay Props was " + JSON.stringify(props))
+        super(props);
+        this.state = {
+            value : props['value']
+        };
+        
+    }
+    render() {
+        console.log("PercentageDisplay:  was " + this.state.value)
+        return React.createElement('div', {align : "left"}, this.state.value)
+    }
+}
+
 class AluGuluthuData extends React.Component {
     constructor(props) {
         console.log(" BINU AluGuluthuData Props was " + JSON.stringify(props))
@@ -291,6 +306,28 @@ var stateElement = ReactDOM.render(React.createElement(GenericTextData, {value :
 const descriptionField = document.querySelector("#description")
 var descriptionElement = ReactDOM.render(React.createElement(GenericTextData, {value : ''}), descriptionField);
 
+const accuracyField = document.querySelector("#accuracyScore")
+var accuracyElement = ReactDOM.render(React.createElement(PercentageDisplay, {value : ''}), accuracyField);
+
+const checkinField = document.querySelector("#checkinScore")
+var checkinElement = ReactDOM.render(React.createElement(PercentageDisplay, {value : ''}), checkinField);
+
+const cleanlinessField = document.querySelector("#cleanlinessScore")
+var cleanlinessElement = ReactDOM.render(React.createElement(PercentageDisplay, {value : ''}), cleanlinessField);
+
+const communicationField = document.querySelector("#communicationScore")
+var communicationElement = ReactDOM.render(React.createElement(PercentageDisplay, {value : ''}), communicationField);
+
+const locationScoreField = document.querySelector("#locationScore")
+var locationScoreElement = ReactDOM.render(React.createElement(PercentageDisplay, {value : ''}), locationScoreField);
+
+const ratingField = document.querySelector("#ratingScore")
+var ratingElement = ReactDOM.render(React.createElement(PercentageDisplay, {value : ''}), ratingField);
+
+const valueField = document.querySelector("#valueScroe")
+var valueElement = ReactDOM.render(React.createElement(PercentageDisplay, {value : ''}), valueField);
+
+
 const alu_guluthu_data_table = document.querySelector('#alu_guluthu_data_table');
 var tmpAluGuluthuElement = ReactDOM.render(React.createElement(AluGuluthuData, {value : ''}), alu_guluthu_data_table);
 
@@ -310,6 +347,13 @@ var listingElements = {
     street: streetElement,
     state: stateElement,
     description: descriptionElement,
+    accuracy: accuracyElement, 
+    checkin : checkinElement, 
+    cleanliness: cleanlinessElement,
+    communication : communicationElement,
+    locationScore : locationScoreElement,
+    rating : ratingElement,
+    value : valueElement,
     aluguluthu : tmpAluGuluthuElement
 };
 
@@ -413,6 +457,36 @@ class CompleteListingData extends React.Component {
             this.state.elements.description.setState({value: this.state.listing.description})
         }
         
+        /*
+        checkin : checkinElement, 
+        cleanliness: cleanlinessElement,
+        communication : communicationElement,
+        locationScore : locationScoreElement,
+        rating : ratingElement,
+        value : valueElement,
+        */
+
+        if (this.state.elements.accuracy) {
+            this.state.elements.accuracy.setState({value: Number(this.state.listing.review_scores_accuracy)*10})
+        }
+        if (this.state.elements.checkin) {
+            this.state.elements.checkin.setState({value: Number(this.state.listing.review_scores_checkin) * 10})
+        }
+        if (this.state.elements.cleanliness) {
+            this.state.elements.cleanliness.setState({value: Number(this.state.listing.review_scores_cleanliness) * 10})
+        }
+        if (this.state.elements.communication) {
+            this.state.elements.communication.setState({value: Number(this.state.listing.review_scores_communication)* 10})
+        }
+        if (this.state.elements.locationScore) {
+            this.state.elements.locationScore.setState({value: Number(this.state.listing.review_scores_location) * 10 })
+        }
+        if (this.state.elements.rating) {
+            this.state.elements.rating.setState({value: Number(this.state.listing.review_scores_rating) })
+        }
+        if (this.state.elements.value) {
+            this.state.elements.value.setState({value: Number(this.state.listing.review_scores_value) * 10 })
+        }
         if (this.state.elements.aluguluthu) {
             this.state.elements.aluguluthu.setState({value: this.state.listing})
         }
