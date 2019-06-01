@@ -42,7 +42,8 @@ class ListingImageElement extends React.Component {
         console.log("ListingImageElement Props was " + JSON.stringify(props))
         super(props);
         this.state = {
-            value : props['picture_url']
+            value : props['picture_url'],
+            listingurl : props['listing_url']
         };
         
     }
@@ -50,7 +51,8 @@ class ListingImageElement extends React.Component {
         console.log("ListingImageElement:  was " + this.state.value)
         if (this.state.value && this.state.value != '') {
             console.log("ListingImageElement:  was " + this.state.value)
-            return React.createElement('img', {src : this.state.value, alt: this.state.value, className: "listing_image"})
+            var image = React.createElement('img', {src : this.state.value, alt: this.state.value, className: "listing_image"})
+            return React.createElement('a', {href : this.state.listingurl}, image);
         }
         else {
             console.log("ListingImageElement:  was null " + this.state.value)
@@ -306,7 +308,7 @@ const listingNameField = document.querySelector("#listing_name")
 var listingNameElement = ReactDOM.render(React.createElement(ListingNameElement, {name : ''}), listingNameField);
 
 const listingImageField = document.querySelector("#listing_image")
-var listingImageElement = ReactDOM.render(React.createElement(ListingImageElement, {picture_url : ''}), listingImageField);
+var listingImageElement = ReactDOM.render(React.createElement(ListingImageElement, {picture_url : '', listingurl: ''}), listingImageField);
 
 const hostNameField = document.querySelector("#host_name")
 var hostNameElement = ReactDOM.render(React.createElement(HostNameElement, {name : ''}), hostNameField);
@@ -448,7 +450,7 @@ class CompleteListingData extends React.Component {
         }
         //console.log("CompleteListingData Name from props = " + this.state.listing.picture_url)
         if (this.state.elements.listingImage) {
-            this.state.elements.listingImage.setState({value: this.state.listing.picture_url})
+            this.state.elements.listingImage.setState({value: this.state.listing.picture_url, listingurl: this.state.listing.listing_url})
         }
 
         if (this.state.elements.hostName) {
