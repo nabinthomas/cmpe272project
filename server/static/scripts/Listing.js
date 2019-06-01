@@ -424,9 +424,9 @@ class CompleteListingData extends React.Component {
         var reviews = this.state.reviews; 
         for (var i = 0; i < reviews.length; i++) {
             let cells = [];
-            cells.push(React.createElement('td', { key: "rev_id" } , reviews[i].id )); 
-            cells.push(React.createElement('td', { key: "rev_reviewer_name" } , reviews[i].reviewer_name )); 
-            cells.push(React.createElement('td', { key: "rev_date" } , reviews[i].date )); 
+            cells.push(React.createElement('td', { width:100, key: "rev_id" } , reviews[i].id )); 
+            cells.push(React.createElement('td', { width:100 ,key: "rev_reviewer_name" } , reviews[i].reviewer_name )); 
+            cells.push(React.createElement('td', { width:100, key: "rev_date" } , reviews[i].date )); 
             cells.push(React.createElement('td', { key: "rev_comments" } , reviews[i].comments )); 
             
             var bk_color = "bisque";
