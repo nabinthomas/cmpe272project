@@ -437,7 +437,7 @@ class CompleteListingData extends React.Component {
             rows.push(thisRow);
         }
 
-        var tBody = React.createElement('tbody', { key: "id_alugulu_tBody"} , rows ); 
+        var tBody = React.createElement('tbody', { key: "review_table_Body"} , rows ); 
         return tBody; 
     }
 } //end class CompleteListingData
