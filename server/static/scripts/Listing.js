@@ -123,6 +123,7 @@ class PercentageDisplay extends React.Component {
         
     }
     render() {
+
         /* 
         <div class="container">
         <div class="progress" style="width:50px; background-color: rgba(255, 0, 0, 1); "> 
