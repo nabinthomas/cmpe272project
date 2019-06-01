@@ -114,6 +114,12 @@
         overflow: hidden;
         background-color: #f1f1f1;
         }
+
+        #location_map {
+        width: 100%;
+        height: 400px;
+        background-color: grey;
+      }
     </style>
 </head>
 
@@ -262,6 +268,23 @@
                                 </td>
                             </tr>
                             <tr>
+                                    <td>
+                                        <!--  This holds all the map for the listing -->
+                                        <button class="collapsible">Show/Hide Map</button>
+                                        <div class="miscellaneous_data_collapsible_section">
+                                                <div id="fixed_size_misc_section" style="height: 400px;position:relative;">
+                                                    <div id="scrollable_misc_section" style="max-height:100%;overflow:auto;border:1px solid red;">
+                                                        <div id=location_map_container onshow="initMap()">
+                                                            <div id=location_map>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <tr>
                                 <td>
                                     <!--  This holds all the miscellaneous data in Listing -->
                                     <button class="collapsible">Click to Toggle More Listing Details</button>
@@ -331,9 +354,47 @@
             } else {
             content.style.display = "block";
             }
+            refreshMap();
         });
         }
+
+        var listingLocation = { lat : 0, lng:0 }
+        var map = null;
+        var marker = null;
+        // For Google Maps
+        function initMap() {
+            // The location of Uluru
+            listingLocation;
+            // The map, centered at Uluru
+            map = new google.maps.Map(
+                document.getElementById('location_map'), { zoom: 13, center: listingLocation });
+            // The marker, positioned at Uluru
+            marker = new google.maps.Marker({ position: listingLocation, map: map });
+            console.log("initMap Done ")
+            // refreshMap();
+        }
+
+        function refreshMap() {
+            console.log("Refresh maps enter ")
+            if ((map == null) || (marker == null)) {
+                initMap();
+            }
+            if ((map != null)  && (marker != null)) {
+                var mapelement = document.getElementById('location_map')
+                
+                listingLocation.lat = mapelement.getAttribute('latitude');
+                listingLocation.lng = mapelement.getAttribute('longitude');
+                var markerLocation = new google.maps.LatLng(listingLocation.lat, listingLocation.lng);
+                marker.setPosition(markerLocation);
+                map.setCenter(markerLocation);
+                console.log("Refresh maps " + markerLocation)
+            }
+        }
+
     </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrjbh9s3zntJTmE4epBbhD6IkotEyLYn0&callback=initMap">
+      </script>
     <!-- END  Custom scripts -->
 </body>
 

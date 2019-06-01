@@ -161,6 +161,22 @@ class PercentageDisplay extends React.Component {
     }
 }
 
+class GeoLocationData extends React.Component {
+    constructor(props) {
+        console.log("GeoLocationData Props was " + JSON.stringify(props))
+        super(props);
+        this.state = {
+            latitude : props['latitude'],
+            longitude : props['longitude']
+        };
+        
+    }
+    render() {
+        console.log("GeoLocationData:  was " + this.state)
+        return React.createElement('div', {id : "location_map", latitude: this.state.latitude, longitude: this.state.longitude}, this.state.value)
+    }
+}
+
 class MiscellaneousData extends React.Component {
     constructor(props) {
         console.log(" BINU MiscellaneousData Props was " + JSON.stringify(props))
@@ -363,6 +379,8 @@ var valueElement = ReactDOM.render(React.createElement(PercentageDisplay, {value
 const miscellaneousDataTable = document.querySelector('#miscellaneous_data_table');
 var miscellaneousElement = ReactDOM.render(React.createElement(MiscellaneousData, {value : ''}), miscellaneousDataTable);
 
+const locationMapcontainer = document.querySelector("#location_map_container");
+var locationMapcontainerElement = ReactDOM.render(React.createElement(GeoLocationData, {latitude:0, longitude:0}), locationMapcontainer);
 // Create and Render the remaining Elements above this. 
 
 // Step 3: Add the element which hold this data in HTML and find the ID here. 
@@ -385,7 +403,8 @@ var listingElements = {
     locationScore : locationScoreElement,
     rating : ratingElement,
     value : valueElement,
-    miscellaneous : miscellaneousElement
+    miscellaneous : miscellaneousElement,
+    locationMapcontainer : locationMapcontainerElement
 };
 
 class CompleteListingData extends React.Component {
@@ -511,6 +530,10 @@ class CompleteListingData extends React.Component {
         }
         if (this.state.elements.miscellaneous) {
             this.state.elements.miscellaneous.setState({value: this.state.listing})
+        }
+        if (this.state.elements.locationMapcontainer) {
+            this.state.elements.locationMapcontainer.setState({latitude: this.state.listing.latitude,
+                longitude: this.state.listing.longitude})
         }
 
         //Review starts here 
