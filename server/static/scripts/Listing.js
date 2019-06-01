@@ -284,7 +284,7 @@ class CompleteListingData extends React.Component {
             if (i%2 == 0) {
               bk_color ="lightcyan";
             } 
-            var thisRow = React.createElement('tr', { bgcolor:bk_color, key: "review_row"} ,  cells );
+            var thisRow = React.createElement('tr', { bgcolor:bk_color, key: "review_row"+i} ,  cells );
             rows.push(thisRow);
         }
         return rows;  
