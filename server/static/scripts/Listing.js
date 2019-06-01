@@ -424,10 +424,10 @@ class CompleteListingData extends React.Component {
         var reviews = this.state.reviews; 
         for (var i = 0; i < reviews.length; i++) {
             let cells = [];
-            cells.push(React.createElement('td', { key: "rev_id" } , reviews[i].id )); 
-            cells.push(React.createElement('td', { key: "rev_reviewer_name" } , reviews[i].reviewer_name )); 
-            cells.push(React.createElement('td', { key: "rev_date" } , reviews[i].date )); 
-            cells.push(React.createElement('td', { key: "rev_comments" } , reviews[i].comments )); 
+            cells.push(React.createElement('td', { key: "rev_id", style : { padding : "10px 10px 10px 10px"}} , reviews[i].id )); 
+            cells.push(React.createElement('td', { key: "rev_reviewer_name", style : { padding : "10px 10px 10px 10px"} } , reviews[i].reviewer_name )); 
+            cells.push(React.createElement('td', { key: "rev_date", style : { padding : "10px 10px 10px 10px"} } , reviews[i].date )); 
+            cells.push(React.createElement('td', { key: "rev_comments", style : { padding : "10px 10px 10px 10px"} } , reviews[i].comments )); 
             
             var bk_color = "bisque";
             if (i%2 == 0) {
