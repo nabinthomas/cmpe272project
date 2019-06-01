@@ -418,7 +418,7 @@ class CompleteListingData extends React.Component {
         }
 
         //Review starts here 
-        var thisRow = React.createElement('tr', { className:"listings_table_header_style",key: "listingblank_row",align:"center" } , React.createElement('td', {colspan : 4}, 'REVIEWS') );
+        var thisRow = React.createElement('tr', { className:"listings_table_header_style",key: "listingblank_row",align:"center" } , React.createElement('td', {colSpan : 4}, 'REVIEWS') );
         rows.push(thisRow);
 
         var reviews = this.state.reviews; 
@@ -436,17 +436,13 @@ class CompleteListingData extends React.Component {
             var thisRow = React.createElement('tr', { bgcolor:bk_color, key: "review_row"+i} ,  cells );
             rows.push(thisRow);
         }
-        return rows;  
+
+        var tBody = React.createElement('tbody', { key: "id_alugulu_tBody"} , rows ); 
+        return tBody; 
     }
 } //end class CompleteListingData
 
 const complete_listing_data = document.querySelector('#complete_listing_data');
 ReactDOM.render(React.createElement(CompleteListingData, listingElements), complete_listing_data);
-
-
-
-
- 
-
 
  
