@@ -112,6 +112,67 @@ class GenericTextData extends React.Component {
         return React.createElement('div', {align : "left"}, this.state.value)
     }
 }
+
+class AluGuluthuData extends React.Component {
+    constructor(props) {
+        console.log(" BINU AluGuluthuData Props was " + JSON.stringify(props))
+        super(props);
+        console.log(" BINU  after super AluGuluthuData Props was " + JSON.stringify(props))
+        this.state = {
+            value : props['value']
+        };
+        
+    }
+    render() {
+        //console.log(" BINU AluGuluthuData inside render :  was " + JSON.stringify(this.state.value))
+        let  exception = 
+        [ "amenities",
+        "access",
+        "interaction",
+        "description",
+        "host_about",
+        "host_picture_url",
+        "host_thumbnail_url",
+        "host_url",
+        "neighborhood_overview",
+        "picture_url",
+        "house_rules",
+        "host_verifications",
+        "space",
+        "summary",
+        "transit"];
+
+        let rows = [];
+        let cells = [];
+        var i = 1;
+        for (var key in this.state.value){
+            var attrName = key;
+            var attrValue = this.state.value[key];
+            if ( !exception.includes(attrName)) {
+
+                
+                cells.push(React.createElement('td', { key: "alu_key"+i } , attrName )); 
+                cells.push(React.createElement('td', { key: "alu_value"+i } , JSON.stringify(attrValue))); 
+                
+                if (i%2 == 0) {
+                    var bk_color = "bisque";
+                    if (i%4 == 0) {
+                    bk_color ="lightcyan";
+                    }
+                    var thisRow = React.createElement('tr', { bgcolor: bk_color, key: "id_alugulu_row"+i} ,  cells );
+                    rows.push(thisRow);
+                     cells = [];
+                } 
+
+                i++;
+            }
+
+        }
+
+        var tBody = React.createElement('tbody', { key: "id_alugulu_tBody"} , rows ); 
+        return tBody; 
+    }
+}
 // Add the remaining UI elements' React classes above this section
 
 // Step 2: Create & Render the element which renders the part ( eg: ListingIDElement) . 
@@ -149,6 +210,10 @@ var stateElement = ReactDOM.render(React.createElement(GenericTextData, {value :
 const descriptionField = document.querySelector("#description")
 var descriptionElement = ReactDOM.render(React.createElement(GenericTextData, {value : ''}), descriptionField);
 
+const alu_guluthu_data_table = document.querySelector('#alu_guluthu_data_table');
+var tmpAluGuluthuElement = ReactDOM.render(React.createElement(AluGuluthuData, {value : ''}), alu_guluthu_data_table);
+
+
 // Create and Render the remaining Elements above this. 
 
 // Step 3: Add the element which hold this data in HTML and find the ID here. 
@@ -163,7 +228,8 @@ var listingElements = {
     beds: bedsElement,
     street: streetElement,
     state: stateElement,
-    description: descriptionElement
+    description: descriptionElement,
+    aluguluthu : tmpAluGuluthuElement
 };
 
 class CompleteListingData extends React.Component {
@@ -207,10 +273,7 @@ class CompleteListingData extends React.Component {
     render() {
         console.log(" CompleteListingData Render\n");
         var listing = this.state.listing; 
-        let rows = [];
-        //var thisRow = React.createElement('tr', { key: "listing_row" }, JSON.stringify(listing) );
-        
-        
+        let rows = []; 
         let cells = []; 
 
         /* cells.push(React.createElement('td', { key: "id_bedrooms" } , listing.bedrooms ));
@@ -232,7 +295,7 @@ class CompleteListingData extends React.Component {
         if (this.state.elements.name) {
             this.state.elements.name.setState({value: this.state.listing.name})
         }
-        console.log("CompleteListingData Name from props = " + this.state.listing.picture_url)
+        //console.log("CompleteListingData Name from props = " + this.state.listing.picture_url)
         if (this.state.elements.listingImage) {
             this.state.elements.listingImage.setState({value: this.state.listing.picture_url})
         }
@@ -264,8 +327,13 @@ class CompleteListingData extends React.Component {
         if (this.state.elements.state) {
             this.state.elements.state.setState({value: this.state.listing.state})
         }
+
         if (this.state.elements.description) {
             this.state.elements.description.setState({value: this.state.listing.description})
+        }
+        
+        if (this.state.elements.aluguluthu) {
+            this.state.elements.aluguluthu.setState({value: this.state.listing})
         }
 
         //Review starts here 
@@ -293,6 +361,11 @@ class CompleteListingData extends React.Component {
 
 const complete_listing_data = document.querySelector('#complete_listing_data');
 ReactDOM.render(React.createElement(CompleteListingData, listingElements), complete_listing_data);
+
+
+
+
+ 
 
 
  
