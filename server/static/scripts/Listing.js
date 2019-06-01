@@ -153,18 +153,18 @@ class PercentageDisplay extends React.Component {
     }
 }
 
-class AluGuluthuData extends React.Component {
+class MiscellaneousData extends React.Component {
     constructor(props) {
-        console.log(" BINU AluGuluthuData Props was " + JSON.stringify(props))
+        console.log(" BINU MiscellaneousData Props was " + JSON.stringify(props))
         super(props);
-        console.log(" BINU  after super AluGuluthuData Props was " + JSON.stringify(props))
+        console.log(" BINU  after super MiscellaneousData Props was " + JSON.stringify(props))
         this.state = {
             value : props['value']
         };
         
     }
     render() {
-        //console.log(" BINU AluGuluthuData inside render :  was " + JSON.stringify(this.state.value))
+        //console.log(" BINU MiscellaneousData inside render :  was " + JSON.stringify(this.state.value))
 
         let  include_items = {
             //id:  "//id",
@@ -353,8 +353,8 @@ const valueField = document.querySelector("#valueScroe")
 var valueElement = ReactDOM.render(React.createElement(PercentageDisplay, {value : ''}), valueField);
 
 
-const alu_guluthu_data_table = document.querySelector('#alu_guluthu_data_table');
-var tmpAluGuluthuElement = ReactDOM.render(React.createElement(AluGuluthuData, {value : ''}), alu_guluthu_data_table);
+const miscellaneousDataTable = document.querySelector('#miscellanous_data_table');
+var miscellaneousElement = ReactDOM.render(React.createElement(MiscellaneousData, {value : ''}), miscellaneousDataTable);
 
 
 // Create and Render the remaining Elements above this. 
@@ -379,7 +379,7 @@ var listingElements = {
     locationScore : locationScoreElement,
     rating : ratingElement,
     value : valueElement,
-    aluguluthu : tmpAluGuluthuElement
+    miscellaneous : miscellaneousElement
 };
 
 class CompleteListingData extends React.Component {
@@ -503,8 +503,8 @@ class CompleteListingData extends React.Component {
         if (this.state.elements.value) {
             this.state.elements.value.setState({value: Number(this.state.listing.review_scores_value) * 10 })
         }
-        if (this.state.elements.aluguluthu) {
-            this.state.elements.aluguluthu.setState({value: this.state.listing})
+        if (this.state.elements.miscellaneous) {
+            this.state.elements.miscellaneous.setState({value: this.state.listing})
         }
 
         //Review starts here 
