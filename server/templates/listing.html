@@ -87,6 +87,32 @@
             -webkit-transform: scale(2); /* Safari 3-8  */
             transform: scale(2); 
         } 
+
+        /* Style the button that is used to open and close the collapsible content */
+        .collapsible {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        }
+
+        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+        .active, .collapsible:hover {
+        background-color: #ccc;
+        }
+
+        /* Style the collapsible content. Note: hidden by default */
+        .miscellaneous_data_collapsible_section {
+        padding: 0 18px;
+        display: none;
+        overflow: hidden;
+        background-color: #f1f1f1;
+        }
     </style>
 </head>
 
@@ -185,22 +211,22 @@
                             <tr><td>
                                 <table style="border:1px; border-color: lightskyblue; border-style: solid">
                                     <thead style="border:2px; border-color: lightskyblue; border-style: solid">
-                                        <th style="padding: 10px 10px 10px 10px">  &nbsp; </th>
-                                        <th style="padding: 10px 10px 10px 10px"> &nbsp;</th>
-                                        <th style="padding: 10px 10px 10px 10px"> &nbsp;</th>
-                                        <th style="padding: 10px 10px 10px 10px"> &nbsp;</th>
-                                        <th style="padding: 10px 10px 10px 10px"> &nbsp;</th>
-                                        <th style="padding: 10px 10px 10px 10px"> &nbsp;</th>
-                                        <th style="padding: 10px 10px 10px 10px"> &nbsp;</th>
+                                        <th style="padding: 10px 10px 10px 10px">  Accuracy </th>
+                                        <th style="padding: 10px 10px 10px 10px"> Checkin</th>
+                                        <th style="padding: 10px 10px 10px 10px"> Cleanliness</th>
+                                        <th style="padding: 10px 10px 10px 10px"> Communication</th>
+                                        <th style="padding: 10px 10px 10px 10px"> Location</th>
+                                        <th style="padding: 10px 10px 10px 10px"> Rating</th>
+                                        <th style="padding: 10px 10px 10px 10px"> Value</th>
                                     </thead>
                                     <tbody style="border:2px; border-color: lightskyblue; border-style: solid">
-                                        <td align=center id=accuracyScore style="padding: 10px 10px 10px 10px">Accuracy</td>
-                                        <td align=center id=checkinScore style="padding: 10px 10px 10px 10px">Checkin</td>
-                                        <td align=center id=cleanlinessScore style="padding: 10px 10px 10px 10px">Cleanliness</td>
-                                        <td align=center id=communicationScore style="padding: 10px 10px 10px 10px">Communication</td>
-                                        <td align=center id=locationScore style="padding: 10px 10px 10px 10px">Location</td>
-                                        <td align=center id=ratingScore style="padding: 10px 10px 10px 10px">Rating</td>
-                                        <td align=center id=valueScroe style="padding: 10px 10px 10px 10px">Value</td>
+                                        <td align=center id=accuracyScore style="padding: 10px 10px 10px 10px">&nbsp;</td>
+                                        <td align=center id=checkinScore style="padding: 10px 10px 10px 10px">&nbsp;</td>
+                                        <td align=center id=cleanlinessScore style="padding: 10px 10px 10px 10px">&nbsp;</td>
+                                        <td align=center id=communicationScore style="padding: 10px 10px 10px 10px">&nbsp;</td>
+                                        <td align=center id=locationScore style="padding: 10px 10px 10px 10px">&nbsp;</td>
+                                        <td align=center id=ratingScore style="padding: 10px 10px 10px 10px">&nbsp;</td>
+                                        <td align=center id=valueScore style="padding: 10px 10px 10px 10px">&nbsp;</td>
                                     </tbody>
                                 </table>
                             </td></tr>
@@ -236,22 +262,30 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <!--  This holds all the Alu guluthu data in Listing -->
-                                    <table id=miscellanous_data_table>
-                                    </table>
+                                    <!--  This holds all the miscellaneous data in Listing -->
+                                    <button class="collapsible">Click to See More Listing Details</button>
+                                    <div class="miscellaneous_data_collapsible_section">
+                                            
+                                        
+                                        <table id=miscellaneous_data_table>
+                                        </table>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <!-- 
-                                    This is to be removed. keeping this here as a debug tool until we have the final layout ready. 
-                                    This row will have all the data that is available for the listing information which can be used to 
-                                    design layout
+                                    This is the section where reviews are added. 
+                                    It The React Classes that render this is the one which fetches the data from REST
+                                    API server and trigger update of all the other sections.
                                 --> 
                                 <td>
-                                    <table id=complete_listing_data>
+                                    <button class="collapsible">Click to See Reviews</button>
+                                    <div class="miscellaneous_data_collapsible_section">
+                                    
+                                        <table id=complete_listing_data>
 
-                                    </table>
-
+                                        </table>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -276,6 +310,22 @@
         console.log (" URL " + getUrl);
         var listingID = getUrl.pathname.split('/')[2]
         //console.log ("BINU " + getUrl.pathname.split('/')[2]); 
+
+        // Handle Collapsible miscellaneous Data section 
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+            content.style.display = "none";
+            } else {
+            content.style.display = "block";
+            }
+        });
+        }
     </script>
     <!-- END  Custom scripts -->
 </body>

@@ -351,13 +351,11 @@ var locationScoreElement = ReactDOM.render(React.createElement(PercentageDisplay
 const ratingField = document.querySelector("#ratingScore")
 var ratingElement = ReactDOM.render(React.createElement(PercentageDisplay, {value : ''}), ratingField);
 
-const valueField = document.querySelector("#valueScroe")
+const valueField = document.querySelector("#valueScore")
 var valueElement = ReactDOM.render(React.createElement(PercentageDisplay, {value : ''}), valueField);
 
-
-const miscellaneousDataTable = document.querySelector('#miscellanous_data_table');
+const miscellaneousDataTable = document.querySelector('#miscellaneous_data_table');
 var miscellaneousElement = ReactDOM.render(React.createElement(MiscellaneousData, {value : ''}), miscellaneousDataTable);
-
 
 // Create and Render the remaining Elements above this. 
 
