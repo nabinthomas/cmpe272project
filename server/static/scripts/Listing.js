@@ -272,7 +272,7 @@ class MiscellaneousData extends React.Component {
             var attrValue = this.state.value[key];
             if (attrName in include_items ) {
 
-                cells.push(React.createElement('td', { key: "alu_key"+i } , include_items[attrName] )); 
+                cells.push(React.createElement('td', { key: "alu_key"+i, style : {fontVariant: "small-caps", fontWeight:"bold", padding: "10px 10px 10px 10px"}} , include_items[attrName] )); 
                 cells.push(React.createElement('td', { key: "alu_value"+i } , JSON.stringify(attrValue))); 
                 
                 if (i%2 == 0) {
