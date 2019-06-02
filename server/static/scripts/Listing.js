@@ -449,7 +449,6 @@ class CompleteListingData extends React.Component {
         console.log(" CompleteListingData Render\n");
         var listing = this.state.listing; 
         let rows = []; 
-        let cells = []; 
 
         /* cells.push(React.createElement('td', { key: "id_bedrooms" } , listing.bedrooms ));
         cells.push(React.createElement('td', { key: "id_state" } , listing.state ));
@@ -464,76 +463,76 @@ class CompleteListingData extends React.Component {
     
         // Step 4: Update the individual elements in the Web page
         if (this.state.elements.heading) {
-            this.state.elements.heading.setState({value: this.state.listing.id})
+            this.state.elements.heading.setState({value: listing.id})
         }
         
         if (this.state.elements.name) {
-            this.state.elements.name.setState({value: this.state.listing.name})
+            this.state.elements.name.setState({value: listing.name})
         }
         //console.log("CompleteListingData Name from props = " + this.state.listing.picture_url)
         if (this.state.elements.listingImage) {
-            this.state.elements.listingImage.setState({value: this.state.listing.picture_url, listingurl: this.state.listing.listing_url})
+            this.state.elements.listingImage.setState({value: listing.picture_url, listingurl: listing.listing_url})
         }
 
         if (this.state.elements.hostName) {
-            this.state.elements.hostName.setState({value: this.state.listing.host_name})
+            this.state.elements.hostName.setState({value: listing.host_name})
         }
         
         if (this.state.elements.hostThumbnail) {
-            this.state.elements.hostThumbnail.setState({value: { image: this.state.listing.host_picture_url, url: this.state.listing.host_url}});
+            this.state.elements.hostThumbnail.setState({value: { image: listing.host_picture_url, url: listing.host_url}});
         }
 
         if (this.state.elements.bedrooms) {
-            this.state.elements.bedrooms.setState({value: this.state.listing.bedrooms})
+            this.state.elements.bedrooms.setState({value: listing.bedrooms})
         }
 
         if (this.state.elements.bathrooms) {
-            this.state.elements.bathrooms.setState({value: this.state.listing.bathrooms})
+            this.state.elements.bathrooms.setState({value: listing.bathrooms})
         }
 
         if (this.state.elements.beds) {
-            this.state.elements.beds.setState({value: this.state.listing.beds})
+            this.state.elements.beds.setState({value: listing.beds})
         }
 
         if (this.state.elements.street) {
-            this.state.elements.street.setState({value: this.state.listing.street})
+            this.state.elements.street.setState({value: listing.street})
         }
 
         if (this.state.elements.state) {
-            this.state.elements.state.setState({value: this.state.listing.state})
+            this.state.elements.state.setState({value: listing.state})
         }
 
         if (this.state.elements.description) {
-            this.state.elements.description.setState({value: this.state.listing.description})
+            this.state.elements.description.setState({value: listing.description})
         }
         
         if (this.state.elements.accuracy) {
-            this.state.elements.accuracy.setState({value: Number(this.state.listing.review_scores_accuracy)*10})
+            this.state.elements.accuracy.setState({value: Number(listing.review_scores_accuracy)*10})
         }
         if (this.state.elements.checkin) {
-            this.state.elements.checkin.setState({value: Number(this.state.listing.review_scores_checkin) * 10})
+            this.state.elements.checkin.setState({value: Number(listing.review_scores_checkin) * 10})
         }
         if (this.state.elements.cleanliness) {
-            this.state.elements.cleanliness.setState({value: Number(this.state.listing.review_scores_cleanliness) * 10})
+            this.state.elements.cleanliness.setState({value: Number(listing.review_scores_cleanliness) * 10})
         }
         if (this.state.elements.communication) {
-            this.state.elements.communication.setState({value: Number(this.state.listing.review_scores_communication)* 10})
+            this.state.elements.communication.setState({value: Number(listing.review_scores_communication)* 10})
         }
         if (this.state.elements.locationScore) {
-            this.state.elements.locationScore.setState({value: Number(this.state.listing.review_scores_location) * 10 })
+            this.state.elements.locationScore.setState({value: Number(listing.review_scores_location) * 10 })
         }
         if (this.state.elements.rating) {
-            this.state.elements.rating.setState({value: Number(this.state.listing.review_scores_rating) })
+            this.state.elements.rating.setState({value: Number(listing.review_scores_rating) })
         }
         if (this.state.elements.value) {
-            this.state.elements.value.setState({value: Number(this.state.listing.review_scores_value) * 10 })
+            this.state.elements.value.setState({value: Number(listing.review_scores_value) * 10 })
         }
         if (this.state.elements.miscellaneous) {
-            this.state.elements.miscellaneous.setState({value: this.state.listing})
+            this.state.elements.miscellaneous.setState({value: listing})
         }
         if (this.state.elements.locationMapcontainer) {
-            this.state.elements.locationMapcontainer.setState({latitude: this.state.listing.latitude,
-                longitude: this.state.listing.longitude})
+            this.state.elements.locationMapcontainer.setState({latitude: listing.latitude,
+                longitude: listing.longitude})
         }
 
         //Review starts here 

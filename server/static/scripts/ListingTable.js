@@ -193,7 +193,7 @@ class ListingsData extends React.Component {
     // render this component
     render() {
         if (this.state.listings == null) { 
-            return element('td', {align : "center", colspan : 11}, element('div', {align : "center"} , 'Contacting Server and Fetching Data...'));
+            return element('td', {align : "center", colSpan : 11}, element('div', {align : "center"} , 'Contacting Server and Fetching Data...'));
         }
         let rows = [];
         for (var i = 0; i < this.state.listings.length; i++) {

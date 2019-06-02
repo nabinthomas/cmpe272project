@@ -274,8 +274,8 @@
                                         <div class="miscellaneous_data_collapsible_section">
                                                 <div id="fixed_size_misc_section" style="height: 400px;position:relative;">
                                                     <div id="scrollable_misc_section" style="max-height:100%;overflow:auto;border:1px solid red;">
-                                                        <div id=location_map_container onshow="initMap()">
-                                                            <div id=location_map>
+                                                        <div id=location_map_container onshow="refreshMap()">
+                                                            <div id=location_map latitude=0 longitude=0>
 
                                                             </div>
                                                         </div>
@@ -363,12 +363,14 @@
         var marker = null;
         // For Google Maps
         function initMap() {
-            // The location of Uluru
-            listingLocation;
-            // The map, centered at Uluru
+            // The location of the listing
+            var mapelement = document.getElementById('location_map')
+            listingLocation.lat = Number(mapelement.getAttribute('latitude'));
+            listingLocation.lng = Number(mapelement.getAttribute('longitude'));
+            // The map, centered at listing
             map = new google.maps.Map(
                 document.getElementById('location_map'), { zoom: 13, center: listingLocation });
-            // The marker, positioned at Uluru
+            // The marker, positioned at listing
             marker = new google.maps.Marker({ position: listingLocation, map: map });
             console.log("initMap Done ")
             // refreshMap();
@@ -382,8 +384,8 @@
             if ((map != null)  && (marker != null)) {
                 var mapelement = document.getElementById('location_map')
                 
-                listingLocation.lat = mapelement.getAttribute('latitude');
-                listingLocation.lng = mapelement.getAttribute('longitude');
+                listingLocation.lat = Number(mapelement.getAttribute('latitude'));
+                listingLocation.lng = Number(mapelement.getAttribute('longitude'));
                 var markerLocation = new google.maps.LatLng(listingLocation.lat, listingLocation.lng);
                 marker.setPosition(markerLocation);
                 map.setCenter(markerLocation);
@@ -394,7 +396,7 @@
     </script>
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrjbh9s3zntJTmE4epBbhD6IkotEyLYn0&callback=initMap">
-      </script>
+    </script>
     <!-- END  Custom scripts -->
 </body>
 <footer> <div align=center> &copy;2019 Team aMAZE. All Rights Reserved </div> </footer>
