@@ -11,7 +11,7 @@ apt-get install -y unzip
 unzip -o app/server/dbsetup/data/data.zip -d app/server/dbsetup/data
 #Start the web server
 #This should be started at the end
-export FLASK_ENV=development
+#export FLASK_ENV=development
 export SERVER_CONFIG=/root/app/server/config/settings.cfg
 PYTHONPATH=/root/app/ python3 app/server/aMAZE.py  mongodb://localhost/airbnb &
 PYTHONPATH=/root/app/ python3 app/server/dbsetup/populateDataBase.py  app/server/dbsetup/data/listings.csv app/server/dbsetup/data/reviews.csv app/server/dbsetup/data/listings_schema.json 
