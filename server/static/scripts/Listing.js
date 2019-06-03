@@ -149,11 +149,11 @@ class PercentageDisplay extends React.Component {
                         "aria-valuenow" :percentNumber,
                         "aria-valuemin" : "0",
                         "aria-valuemax" : "100",
-                        style : { width: percentNumber + "%" , backgroundColor: "rgba(0, 255, 0, 1)" }
+                        style : { width: percentNumber + "%" , backgroundColor: "RGB(0, 128, 128)" }
                     }, span);
         var progress = React.createElement('div', {
                                     className: "progress", 
-                                    style : { width : "50px",  backgroundColor: "rgba(255, 0, 0, 1)"}
+                                    style : { width : "50px",  backgroundColor: "RGB(240, 128, 128)"}
                                 },
                                 progressbar)
         
